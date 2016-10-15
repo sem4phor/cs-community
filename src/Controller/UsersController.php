@@ -5,6 +5,7 @@ use App\Controller\AppController;
 
 // TODO remove when rdy
 use Cake\Log\Log;
+//require_once 'openid.php';
 
 /**
  * Users Controller
@@ -16,15 +17,17 @@ class UsersController extends AppController
 
     // TODO register (for help see urlaubsplaner)
 
+    // 1. login seite wird aufgerufen 2. login button wird gedrückt 3. auth macht anfrage 4. weiterleitung auf login 5. setzen von user data
     public function login()
     {
         if (isset($_GET['login'])){
         $user = $this->Auth->identify();
             if ($user) {
                 $this->Auth->setUser($user);
+                Log::write('debug', $this->Auth->User());
                 return $this->redirect($this->Auth->redirectUrl());
             }
-            $this->Flash->mesage(__('Authentification Error!'));
+            $this->Flash->error(__('Authentification Err!'));
        }
     }
 
