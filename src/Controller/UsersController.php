@@ -21,7 +21,7 @@ class UsersController extends AppController
     public function login()
     {
         if (isset($_GET['login'])){
-        $user = $this->Auth->identify();
+            $user = $this->Auth->identify();
             if ($user) {
                 $this->Auth->setUser($user);
                 Log::write('debug', $this->Auth->User());
