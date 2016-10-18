@@ -9,18 +9,26 @@
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
-                <th><?= $this->Paginator->sort('id') ?></th>
-                <th><?= $this->Paginator->sort('name') ?></th>
+                <th><?= $this->Paginator->sort('user_id') ?></th>
+                <th><?= $this->Paginator->sort('steam_id') ?></th>
+                <th><?= $this->Paginator->sort('username') ?></th>
+                <th><?= $this->Paginator->sort('password') ?></th>
+                <th><?= $this->Paginator->sort('age') ?></th>
                 <th><?= $this->Paginator->sort('role') ?></th>
+                <th><?= $this->Paginator->sort('rank') ?></th>
                 <th class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($users as $user): ?>
             <tr>
-                <td><?= $this->Number->format($user->id) ?></td>
-                <td><?= h($user->name) ?></td>
+                <td><?= $this->Number->format($user->user_id) ?></td>
+                <td><?= $this->Number->format($user->steam_id) ?></td>
+                <td><?= h($user->username) ?></td>
+                <td><?= h($user->password) ?></td>
+                <td><?= h($user->age) ?></td>
                 <td><?= h($user->role) ?></td>
+                <td><?= h($user->rank) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $user->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $user->id]) ?>

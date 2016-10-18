@@ -44,7 +44,7 @@ class AppController extends Controller
         $this->loadComponent('Auth', [
             'authenticate' => [
                 'Steam' => [
-                    'fields' => ['id' => 'steam_steamid'],
+                    'fields' => ['id' => 'steam_id'],
                     'userModel' => 'Users'
                 ]
             ],

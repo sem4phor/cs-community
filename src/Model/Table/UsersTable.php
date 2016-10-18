@@ -10,6 +10,9 @@ use Cake\Validation\Validator;
 /**
  * Users Model
  *
+ * @property \Cake\ORM\Association\BelongsTo $Users
+ * @property \Cake\ORM\Association\BelongsTo $Steams
+ * @property \Cake\ORM\Association\BelongsToMany $Lobbys
  */
 class UsersTable extends Table
 {
@@ -23,9 +26,22 @@ class UsersTable extends Table
     public function initialize(array $config)
     {
         parent::initialize($config);
-        $this->primaryKey('id');
+
         $this->table('users');
         $this->displayField('name');
+        $this->primaryKey('id');
+
+        $this->addBehavior('Timestamp');
+
+        $this->belongsTo('Users', [
+            'foreignKey' => 'user_id',
+            'joinType' => 'INNER'
+        ]);
+        $this->belongsToMany('Lobbys', [
+            'foreignKey' => 'user_id',
+            'targetForeignKey' => 'lobby_id',
+            'joinTable' => 'lobbys_users'
+        ]);
     }
 
     /**
@@ -37,18 +53,51 @@ class UsersTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->add('id', 'valid', ['rule' => 'numeric'])
-            ->requirePresence('id', 'create')
-            ->notEmpty('id');
+            ->allowEmpty('username');
 
         $validator
-            ->requirePresence('name', 'create')
-            ->notEmpty('name');
+            ->allowEmpty('password');
 
         $validator
-            ->requirePresence('role', 'create')
-            ->notEmpty('role');
+            ->allowEmpty('age');
+
+        $validator
+            ->allowEmpty('role');
+
+        $validator
+            ->allowEmpty('rank');
+
+        $validator
+            ->add('upvotes', 'valid', ['rule' => 'numeric'])
+            ->allowEmpty('upvotes');
+
+        $validator
+            ->add('downvotes', 'valid', ['rule' => 'numeric'])
+            ->allowEmpty('downvotes');
+
+        $validator
+            ->allowEmpty('language_one');
+
+        $validator
+            ->allowEmpty('language_two');
+
+        $validator
+            ->allowEmpty('language_three');
 
         return $validator;
+    }
+
+    /**
+     * Returns a rules checker object that will be used for validating
+     * application integrity.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules)
+    {
+        $rules->add($rules->isUnique(['username']));
+        $rules->add($rules->existsIn(['user_id'], 'Users'));
+        return $rules;
     }
 }

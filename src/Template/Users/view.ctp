@@ -11,16 +11,60 @@
     <h3><?= h($user->name) ?></h3>
     <table class="vertical-table">
         <tr>
-            <th><?= __('Name') ?></th>
-            <td><?= h($user->name) ?></td>
+            <th><?= __('Username') ?></th>
+            <td><?= h($user->username) ?></td>
+        </tr>
+        <tr>
+            <th><?= __('Password') ?></th>
+            <td><?= h($user->password) ?></td>
+        </tr>
+        <tr>
+            <th><?= __('Age') ?></th>
+            <td><?= h($user->age) ?></td>
         </tr>
         <tr>
             <th><?= __('Role') ?></th>
             <td><?= h($user->role) ?></td>
         </tr>
         <tr>
-            <th><?= __('Id') ?></th>
-            <td><?= $this->Number->format($user->id) ?></td>
+            <th><?= __('Rank') ?></th>
+            <td><?= h($user->rank) ?></td>
+        </tr>
+        <tr>
+            <th><?= __('Language One') ?></th>
+            <td><?= h($user->language_one) ?></td>
+        </tr>
+        <tr>
+            <th><?= __('Language Two') ?></th>
+            <td><?= h($user->language_two) ?></td>
+        </tr>
+        <tr>
+            <th><?= __('Language Three') ?></th>
+            <td><?= h($user->language_three) ?></td>
+        </tr>
+        <tr>
+            <th><?= __('User Id') ?></th>
+            <td><?= $this->Number->format($user->user_id) ?></td>
+        </tr>
+        <tr>
+            <th><?= __('Steam Id') ?></th>
+            <td><?= $this->Number->format($user->steam_id) ?></td>
+        </tr>
+        <tr>
+            <th><?= __('Upvotes') ?></th>
+            <td><?= $this->Number->format($user->upvotes) ?></td>
+        </tr>
+        <tr>
+            <th><?= __('Downvotes') ?></th>
+            <td><?= $this->Number->format($user->downvotes) ?></td>
+        </tr>
+        <tr>
+            <th><?= __('Created') ?></th>
+            <td><?= h($user->created) ?></td>
+        </tr>
+        <tr>
+            <th><?= __('Modified') ?></th>
+            <td><?= h($user->modified) ?></td>
         </tr>
     </table>
 </div>

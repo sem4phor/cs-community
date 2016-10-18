@@ -3,10 +3,6 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 
-// TODO remove when rdy
-use Cake\Log\Log;
-//require_once 'openid.php';
-
 /**
  * Users Controller
  *
@@ -15,20 +11,38 @@ use Cake\Log\Log;
 class UsersController extends AppController
 {
 
+    // TODO set steam variables
+    public function loginTest()
+    {
+        if ($this->request->is('post')) {
+            $user = $this->Auth->identify();
+            if ($user) {
+                $this->Auth->setUser($user);
+                return $this->redirect($this->Auth->redirectUrl());
+            }
+            $this->Flash->error(__('Invalid username or password, try again'));
+        }
+    }
+
+    public function logoutTest()
+    {
+        return $this->redirect($this->Auth->logout());
+    }
+
+
     // TODO register (for help see urlaubsplaner)
 
-    // 1. login seite wird aufgerufen 2. login button wird gedrückt 3. auth macht anfrage 4. weiterleitung auf login 5. setzen von user data
     public function login()
     {
         if (isset($_GET['login'])){
             $user = $this->Auth->identify();
             if ($user) {
                 $this->Auth->setUser($user);
-                Log::write('debug', $this->Auth->User());
+                Log::write('debug', $this->Auth->user());
                 return $this->redirect($this->Auth->redirectUrl());
             }
             $this->Flash->error(__('Authentification Err!'));
-       }
+        }
     }
 
     public function logout()

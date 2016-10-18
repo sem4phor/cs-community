@@ -40,7 +40,7 @@ class SteamAuthenticate extends BaseAuthenticate
             return false;
         } else {
             if ($openid->validate()) {
-              /*  $id = $openid->identity;
+                $id = $openid->identity;
                 $ptn = "/^http:\/\/steamcommunity\.com\/openid\/id\/(7[0-9]{15,25}+)$/";
                 preg_match($ptn, $id, $matches);
 
@@ -68,9 +68,9 @@ class SteamAuthenticate extends BaseAuthenticate
                 $user['steam_primaryclanid'] = $content['response']['players'][0]['primaryclanid'];
                 $user['steam_timecreated'] = $content['response']['players'][0]['timecreated'];
                 $user['steam_uptodate'] = time();
-                return $user;*/
+                return $user;
 
-                return $this->getUser($request);
+                //return $this->getUser($request);
 
             } else {
                 return false;
@@ -80,7 +80,7 @@ class SteamAuthenticate extends BaseAuthenticate
 
     // TODO why so many errors after pc restart?
     // TODO return false if bla denie login when profile private and stuff
-   public function getUser(Request $request)
+   /*public function getUser(Request $request)
    {
         $steamauth['apikey'] = "07A5DA78F41F32FF1A3DF737DACED598";
 
@@ -112,6 +112,6 @@ class SteamAuthenticate extends BaseAuthenticate
         $user['steam_timecreated'] = $content['response']['players'][0]['timecreated'];
         $user['steam_uptodate'] = time();
         return $user ? $user : false;
-   }
+   }*/
 
 }
