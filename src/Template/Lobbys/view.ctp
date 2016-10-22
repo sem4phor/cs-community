@@ -17,6 +17,18 @@
             <td><?= h($lobby->url) ?></td>
         </tr>
         <tr>
+            <th><?= __('Rank To') ?></th>
+            <td><?= h($lobby->rank_to) ?></td>
+        </tr>
+        <tr>
+            <th><?= __('Rank From') ?></th>
+            <td><?= h($lobby->rank_from) ?></td>
+        </tr>
+        <tr>
+            <th><?= __('Language') ?></th>
+            <td><?= h($lobby->language) ?></td>
+        </tr>
+        <tr>
             <th><?= __('Lobby Id') ?></th>
             <td><?= $this->Number->format($lobby->lobby_id) ?></td>
         </tr>
@@ -29,6 +41,22 @@
             <td><?= $this->Number->format($lobby->free_slots) ?></td>
         </tr>
         <tr>
+            <th><?= __('Min Age') ?></th>
+            <td><?= $this->Number->format($lobby->min_age) ?></td>
+        </tr>
+        <tr>
+            <th><?= __('Min Playtime') ?></th>
+            <td><?= $this->Number->format($lobby->min_playtime) ?></td>
+        </tr>
+        <tr>
+            <th><?= __('Min Upvotes') ?></th>
+            <td><?= $this->Number->format($lobby->min_upvotes) ?></td>
+        </tr>
+        <tr>
+            <th><?= __('Max Downvotes') ?></th>
+            <td><?= $this->Number->format($lobby->max_downvotes) ?></td>
+        </tr>
+        <tr>
             <th><?= __('Created') ?></th>
             <td><?= h($lobby->created) ?></td>
         </tr>
@@ -36,6 +64,14 @@
             <th><?= __('Modified') ?></th>
             <td><?= h($lobby->modified) ?></td>
         </tr>
+        <tr>
+            <th><?= __('Microphone Req') ?></th>
+            <td><?= $lobby->microphone_req ? __('Yes') : __('No'); ?></td>
+         </tr>
+        <tr>
+            <th><?= __('Teamspeak Req') ?></th>
+            <td><?= $lobby->teamspeak_req ? __('Yes') : __('No'); ?></td>
+         </tr>
     </table>
     <div class="related">
         <h4><?= __('Related Users') ?></h4>
@@ -44,36 +80,32 @@
             <tr>
                 <th><?= __('User Id') ?></th>
                 <th><?= __('Steam Id') ?></th>
-                <th><?= __('Username') ?></th>
-                <th><?= __('Password') ?></th>
-                <th><?= __('Age') ?></th>
-                <th><?= __('Role') ?></th>
+                <th><?= __('Country Code') ?></th>
+                <th><?= __('Age Range') ?></th>
+                <th><?= __('Role Id') ?></th>
                 <th><?= __('Rank') ?></th>
                 <th><?= __('Upvotes') ?></th>
                 <th><?= __('Downvotes') ?></th>
-                <th><?= __('Language One') ?></th>
-                <th><?= __('Language Two') ?></th>
-                <th><?= __('Language Three') ?></th>
                 <th><?= __('Created') ?></th>
                 <th><?= __('Modified') ?></th>
+                <th><?= __('Username') ?></th>
+                <th><?= __('Password') ?></th>
                 <th class="actions"><?= __('Actions') ?></th>
             </tr>
             <?php foreach ($lobby->users as $users): ?>
             <tr>
                 <td><?= h($users->user_id) ?></td>
                 <td><?= h($users->steam_id) ?></td>
-                <td><?= h($users->username) ?></td>
-                <td><?= h($users->password) ?></td>
-                <td><?= h($users->age) ?></td>
-                <td><?= h($users->role) ?></td>
+                <td><?= h($users->country_code) ?></td>
+                <td><?= h($users->age_range) ?></td>
+                <td><?= h($users->role_id) ?></td>
                 <td><?= h($users->rank) ?></td>
                 <td><?= h($users->upvotes) ?></td>
                 <td><?= h($users->downvotes) ?></td>
-                <td><?= h($users->language_one) ?></td>
-                <td><?= h($users->language_two) ?></td>
-                <td><?= h($users->language_three) ?></td>
                 <td><?= h($users->created) ?></td>
                 <td><?= h($users->modified) ?></td>
+                <td><?= h($users->username) ?></td>
+                <td><?= h($users->password) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['controller' => 'Users', 'action' => 'view', $users->id]) ?>
 

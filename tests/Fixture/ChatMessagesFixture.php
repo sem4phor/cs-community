@@ -19,7 +19,7 @@ class ChatMessagesFixture extends TestFixture
     public $fields = [
         'message_id' => ['type' => 'integer', 'length' => 10, 'unsigned' => true, 'null' => false, 'default' => null, 'comment' => '', 'autoIncrement' => true, 'precision' => null],
         'sent_by' => ['type' => 'integer', 'length' => 10, 'unsigned' => true, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
-        'message' => ['type' => 'string', 'length' => 255, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'fixed' => null],
+        'message' => ['type' => 'string', 'length' => 50, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'fixed' => null],
         'created' => ['type' => 'datetime', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
         '_indexes' => [
             'sent_by' => ['type' => 'index', 'columns' => ['sent_by'], 'length' => []],
@@ -45,7 +45,7 @@ class ChatMessagesFixture extends TestFixture
             'message_id' => 1,
             'sent_by' => 1,
             'message' => 'Lorem ipsum dolor sit amet',
-            'created' => '2016-10-18 13:02:37'
+            'created' => '2016-10-22 11:29:20'
         ],
     ];
 }

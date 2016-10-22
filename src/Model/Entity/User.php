@@ -7,19 +7,19 @@ use Cake\ORM\Entity;
  * User Entity.
  *
  * @property int $user_id
+ * @property \App\Model\Entity\User $user
  * @property int $steam_id
- * @property string $username
- * @property string $password
- * @property string $age
- * @property string $role
+ * @property string $country_code
+ * @property string $age_range
+ * @property int $role_id
  * @property string $rank
  * @property int $upvotes
  * @property int $downvotes
- * @property string $language_one
- * @property string $language_two
- * @property string $language_three
  * @property \Cake\I18n\Time $created
  * @property \Cake\I18n\Time $modified
+ * @property string $username
+ * @property string $password
+ * @property \App\Model\Entity\Lobby[] $lobbys
  */
 class User extends Entity
 {

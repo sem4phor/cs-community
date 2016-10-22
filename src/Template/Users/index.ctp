@@ -2,6 +2,8 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('New User'), ['action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Lobbys'), ['controller' => 'Lobbys', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Lobby'), ['controller' => 'Lobbys', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="users index large-9 medium-8 columns content">
@@ -11,24 +13,24 @@
             <tr>
                 <th><?= $this->Paginator->sort('user_id') ?></th>
                 <th><?= $this->Paginator->sort('steam_id') ?></th>
-                <th><?= $this->Paginator->sort('username') ?></th>
-                <th><?= $this->Paginator->sort('password') ?></th>
-                <th><?= $this->Paginator->sort('age') ?></th>
-                <th><?= $this->Paginator->sort('role') ?></th>
+                <th><?= $this->Paginator->sort('country_code') ?></th>
+                <th><?= $this->Paginator->sort('age_range') ?></th>
+                <th><?= $this->Paginator->sort('role_id') ?></th>
                 <th><?= $this->Paginator->sort('rank') ?></th>
+                <th><?= $this->Paginator->sort('upvotes') ?></th>
                 <th class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($users as $user): ?>
             <tr>
-                <td><?= $this->Number->format($user->user_id) ?></td>
+                <td><?= $user->has('user') ? $this->Html->link($user->user->name, ['controller' => 'Users', 'action' => 'view', $user->user->id]) : '' ?></td>
                 <td><?= $this->Number->format($user->steam_id) ?></td>
-                <td><?= h($user->username) ?></td>
-                <td><?= h($user->password) ?></td>
-                <td><?= h($user->age) ?></td>
-                <td><?= h($user->role) ?></td>
+                <td><?= h($user->country_code) ?></td>
+                <td><?= h($user->age_range) ?></td>
+                <td><?= $this->Number->format($user->role_id) ?></td>
                 <td><?= h($user->rank) ?></td>
+                <td><?= $this->Number->format($user->upvotes) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $user->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $user->id]) ?>

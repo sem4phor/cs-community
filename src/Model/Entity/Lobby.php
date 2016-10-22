@@ -13,6 +13,15 @@ use Cake\ORM\Entity;
  * @property string $url
  * @property \Cake\I18n\Time $created
  * @property \Cake\I18n\Time $modified
+ * @property bool $microphone_req
+ * @property int $min_age
+ * @property bool $teamspeak_req
+ * @property string $rank_to
+ * @property string $rank_from
+ * @property int $min_playtime
+ * @property string $language
+ * @property int $min_upvotes
+ * @property int $max_downvotes
  * @property \App\Model\Entity\User[] $users
  */
 class Lobby extends Entity

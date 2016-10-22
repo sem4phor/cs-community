@@ -64,6 +64,39 @@ class LobbysTable extends Table
             ->requirePresence('url', 'create')
             ->notEmpty('url');
 
+        $validator
+            ->add('microphone_req', 'valid', ['rule' => 'boolean'])
+            ->allowEmpty('microphone_req');
+
+        $validator
+            ->add('min_age', 'valid', ['rule' => 'numeric'])
+            ->allowEmpty('min_age');
+
+        $validator
+            ->add('teamspeak_req', 'valid', ['rule' => 'boolean'])
+            ->allowEmpty('teamspeak_req');
+
+        $validator
+            ->allowEmpty('rank_to');
+
+        $validator
+            ->allowEmpty('rank_from');
+
+        $validator
+            ->add('min_playtime', 'valid', ['rule' => 'numeric'])
+            ->allowEmpty('min_playtime');
+
+        $validator
+            ->allowEmpty('language');
+
+        $validator
+            ->add('min_upvotes', 'valid', ['rule' => 'numeric'])
+            ->allowEmpty('min_upvotes');
+
+        $validator
+            ->add('max_downvotes', 'valid', ['rule' => 'numeric'])
+            ->allowEmpty('max_downvotes');
+
         return $validator;
     }
 

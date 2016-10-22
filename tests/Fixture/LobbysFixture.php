@@ -23,6 +23,15 @@ class LobbysFixture extends TestFixture
         'url' => ['type' => 'string', 'length' => 255, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'fixed' => null],
         'created' => ['type' => 'datetime', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
         'modified' => ['type' => 'datetime', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
+        'microphone_req' => ['type' => 'boolean', 'length' => null, 'null' => true, 'default' => '0', 'comment' => '', 'precision' => null],
+        'min_age' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
+        'teamspeak_req' => ['type' => 'boolean', 'length' => null, 'null' => true, 'default' => '0', 'comment' => '', 'precision' => null],
+        'rank_to' => ['type' => 'string', 'length' => 20, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null, 'fixed' => null],
+        'rank_from' => ['type' => 'string', 'length' => 20, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null, 'fixed' => null],
+        'min_playtime' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
+        'language' => ['type' => 'string', 'fixed' => true, 'length' => 6, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
+        'min_upvotes' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
+        'max_downvotes' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         '_indexes' => [
             'owned_by' => ['type' => 'index', 'columns' => ['owned_by'], 'length' => []],
         ],
@@ -48,8 +57,17 @@ class LobbysFixture extends TestFixture
             'owned_by' => 1,
             'free_slots' => 1,
             'url' => 'Lorem ipsum dolor sit amet',
-            'created' => '2016-10-18 13:02:59',
-            'modified' => '2016-10-18 13:02:59'
+            'created' => '2016-10-22 11:29:39',
+            'modified' => '2016-10-22 11:29:39',
+            'microphone_req' => 1,
+            'min_age' => 1,
+            'teamspeak_req' => 1,
+            'rank_to' => 'Lorem ipsum dolor ',
+            'rank_from' => 'Lorem ipsum dolor ',
+            'min_playtime' => 1,
+            'language' => 'Lore',
+            'min_upvotes' => 1,
+            'max_downvotes' => 1
         ],
     ];
 }

@@ -12,6 +12,7 @@ use Cake\Validation\Validator;
  *
  * @property \Cake\ORM\Association\BelongsTo $Users
  * @property \Cake\ORM\Association\BelongsTo $Steams
+ * @property \Cake\ORM\Association\BelongsTo $Roles
  * @property \Cake\ORM\Association\BelongsToMany $Lobbys
  */
 class UsersTable extends Table
@@ -37,6 +38,12 @@ class UsersTable extends Table
             'foreignKey' => 'user_id',
             'joinType' => 'INNER'
         ]);
+        $this->belongsTo('Steams', [
+            'foreignKey' => 'steam_id'
+        ]);
+        $this->belongsTo('Roles', [
+            'foreignKey' => 'role_id'
+        ]);
         $this->belongsToMany('Lobbys', [
             'foreignKey' => 'user_id',
             'targetForeignKey' => 'lobby_id',
@@ -53,16 +60,10 @@ class UsersTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->allowEmpty('username');
+            ->allowEmpty('country_code');
 
         $validator
-            ->allowEmpty('password');
-
-        $validator
-            ->allowEmpty('age');
-
-        $validator
-            ->allowEmpty('role');
+            ->allowEmpty('age_range');
 
         $validator
             ->allowEmpty('rank');
@@ -76,13 +77,10 @@ class UsersTable extends Table
             ->allowEmpty('downvotes');
 
         $validator
-            ->allowEmpty('language_one');
+            ->allowEmpty('username');
 
         $validator
-            ->allowEmpty('language_two');
-
-        $validator
-            ->allowEmpty('language_three');
+            ->allowEmpty('password');
 
         return $validator;
     }
@@ -97,7 +95,9 @@ class UsersTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->isUnique(['username']));
+        $rules->add($rules->existsIn(['steam_id'], 'Steams'));
         $rules->add($rules->existsIn(['user_id'], 'Users'));
+        $rules->add($rules->existsIn(['role_id'], 'Roles'));
         return $rules;
     }
 }
