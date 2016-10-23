@@ -200,3 +200,7 @@ DispatcherFactory::add('ControllerFactory');
  * This is needed for matching the auto-localized string output of Time() class when parsing dates.
  */
 Type::build('datetime')->useLocaleParser();
+
+/* CSCOMMUNITY specific globals */
+Configure::write('APIkey','07A5DA78F41F32FF1A3DF737DACED598');
+Configure::write('domainname','http://localhost/cs-community/');

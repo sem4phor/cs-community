@@ -42,19 +42,15 @@ class AppController extends Controller
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
         $this->loadComponent('Auth', [
-            'authenticate' => [
-                'Steam' => [
-                    'fields' => ['id' => 'steam_id'],
-                    'userModel' => 'Users'
-                ]
-            ],
+            'authenticate' =>
+                'Steam',
             'loginRedirect' => [
                 'controller' => 'Users',
                 'action' => 'index'
             ],
             'logoutRedirect' => [
-                'controller' => 'Articles',
-                'action' => 'index'
+                'controller' => 'Users',
+                'action' => 'login'
             ]
         ]);
 

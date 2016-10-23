@@ -2,6 +2,9 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Log\Log;
+use Cake\Core\Configure;
+use Cake\Event\Event;
 
 /**
  * Users Controller
@@ -11,8 +14,14 @@ use App\Controller\AppController;
 class UsersController extends AppController
 {
 
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow();
+    }
+
     // TODO set steam variables
-    public function loginTest()
+    /*public function loginTest()
     {
         if ($this->request->is('post')) {
             $user = $this->Auth->identify();
@@ -27,7 +36,7 @@ class UsersController extends AppController
     public function logoutTest()
     {
         return $this->redirect($this->Auth->logout());
-    }
+    }*/
 
 
     // TODO register (for help see urlaubsplaner)
@@ -37,16 +46,99 @@ class UsersController extends AppController
         if (isset($_GET['login'])){
             $user = $this->Auth->identify();
             if ($user) {
+                // fetch DB info if user already exists if not register him
+                $query = $this->Users->find()->where(['steam_id =' => $user['steam_id']]);
+               if($query->isEmpty()) {
+                   Log::write('debug','1');
+                   //$this->register($user['steam_id']);
+                    //return $this->setAction('register', $user['steam_id']);
+                   return $this->redirect(['action' => 'register', $user['steam_id']]);
+               }
+                $query = $this->Users->find()->where(['steam_id =' => $user['steam_id']]);
+                $user = $query->first();
+
+                // fetch steam info and check if all req. things are given if false logout if true set authuser and redirect to regiuster formn
+                $user = $this->fetchSteamDataFromUser($user);
+                if ($user['steam_communityvisibilitystate'] != 3 || $user['steam_profilestate'] != 1) {
+                    $this->Flash->error(__('Make profile public!'));
+                    //return $this->redirect(['action' => 'logout']);
+                    return $this->redirect($this->Auth->logout());
+                }
+                if ($user['loccountrycode'] == false) {
+                    $this->Flash->error(__('Set up your country!'));
+                    return $this->redirect($this->Auth->logout());
+                }
+                // if steam country changed, update DB
+                if ($user['loccountrycode'] != $user['country_code']) {
+                    // country in DB = country in steam ? go on : update DB
+                    $update_user_country = $this->Users->get($user['user_id']);
+                    $update_user_country->country_code = $user['loccountrycode'];
+                    if ($this->Users->save($update_user_country)) {
+                        $this->Flash->success(__('The User has been saved.'));
+                    } else {
+                        $this->Flash->error(__('The absence could not be saved. Please, try again.'));
+                        return $this->redirect($this->Auth->logout());
+                    }
+                }
                 $this->Auth->setUser($user);
-                Log::write('debug', $this->Auth->user());
                 return $this->redirect($this->Auth->redirectUrl());
             }
-            $this->Flash->error(__('Authentification Err!'));
+            $this->Flash->error(__('Authentification Error!'));
         }
+    }
+
+    public function register($steam_id = null) {
+        // if not in DB register by creating newUser(steamid)
+        // ask all the req. things
+        // if ready call login and redirect to auth->login redirect ELSE redirect to logout
+        $user = $this->Users->newEntity();
+        if ($this->request->is('post')) {
+            Log::write('debug','3');
+            $user = $this->Users->patchEntity($user, $this->request->data);
+            $user->steam_id = $steam_id;
+            if ($this->Users->save($user)) {
+                Log::write('debug','4');
+                $this->Flash->success(__('The user has been saved.'));
+                //return $this->setAction('login');
+            } else {
+                $this->Flash->error(__('The user could not be saved. Please, try again.'));
+            }
+        }
+        $this->set(compact('user'));
+        $this->set('_serialize', ['user']);
+    }
+
+    // adds steamdata to user
+    // loccountrycode is set to false if not set
+    public function fetchSteamDataFromUser($user) {
+        $url = file_get_contents("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=".Configure::read('APIkey')."&steamids=".$user['steam_id']);
+        $content = json_decode($url, true);
+        //$user['steam_id'] = $content['response']['players'][0]['steamid'];
+        $user['steam_communityvisibilitystate'] = $content['response']['players'][0]['communityvisibilitystate'];
+        $user['steam_profilestate'] = $content['response']['players'][0]['profilestate'];
+        $user['steam_lastlogoff'] = $content['response']['players'][0]['lastlogoff'];
+        $user['steam_profileurl'] = $content['response']['players'][0]['profileurl'];
+        $user['steam_avatar'] = $content['response']['players'][0]['avatar'];
+        $user['steam_avatarmedium'] = $content['response']['players'][0]['avatarmedium'];
+        $user['steam_avatarfull'] = $content['response']['players'][0]['avatarfull'];
+        $user['steam_personastate'] = $content['response']['players'][0]['personastate'];
+        $user['steam_timecreated'] = $content['response']['players'][0]['timecreated'];
+        isset($content['response']['players'][0]['loccountrycode']) ? $user['loccountrycode'] = $content['response']['players'][0]['loccountrycode'] : $user['loccountrycode'] = false;
+        $url = file_get_contents("http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=".Configure::read('APIkey')."&steamid=".$user['steam_id']."&format=json");
+        $content = json_decode($url, true);
+        foreach($content['response']['games'] as $key => $value) {
+            if ($value['appid'] == 730)  {
+                $user['steam_csgo_total_time_played'] = $value['playtime_forever'] / 60;
+                break;
+            };
+        }
+        return $user;
     }
 
     public function logout()
     {
+        session_unset();
+        session_destroy();
         return $this->redirect($this->Auth->logout());
     }
 

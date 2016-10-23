@@ -297,7 +297,7 @@ SET FOREIGN_KEY_CHECKS=0;
 
         CREATE TABLE IF NOT EXISTS `users` (
         user_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-        steam_id INT UNIQUE,
+        steam_id VARCHAR(255) UNIQUE,
         country_code CHAR(2),
         age_range VARCHAR(10),
         role_id INT UNSIGNED DEFAULT 1,

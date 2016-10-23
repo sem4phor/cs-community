@@ -30,16 +30,13 @@ class UsersTable extends Table
 
         $this->table('users');
         $this->displayField('name');
-        $this->primaryKey('id');
+        $this->primaryKey('user_id');
 
         $this->addBehavior('Timestamp');
 
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id',
             'joinType' => 'INNER'
-        ]);
-        $this->belongsTo('Steams', [
-            'foreignKey' => 'steam_id'
         ]);
         $this->belongsTo('Roles', [
             'foreignKey' => 'role_id'
@@ -95,7 +92,6 @@ class UsersTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->isUnique(['username']));
-        $rules->add($rules->existsIn(['steam_id'], 'Steams'));
         $rules->add($rules->existsIn(['user_id'], 'Users'));
         $rules->add($rules->existsIn(['role_id'], 'Roles'));
         return $rules;
