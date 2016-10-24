@@ -42,9 +42,24 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         </ul>
         <section class="top-bar-section">
             <ul class="right">
-                <li><?= $this->Html->link(__('Logout'), ['controller' => 'users', 'action' => 'logout']) ?></li>
-                <li><a target="_blank" href="http://api.cakephp.org/3.0/">API</a></li>
+                <?php if (isset($user)): ?>
+                    <li class='has-dropdown not-click'><a href='#'> <?= h($user->steam_personaname) ?></a>
+                        <ul class="dropdown">
+                            <li > <?= $this->Html->link(__('Settings'), ['controller' => 'users','action' => 'settings']) ?></li>
+                            <li > <?= $this->Html->link(__('View Profile'), ['controller' => 'users','action' => 'view', $user['user_id']]) ?></li>
+                            <li><?= $this->Html->link(__('Logout'), ['controller' => 'users', 'action' => 'logout']) ?></li>
+                        </ul>
+                    </li>
+                    <li><?= $this->Html->image($user->steam_avatar, ['alt' => 'steam_avatar']); ?></li>
+                <?php else: ?>
+                   <li><?= $this->Html->image("http://cdn.steamcommunity.com/public/images/signinthroughsteam/sits_02.png", [
+                               "alt" => "Steam Login",
+                               'url' => ['controller' => 'Users', 'action' => 'login']]); ?>
+                   </li>
+
+                <?php endif; ?>
             </ul>
+
         </section>
     </nav>
     <?= $this->Flash->render() ?>

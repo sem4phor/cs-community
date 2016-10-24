@@ -1,3 +1,4 @@
+# noinspection SqlNoDataSourceInspectionForFile
 SET FOREIGN_KEY_CHECKS=0;
         DROP TABLE IF EXISTS `lobbys_users`, `lobbys`, `chat_messages`, `users`, `roles`, `countries`, `continents`;
         SET FOREIGN_KEY_CHECKS=1;
@@ -306,6 +307,8 @@ SET FOREIGN_KEY_CHECKS=0;
         downvotes INT DEFAULT 0,
         created DATETIME DEFAULT NULL,
         modified DATETIME DEFAULT NULL,
+        microphone BOOL DEFAULT false,
+        teamspeak BOOL DEFAULT false,
         /* DELETE USERNAME AND PW BEFORE DEPLOYING */
         username VARCHAR(255),
         password VARCHAR(255),

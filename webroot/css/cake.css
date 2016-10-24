@@ -156,6 +156,16 @@ button {
   color: #C3232D;
 }
 
+
+
+.container {
+  background: #303a46;
+  background: -moz-linear-gradient(-45deg, #303a46 25%, #606060 75%);
+  background: -webkit-linear-gradient(-45deg, #303a46 25%,#606060 75%);
+  background: linear-gradient(135deg, #303a46 25%,#606060 75%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#303a46', endColorstr='#606060',GradientType=1 );
+}
+
 select[multiple] {
   min-height:150px;
   background: none;
@@ -395,11 +405,15 @@ pre {
 }
 
 .top-bar.expanded .title-area {
-  background: #01545b;
+  background: #171A21;
+}
+
+.top-bar-section {
+  padding: 20px;
 }
 
 .top-bar.expanded, .top-bar,.top-bar-section ul li,.top-bar-section li:not(.has-form) a:not(.button) {
-  background: #116d76;
+  background: #171A21;
 }
 
 .top-bar-section li:not(.has-form) a:not(.button):hover {
@@ -430,6 +444,7 @@ table {
   border: none;
   table-layout: fixed;
   width: 100%;
+  /*background-color: #353e49;*/
 }
 
 table thead {
@@ -549,6 +564,12 @@ div.message:before {
   margin-bottom: -99999px;
   padding-bottom: 99999px;
 }
+
+.content {
+  margin-bottom: 0px !important;
+  padding-bottom: 0px !important;
+}
+
 @media(max-width: 640px) {
     #actions-sidebar {
         padding-bottom: 2rem;
@@ -576,3 +597,5 @@ div.message:before {
   margin-bottom: 10px;
   border-bottom: 0px;
 }
+
+

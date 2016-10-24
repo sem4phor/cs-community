@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3f29dc6c534a0cd059c0f275e9b9bb10",
+    "hash": "d60292be9e648790ba3140703c07e99a",
     "content-hash": "cc22997e024e70d80a57dc97f70c5b7c",
     "packages": [
         {
@@ -1634,16 +1634,16 @@
         },
         {
             "name": "cakephp/debug_kit",
-            "version": "3.3.6",
+            "version": "3.3.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/debug_kit.git",
-                "reference": "408aede9c727f66e2194a405a37a99d2f48e5ca3"
+                "reference": "0f893a06b1208d49d92c0537d43f5e512bfd3738"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/debug_kit/zipball/408aede9c727f66e2194a405a37a99d2f48e5ca3",
-                "reference": "408aede9c727f66e2194a405a37a99d2f48e5ca3",
+                "url": "https://api.github.com/repos/cakephp/debug_kit/zipball/0f893a06b1208d49d92c0537d43f5e512bfd3738",
+                "reference": "0f893a06b1208d49d92c0537d43f5e512bfd3738",
                 "shasum": ""
             },
             "require": {
@@ -1687,7 +1687,7 @@
                 "debug",
                 "kit"
             ],
-            "time": "2016-10-19 01:22:28"
+            "time": "2016-10-24 02:10:49"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",

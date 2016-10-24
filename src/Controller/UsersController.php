@@ -43,48 +43,48 @@ class UsersController extends AppController
 
     public function login()
     {
-        if (isset($_GET['login'])){
             $user = $this->Auth->identify();
             if ($user) {
-                // fetch DB info if user already exists if not register him
+                // if user not exists register him
                 $query = $this->Users->find()->where(['steam_id =' => $user['steam_id']]);
                if($query->isEmpty()) {
-                   Log::write('debug','1');
-                   //$this->register($user['steam_id']);
-                    //return $this->setAction('register', $user['steam_id']);
                    return $this->redirect(['action' => 'register', $user['steam_id']]);
                }
-                $query = $this->Users->find()->where(['steam_id =' => $user['steam_id']]);
-                $user = $query->first();
-
-                // fetch steam info and check if all req. things are given if false logout if true set authuser and redirect to regiuster formn
-                $user = $this->fetchSteamDataFromUser($user);
-                if ($user['steam_communityvisibilitystate'] != 3 || $user['steam_profilestate'] != 1) {
-                    $this->Flash->error(__('Make profile public!'));
-                    //return $this->redirect(['action' => 'logout']);
-                    return $this->redirect($this->Auth->logout());
-                }
-                if ($user['loccountrycode'] == false) {
-                    $this->Flash->error(__('Set up your country!'));
-                    return $this->redirect($this->Auth->logout());
-                }
-                // if steam country changed, update DB
-                if ($user['loccountrycode'] != $user['country_code']) {
-                    // country in DB = country in steam ? go on : update DB
-                    $update_user_country = $this->Users->get($user['user_id']);
-                    $update_user_country->country_code = $user['loccountrycode'];
-                    if ($this->Users->save($update_user_country)) {
-                        $this->Flash->success(__('The User has been saved.'));
-                    } else {
-                        $this->Flash->error(__('The absence could not be saved. Please, try again.'));
-                        return $this->redirect($this->Auth->logout());
-                    }
-                }
+                $user = $this->getUserData($user);
                 $this->Auth->setUser($user);
                 return $this->redirect($this->Auth->redirectUrl());
             }
             $this->Flash->error(__('Authentification Error!'));
+    }
+
+    public function getUserData($user) {
+        $query = $this->Users->find()->where(['steam_id =' => $user['steam_id']]);
+        $user = $query->first();
+
+        // fetch steam info and check if all req. things are given if false logout if true set authuser and redirect to regiuster formn
+        $user = $this->fetchSteamDataFromUser($user);
+        if ($user['steam_communityvisibilitystate'] != 3 || $user['steam_profilestate'] != 1) {
+            $this->Flash->error(__('Make profile public!'));
+            //return $this->redirect(['action' => 'logout']);
+            return $this->redirect($this->Auth->logout());
         }
+        if ($user['loccountrycode'] == false) {
+            $this->Flash->error(__('Set up your country!'));
+            return $this->redirect($this->Auth->logout());
+        }
+        // if steam country changed, update DB
+        if ($user['loccountrycode'] != $user['country_code']) {
+            // country in DB = country in steam ? go on : update DB
+            $update_user_country = $this->Users->get($user['user_id']);
+            $update_user_country->country_code = $user['loccountrycode'];
+            if ($this->Users->save($update_user_country)) {
+                $this->Flash->success(__('The User has been saved.'));
+            } else {
+                $this->Flash->error(__('The absence could not be saved. Please, try again.'));
+                return $this->redirect($this->Auth->logout());
+            }
+        }
+        return $user;
     }
 
     public function register($steam_id = null) {
@@ -93,13 +93,13 @@ class UsersController extends AppController
         // if ready call login and redirect to auth->login redirect ELSE redirect to logout
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
-            Log::write('debug','3');
             $user = $this->Users->patchEntity($user, $this->request->data);
             $user->steam_id = $steam_id;
             if ($this->Users->save($user)) {
-                Log::write('debug','4');
                 $this->Flash->success(__('The user has been saved.'));
-                //return $this->setAction('login');
+                $user = $this->getUserData($user);
+                $this->Auth->setUser($user);
+                return $this->redirect($this->Auth->redirectUrl());
             } else {
                 $this->Flash->error(__('The user could not be saved. Please, try again.'));
             }
@@ -123,6 +123,7 @@ class UsersController extends AppController
         $user['steam_avatarfull'] = $content['response']['players'][0]['avatarfull'];
         $user['steam_personastate'] = $content['response']['players'][0]['personastate'];
         $user['steam_timecreated'] = $content['response']['players'][0]['timecreated'];
+        $user['steam_personaname'] = $content['response']['players'][0]['personaname'];
         isset($content['response']['players'][0]['loccountrycode']) ? $user['loccountrycode'] = $content['response']['players'][0]['loccountrycode'] : $user['loccountrycode'] = false;
         $url = file_get_contents("http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=".Configure::read('APIkey')."&steamid=".$user['steam_id']."&format=json");
         $content = json_decode($url, true);
