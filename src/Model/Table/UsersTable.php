@@ -13,7 +13,7 @@ use Cake\Validation\Validator;
  * @property \Cake\ORM\Association\BelongsTo $Users
  * @property \Cake\ORM\Association\BelongsTo $Steams
  * @property \Cake\ORM\Association\BelongsTo $Roles
- * @property \Cake\ORM\Association\BelongsToMany $Lobbys
+ * @property \Cake\ORM\Association\BelongsToMany $Lobbies
  */
 class UsersTable extends Table
 {
@@ -41,10 +41,10 @@ class UsersTable extends Table
         $this->belongsTo('Roles', [
             'foreignKey' => 'role_id'
         ]);
-        $this->belongsToMany('Lobbys', [
+        $this->belongsToMany('Lobbies', [
             'foreignKey' => 'user_id',
             'targetForeignKey' => 'lobby_id',
-            'joinTable' => 'lobbys_users'
+            'joinTable' => 'lobbies_users'
         ]);
     }
 

@@ -72,18 +72,21 @@ class UsersController extends AppController
             $this->Flash->error(__('Set up your country!'));
             return $this->redirect($this->Auth->logout());
         }
-        // if steam country changed, update DB
-        if ($user['loccountrycode'] != $user['country_code']) {
-            // country in DB = country in steam ? go on : update DB
-            $update_user_country = $this->Users->get($user['user_id']);
-            $update_user_country->country_code = $user['loccountrycode'];
-            if ($this->Users->save($update_user_country)) {
+        // update DB
+            $update_user = $this->Users->get($user['user_id']);
+            $update_user->country_code = $user['loccountrycode'];
+            $update_user->avatar = $user['steam_avatar'];
+            $update_user->avatarmedium = $user['steam_avatarmedium'];
+            $update_user->avatarfull = $user['steam_avatarfull'];
+            $update_user->profileurl = $user['steam_profileurl'];
+            $update_user->personaname = $user['steam_personaname'];
+            $update_user->playtime = $user['steam_csgo_total_time_played'];
+            if ($this->Users->save($update_user)) {
                 $this->Flash->success(__('The User has been saved.'));
             } else {
                 $this->Flash->error(__('The absence could not be saved. Please, try again.'));
                 return $this->redirect($this->Auth->logout());
             }
-        }
         return $user;
     }
 
@@ -113,7 +116,6 @@ class UsersController extends AppController
     public function fetchSteamDataFromUser($user) {
         $url = file_get_contents("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=".Configure::read('APIkey')."&steamids=".$user['steam_id']);
         $content = json_decode($url, true);
-        //$user['steam_id'] = $content['response']['players'][0]['steamid'];
         $user['steam_communityvisibilitystate'] = $content['response']['players'][0]['communityvisibilitystate'];
         $user['steam_profilestate'] = $content['response']['players'][0]['profilestate'];
         $user['steam_lastlogoff'] = $content['response']['players'][0]['lastlogoff'];

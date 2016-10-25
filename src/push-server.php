@@ -6,6 +6,8 @@
  * Time: 15:17
  */
 require dirname(__DIR__) . '/vendor/autoload.php';
+use Ratchet\ConnectionInterface;
+use Ratchet\Wamp\WampServerInterface;
 
 $loop   = React\EventLoop\Factory::create();
 $pusher = new App\Pusher();

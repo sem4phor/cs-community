@@ -4,10 +4,9 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Lobby Entity.
+ * Lobby Entity
  *
  * @property int $lobby_id
- * @property \App\Model\Entity\Lobby $lobby
  * @property int $owned_by
  * @property int $free_slots
  * @property string $url
@@ -22,6 +21,8 @@ use Cake\ORM\Entity;
  * @property string $language
  * @property int $min_upvotes
  * @property int $max_downvotes
+ *
+ * @property \App\Model\Entity\Lobby $lobby
  * @property \App\Model\Entity\User[] $users
  */
 class Lobby extends Entity
@@ -38,6 +39,6 @@ class Lobby extends Entity
      */
     protected $_accessible = [
         '*' => true,
-        'lobby_id' => false,
+        'lobby_id' => false
     ];
 }

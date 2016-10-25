@@ -1,6 +1,6 @@
 # noinspection SqlNoDataSourceInspectionForFile
-SET FOREIGN_KEY_CHECKS=0;
-        DROP TABLE IF EXISTS `lobbys_users`, `lobbys`, `chat_messages`, `users`, `roles`, `countries`, `continents`;
+        SET FOREIGN_KEY_CHECKS=0;
+        DROP TABLE IF EXISTS `lobbies_users`, `lobbies`, `chat_messages`, `users`, `roles`, `countries`, `continents`;
         SET FOREIGN_KEY_CHECKS=1;
 
         /**
@@ -301,6 +301,12 @@ SET FOREIGN_KEY_CHECKS=0;
         steam_id VARCHAR(255) UNIQUE,
         country_code CHAR(2),
         age_range VARCHAR(10),
+        avatar VARCHAR(255),
+        avatarmedium VARCHAR(255),
+        avatarfull VARCHAR(255),
+        personaname VARCHAR(255),
+        profileurl VARCHAR(255),
+        playtime INT,
         role_id INT UNSIGNED DEFAULT 1,
         rank VARCHAR(255),
         upvotes INT DEFAULT 0,
@@ -324,7 +330,7 @@ SET FOREIGN_KEY_CHECKS=0;
         FOREIGN KEY (sent_by) REFERENCES users(user_id) ON DELETE CASCADE
         );
 
-        CREATE TABLE IF NOT EXISTS `lobbys` (
+        CREATE TABLE IF NOT EXISTS `lobbies` (
         lobby_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         owned_by INT UNSIGNED NOT NULL,
         free_slots INT DEFAULT 4,
@@ -343,11 +349,11 @@ SET FOREIGN_KEY_CHECKS=0;
         FOREIGN KEY (owned_by) REFERENCES users(user_id) ON DELETE CASCADE
         );
 
-        CREATE TABLE IF NOT EXISTS `lobbys_users` (
-        lobbys_users_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        CREATE TABLE IF NOT EXISTS `lobbies_users` (
+        lobbies_users_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         lobby_id INT UNSIGNED,
         user_id INT UNSIGNED,
-        FOREIGN KEY (lobby_id) REFERENCES lobbys(lobby_id) ON DELETE CASCADE,
+        FOREIGN KEY (lobby_id) REFERENCES lobbies(lobby_id) ON DELETE CASCADE,
         FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
         );
 
@@ -359,22 +365,28 @@ SET FOREIGN_KEY_CHECKS=0;
         INSERT INTO `roles` (name) VALUES ('admin');
         INSERT INTO `roles` (name) VALUES ('mod');
         /* 0000 */
-        INSERT INTO `users` (username, password) VALUES ('user1', '$2y$10$rSAzv08D1E9yhu8JV4bCIOf2rV6wwt5BP0ZKWiCpw.uKRRVGZ56ei');
-        INSERT INTO `users` (username, password) VALUES ('user2', '$2y$10$rSAzv08D1E9yhu8JV4bCIOf2rV6wwt5BP0ZKWiCpw.uKRRVGZ56ei');
-        INSERT INTO `users` (username, password) VALUES ('user3', '$2y$10$rSAzv08D1E9yhu8JV4bCIOf2rV6wwt5BP0ZKWiCpw.uKRRVGZ56ei');
-        INSERT INTO `users` (username, password, role_id) VALUES ('admin1', '$2y$10$rSAzv08D1E9yhu8JV4bCIOf2rV6wwt5BP0ZKWiCpw.uKRRVGZ56ei', 2);
-        INSERT INTO `users` (username, password, role_id) VALUES ('mod1', '$2y$10$rSAzv08D1E9yhu8JV4bCIOf2rV6wwt5BP0ZKWiCpw.uKRRVGZ56ei', 3);
+        INSERT INTO `users` (`user_id`, `steam_id`, `country_code`, `age_range`, `role_id`, `rank`, `upvotes`, `downvotes`, `created`, `modified`, `microphone`, `teamspeak`, `username`, `password`) VALUES
+        (1, NULL, NULL, NULL, 1, NULL, 0, 0, NULL, NULL, 0, 0, 'user1', '$2y$10$rSAzv08D1E9yhu8JV4bCIOf2rV6wwt5BP0ZKWiCpw.uKRRVGZ56ei'),
+        (2, NULL, NULL, NULL, 1, NULL, 0, 0, NULL, NULL, 0, 0, 'user2', '$2y$10$rSAzv08D1E9yhu8JV4bCIOf2rV6wwt5BP0ZKWiCpw.uKRRVGZ56ei'),
+        (3, NULL, NULL, NULL, 1, NULL, 0, 0, NULL, NULL, 0, 0, 'user3', '$2y$10$rSAzv08D1E9yhu8JV4bCIOf2rV6wwt5BP0ZKWiCpw.uKRRVGZ56ei'),
+        (4, NULL, NULL, NULL, 2, NULL, 0, 0, NULL, NULL, 0, 0, 'admin1', '$2y$10$rSAzv08D1E9yhu8JV4bCIOf2rV6wwt5BP0ZKWiCpw.uKRRVGZ56ei'),
+        (5, NULL, NULL, NULL, 3, NULL, 0, 0, NULL, NULL, 0, 0, 'mod1', '$2y$10$rSAzv08D1E9yhu8JV4bCIOf2rV6wwt5BP0ZKWiCpw.uKRRVGZ56ei'),
+        (6, '76561198126151407', 'DE', '', 1, '', 0, 0, '2016-10-25 09:40:54', '2016-10-25 09:40:55', 0, 0, NULL, NULL);
 
-        INSERT INTO `lobbys` (owned_by, url) VALUES (1, 'test');
-        INSERT INTO `lobbys` (owned_by, url) VALUES (2, 'test2');
+        INSERT INTO `lobbies` (`lobby_id`, `owned_by`, `free_slots`, `url`, `created`, `modified`, `microphone_req`, `min_age`, `teamspeak_req`, `rank_to`, `rank_from`, `min_playtime`, `language`, `min_upvotes`, `max_downvotes`) VALUES
+        (1, 1, 4, 'test', NULL, NULL, 0, NULL, 0, 'global_elite', 'legendary_eagle', 1000, 'de', NULL, NULL),
+        (2, 2, 4, 'test2', NULL, NULL, 0, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL),
+        (12, 3, 4, 'asasgga', '2016-10-25 13:45:21', '2016-10-25 13:45:21', 0, NULL, 0, '', '', NULL, 'language', NULL, NULL),
+        (13, 4, 4, 'tw gw', '2016-10-25 13:47:30', '2016-10-25 13:47:30', 0, NULL, 0, '', '', NULL, 'language', NULL, NULL);
 
-        INSERT INTO `lobbys_users` (lobby_id, user_id) VALUES (1,1);
-        INSERT INTO `lobbys_users` (lobby_id, user_id) VALUES (1,2);
-        INSERT INTO `lobbys_users` (lobby_id, user_id) VALUES (2,1);
-        INSERT INTO `lobbys_users` (lobby_id, user_id) VALUES (2,2);
-        INSERT INTO `lobbys_users` (lobby_id, user_id) VALUES (2,3);
-        INSERT INTO `lobbys_users` (lobby_id, user_id) VALUES (2,4);
-        INSERT INTO `lobbys_users` (lobby_id, user_id) VALUES (2,5);
+
+        INSERT INTO `lobbies_users` (lobby_id, user_id) VALUES (1,1);
+        INSERT INTO `lobbies_users` (lobby_id, user_id) VALUES (1,2);
+        INSERT INTO `lobbies_users` (lobby_id, user_id) VALUES (2,1);
+        INSERT INTO `lobbies_users` (lobby_id, user_id) VALUES (2,2);
+        INSERT INTO `lobbies_users` (lobby_id, user_id) VALUES (2,3);
+        INSERT INTO `lobbies_users` (lobby_id, user_id) VALUES (2,4);
+        INSERT INTO `lobbies_users` (lobby_id, user_id) VALUES (2,5);
 
         INSERT INTO `chat_messages` (sent_by, message) VALUES (1, 'Hi');
         INSERT INTO `chat_messages` (sent_by, message) VALUES (2, 'Hi there.');

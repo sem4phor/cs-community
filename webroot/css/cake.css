@@ -11,14 +11,6 @@ a {
   color: #1798A5;
 }
 
-.side-nav li a:not(.button) {
-  color: #15848F;
-}
-
-.side-nav li a:not(.button):hover {
-  color: #15848F;
-}
-
 header {
   background-color: #15848F;
   color: #ffffff;
@@ -154,16 +146,6 @@ button {
 .required > label:after {
   content: ' *';
   color: #C3232D;
-}
-
-
-
-.container {
-  background: #303a46;
-  background: -moz-linear-gradient(-45deg, #303a46 25%, #606060 75%);
-  background: -webkit-linear-gradient(-45deg, #303a46 25%,#606060 75%);
-  background: linear-gradient(135deg, #303a46 25%,#606060 75%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#303a46', endColorstr='#606060',GradientType=1 );
 }
 
 select[multiple] {
@@ -421,17 +403,6 @@ pre {
   background: #308e97;
 }
 
-.side-nav li.heading {
-  color: #1798A5;
-  font-size: 0.875rem;
-  font-weight: bold;
-  text-transform: uppercase;
-  padding: 0.4375rem 0.875rem;
-}
-
-#actions-sidebar {
-  background: #fafafa;
-}
 
 .index table {
   margin-top: 0rem;
@@ -470,6 +441,54 @@ table tr th {
 table tr:nth-of-type(even) {
   background: none;
 }
+
+.lobbies table {
+  background-color: rgba(100,100,100,0.0);
+  margin-bottom: 1.25rem;
+  border: none;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.lobbies table thead {
+}
+
+.lobbies table tbody tr {
+  background: #0f151a;
+  border: 1px solid #365474;
+  color: #6390a1;
+}
+
+.lobbies .spacer{
+  border: none;
+  padding-bottom: 10px;
+  height: 20px;
+  background-color: rgba(100,100,100,0.0);
+}
+
+.lobbies td {
+  color: #e1e1e1;
+}
+
+.lobbies .until {
+  text-align: center;
+}
+
+.lobbies table thead tr {
+  border-bottom: 1px solid #1798A5;
+}
+
+.lobbies table tr th {
+  padding: 0.5625rem 0.625rem;
+  font-size: 0.875rem;
+  color: #6390a1;
+  text-align: left;
+  border-bottom: 2px solid #6390a1;
+}
+
+/*.lobbies table tr:nth-of-type(even) {
+  background: #0f151a;
+}*/
 
 fieldset {
   border: none;
@@ -547,38 +566,26 @@ div.message:before {
   text-align: right;
 }
 
-
-.content {
-  padding: 2rem;
-}
-
 /* Use 'one true layout' methods to get equal height columns */
 .container {
   overflow: hidden;
   min-height: 92%; /* full height almost always */
-}
-
-/* Force equal height by overflowing */
-.content,
-#actions-sidebar {
-  margin-bottom: -99999px;
-  padding-bottom: 99999px;
+  background-color: #1B2838
 }
 
 .content {
+  padding: 2rem;
+  margin:0 auto;
   margin-bottom: 0px !important;
   padding-bottom: 0px !important;
+  background-image: url("http://steamcommunity-a.akamaihd.net/public/images/profile/profile_subpage_column_bottom.png?v=1"), url("http://steamcommunity-a.akamaihd.net/public/images/profile/profile_subpage_column.png?v=1");
+  background-position: center bottom, center center;
+  background-repeat: no-repeat, repeat-y;
 }
 
-@media(max-width: 640px) {
-    #actions-sidebar {
-        padding-bottom: 2rem;
-        margin-bottom: 0;
-    }
-}
 
 .content h3 {
-  color: #be140b;
+  color: #66c0f4;
   padding-bottom: 0.5rem;
   margin-bottom: 20px;
 }
@@ -587,7 +594,7 @@ div.message:before {
   color: #be140b;
   padding-bottom: 0.5rem;
   margin-bottom: 20px;
-  border-bottom: 2px solid #be140b;
+  border-bottom: 2px solid #ffffff;
 }
 
 .content .related h4 {
