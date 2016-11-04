@@ -41,11 +41,22 @@ class UsersTable extends Table
         $this->belongsTo('Roles', [
             'foreignKey' => 'role_id'
         ]);
+        $this->belongsTo('Countries', [
+            'foreignKey' => 'country_code'
+        ]);
+        $this->belongsTo('Ranks', [
+            'foreignKey' => 'rank_id'
+        ]);
         $this->belongsToMany('Lobbies', [
             'foreignKey' => 'user_id',
             'targetForeignKey' => 'lobby_id',
             'joinTable' => 'lobbies_users'
         ]);
+
+    }
+
+    public function getRegionCode($user_id) {
+        return $this->find()->where(['user_id =' => $user_id])->contain(['Countries.Continents'])->toArray()[0]->country->continent->code;
     }
 
     /**

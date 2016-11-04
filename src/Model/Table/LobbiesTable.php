@@ -84,6 +84,9 @@ class LobbiesTable extends Table
         $validator
             ->boolean('teamspeak_req')
             ->allowEmpty('teamspeak_req');
+        $validator
+            ->boolean('prime_req')
+            ->allowEmpty('prime_req');
 
         $validator
             ->allowEmpty('rank_to');

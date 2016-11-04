@@ -1,6 +1,6 @@
 # noinspection SqlNoDataSourceInspectionForFile
         SET FOREIGN_KEY_CHECKS=0;
-        DROP TABLE IF EXISTS `lobbies_users`, `lobbies`, `chat_messages`, `users`, `roles`, `countries`, `continents`;
+        DROP TABLE IF EXISTS `lobbies_users`, `lobbies`, `chat_messages`, `users`, `roles`, `countries`, `continents`, `ranks`;
         SET FOREIGN_KEY_CHECKS=1;
 
         /**
@@ -296,6 +296,12 @@
         description VARCHAR(50)
         );
 
+        CREATE TABLE IF NOT EXISTS `ranks` (
+        rank_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        abbr VARCHAR(30),
+        img_path VARCHAR(255)
+        );
+
         CREATE TABLE IF NOT EXISTS `users` (
         user_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         steam_id VARCHAR(255) UNIQUE,
@@ -308,7 +314,7 @@
         profileurl VARCHAR(255),
         playtime INT,
         role_id INT UNSIGNED DEFAULT 1,
-        rank VARCHAR(255),
+        rank_id INT UNSIGNED,
         upvotes INT DEFAULT 0,
         downvotes INT DEFAULT 0,
         created DATETIME DEFAULT NULL,
@@ -319,8 +325,28 @@
         username VARCHAR(255),
         password VARCHAR(255),
         FOREIGN KEY (country_code) REFERENCES countries(code) ON DELETE CASCADE,
-        FOREIGN KEY (role_id) REFERENCES roles(role_id) ON DELETE CASCADE
+        FOREIGN KEY (role_id) REFERENCES roles(role_id) ON DELETE CASCADE,
+        FOREIGN KEY (rank_id) REFERENCES ranks(rank_id) ON DELETE CASCADE
         );
+INSERT INTO `ranks` (rank_id, abbr, img_path) VALUES
+        (1,'S1', 'ranks/1.png'),
+        (2,'S2', 'ranks/2.png'),
+        (3,'S3', 'ranks/3.png'),
+        (4,'S4', 'ranks/4.png'),
+        (5,'SE', 'ranks/5.png'),
+        (6,'SEM', 'ranks/6.png'),
+        (7,'GN1', 'ranks/7.png'),
+        (8,'GN2', 'ranks/8.png'),
+        (9,'GN3', 'ranks/9.png'),
+        (10,'GNM', 'ranks/10.png'),
+        (11,'MG1', 'ranks/11.png'),
+        (12,'MG2', 'ranks/12.png'),
+        (13,'MGE', 'ranks/13.png'),
+        (14,'DMG', 'ranks/14.png'),
+        (15,'LE', 'ranks/15.png'),
+        (16,'LEM', 'ranks/16.png'),
+        (17,'SMFC', 'ranks/17.png'),
+        (18,'GE', 'ranks/18.png');
 
         CREATE TABLE IF NOT EXISTS `chat_messages` (
         message_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -334,19 +360,23 @@
         lobby_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         owned_by INT UNSIGNED NOT NULL,
         free_slots INT DEFAULT 4,
-        url VARCHAR(255) NOT NULL,
+        url VARCHAR(255) NOT NULL UNIQUE,
         created DATETIME DEFAULT NULL,
         modified DATETIME DEFAULT NULL,
         microphone_req BOOL DEFAULT false,
+        prime_req BOOL DEFAULT false,
         min_age INT,
         teamspeak_req BOOL DEFAULT false,
-        rank_to VARCHAR(20),
         rank_from VARCHAR(20),
+        rank_to VARCHAR(20),
         min_playtime INT,
+        region CHAR(2),
         language CHAR(6),
         min_upvotes INT DEFAULT NULL,
         max_downvotes INT DEFAULT NULL,
-        FOREIGN KEY (owned_by) REFERENCES users(user_id) ON DELETE CASCADE
+        users_count INT,
+        FOREIGN KEY (owned_by) REFERENCES users(user_id) ON DELETE CASCADE,
+        FOREIGN KEY (region) REFERENCES continents(code) ON DELETE CASCADE
         );
 
         CREATE TABLE IF NOT EXISTS `lobbies_users` (
@@ -365,19 +395,24 @@
         INSERT INTO `roles` (name) VALUES ('admin');
         INSERT INTO `roles` (name) VALUES ('mod');
         /* 0000 */
-        INSERT INTO `users` (`user_id`, `steam_id`, `country_code`, `age_range`, `role_id`, `rank`, `upvotes`, `downvotes`, `created`, `modified`, `microphone`, `teamspeak`, `username`, `password`) VALUES
-        (1, NULL, NULL, NULL, 1, NULL, 0, 0, NULL, NULL, 0, 0, 'user1', '$2y$10$rSAzv08D1E9yhu8JV4bCIOf2rV6wwt5BP0ZKWiCpw.uKRRVGZ56ei'),
-        (2, NULL, NULL, NULL, 1, NULL, 0, 0, NULL, NULL, 0, 0, 'user2', '$2y$10$rSAzv08D1E9yhu8JV4bCIOf2rV6wwt5BP0ZKWiCpw.uKRRVGZ56ei'),
-        (3, NULL, NULL, NULL, 1, NULL, 0, 0, NULL, NULL, 0, 0, 'user3', '$2y$10$rSAzv08D1E9yhu8JV4bCIOf2rV6wwt5BP0ZKWiCpw.uKRRVGZ56ei'),
-        (4, NULL, NULL, NULL, 2, NULL, 0, 0, NULL, NULL, 0, 0, 'admin1', '$2y$10$rSAzv08D1E9yhu8JV4bCIOf2rV6wwt5BP0ZKWiCpw.uKRRVGZ56ei'),
-        (5, NULL, NULL, NULL, 3, NULL, 0, 0, NULL, NULL, 0, 0, 'mod1', '$2y$10$rSAzv08D1E9yhu8JV4bCIOf2rV6wwt5BP0ZKWiCpw.uKRRVGZ56ei'),
-        (6, '76561198126151407', 'DE', '', 1, '', 0, 0, '2016-10-25 09:40:54', '2016-10-25 09:40:55', 0, 0, NULL, NULL);
+        INSERT INTO `users` (
+        `user_id`, `steam_id`, `country_code`, `age_range`, avatar, avatarmedium, avatarfull, personaname, profileurl, playtime, `role_id`, `rank_id`, `upvotes`, `downvotes`, `microphone`, `teamspeak`, `username`, `password`) VALUES
+        (1, '76561198126151407', 'DE', '20-90', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_medium.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_full.jpg', 'Semaphor', 'http://steamcommunity.com/id/stablestorage/', 1402, 1, 18, 100, 10, 1, 1, 'user1', '$2y$10$rSAzv08D1E9yhu8JV4bCIOf2rV6wwt5BP0ZKWiCpw.uKRRVGZ56ei'),
+        (2, '76561198126151406', 'IN', '20-90', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_medium.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_full.jpg', 'Semaphor1', 'http://steamcommunity.com/id/stablestorage/', 900, 1, 17, 10, 100, 0, 0, 'user2', '$2y$10$rSAzv08D1E9yhu8JV4bCIOf2rV6wwt5BP0ZKWiCpw.uKRRVGZ56ei'),
+        (3, '76561198126151405', 'CH', '20-90', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_medium.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_full.jpg', 'Semaphor2', 'http://steamcommunity.com/id/stablestorage/', 1402, 1, 5, 100, 10, 1, 1, 'user3', '$2y$10$rSAzv08D1E9yhu8JV4bCIOf2rV6wwt5BP0ZKWiCpw.uKRRVGZ56ei'),
+        (4, '76561198126151404', 'GB', '20-90', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_medium.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_full.jpg', 'Semaphor3', 'http://steamcommunity.com/id/stablestorage/', 900, 1, 10, 10, 100, 0, 0, 'user4', '$2y$10$rSAzv08D1E9yhu8JV4bCIOf2rV6wwt5BP0ZKWiCpw.uKRRVGZ56ei'),
+        (5, '76561198126151403', 'US', '20-90', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_medium.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_full.jpg', 'Semaphor4', 'http://steamcommunity.com/id/stablestorage/', 1402, 1, 11, 100, 10, 1, 1, 'user5', '$2y$10$rSAzv08D1E9yhu8JV4bCIOf2rV6wwt5BP0ZKWiCpw.uKRRVGZ56ei'),
+        (6, '76561198126151402', 'DE', '20-90', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_medium.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_full.jpg', 'Semaphor5', 'http://steamcommunity.com/id/stablestorage/', 900, 1, 15, 10, 10, 0, 0, 'user6', '$2y$10$rSAzv08D1E9yhu8JV4bCIOf2rV6wwt5BP0ZKWiCpw.uKRRVGZ56ei');
 
-        INSERT INTO `lobbies` (`lobby_id`, `owned_by`, `free_slots`, `url`, `created`, `modified`, `microphone_req`, `min_age`, `teamspeak_req`, `rank_to`, `rank_from`, `min_playtime`, `language`, `min_upvotes`, `max_downvotes`) VALUES
-        (1, 1, 4, 'test', NULL, NULL, 0, NULL, 0, 'global_elite', 'legendary_eagle', 1000, 'de', NULL, NULL),
-        (2, 2, 4, 'test2', NULL, NULL, 0, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL),
-        (12, 3, 4, 'asasgga', '2016-10-25 13:45:21', '2016-10-25 13:45:21', 0, NULL, 0, '', '', NULL, 'language', NULL, NULL),
-        (13, 4, 4, 'tw gw', '2016-10-25 13:47:30', '2016-10-25 13:47:30', 0, NULL, 0, '', '', NULL, 'language', NULL, NULL);
+        INSERT INTO `lobbies` (`lobby_id`, `owned_by`, `free_slots`, `url`, `created`, `modified`, `microphone_req`, `min_age`, `teamspeak_req`, `rank_to`, `rank_from`, `min_playtime`, region, `language`, `min_upvotes`, `max_downvotes`) VALUES
+        (1, 1, 4, 'test', NULL, NULL, 1, 12, 0, '18', '16', 1000, 'EU', 'de', 0, 0),
+        (2, 2, 4, 'test2', NULL, NULL, 0, 18, 0, '18', '10', 500, 'EU', 'de', 0, 0),
+        (3, 3, 4, 'test3', NULL, NULL, 1, 12, 1, '17', '1', 0, 'NA', 'de', 0, 0),
+        (4, 4, 4, 'test4', NULL, NULL, 0, 12, 0, '18', '16', 1000, 'EU', 'de', 0, 0),
+        (5, 5, 4, 'test5', NULL, NULL, 1, 12, 0, '18', '16', 1100, 'EU', 'en', 0, 0),
+        (6, 1, 4, 'test6', NULL, NULL, 0, 12, 0, '18', '16', 1500, 'EU', 'de', 0, 0),
+        (7, 1, 4, 'test7', NULL, NULL, 1, 12, 0, '18', '16', 1200, 'EU', 'de', 0, 0),
+        (8, 2, 4, 'test8', NULL, NULL, 0, 100, 0, '18', '16', 1000, 'EU', 'de', 0, 0);
 
 
         INSERT INTO `lobbies_users` (lobby_id, user_id) VALUES (1,1);

@@ -13,7 +13,7 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-$cakeDescription = 'CakePHP: the rapid development php framework';
+$cakeDescription = 'CS-Community: Find the best teammates ever!';
 ?>
 <!DOCTYPE html>
 <html>
@@ -32,12 +32,16 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
+    <?= $this->Html->script('https://code.jquery.com/jquery-3.1.1.min.js"
+                             			  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+                             			  crossorigin="anonymous'); ?>
+    <?= $this->Html->script('jquery.infinite-scroll.js'); ?>
 </head>
 <body>
     <nav class="top-bar expanded" data-topbar role="navigation">
         <ul class="title-area large-3 medium-4 colmuns">
             <li class="name">
-                <h1><a href=""><?= $this->fetch('title') ?></a></h1>
+                <h1><?= $this->Html->link(__('CS-Community'), ['controller' => 'lobbies', 'action' => 'home', 'class' => 'logo']) ?></a></h1>
             </li>
         </ul>
         <section class="top-bar-section">

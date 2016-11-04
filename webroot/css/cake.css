@@ -470,12 +470,17 @@ table tr:nth-of-type(even) {
   color: #e1e1e1;
 }
 
+.lobbies .lobby_owner {
+    border: 1px solid #F6C861;
+}
+
 .lobbies .until {
   text-align: center;
 }
 
-.lobbies table thead tr {
-  border-bottom: 1px solid #1798A5;
+div.lobby-item {
+  border: 1px solid #6390a1;
+  margin-bottom: 10px;
 }
 
 .lobbies table tr th {
@@ -485,6 +490,20 @@ table tr:nth-of-type(even) {
   text-align: left;
   border-bottom: 2px solid #6390a1;
 }
+
+div.lobbies.new {
+  border: 1px solid #7CFF46;
+  border-radius: 40px;
+  background-color: #131A21;
+}
+
+.lobbies.new h2 {
+  /*kleiner, andere farbe*/
+  color: #66C0F4;
+  font-size: medium;
+  font-weight: bold;
+}
+
 
 /*.lobbies table tr:nth-of-type(even) {
   background: #0f151a;
@@ -511,6 +530,10 @@ fieldset legend {
 .form button:hover, .form button:focus {
   background: #BE840B;
   box-shadow: none;
+}
+
+div #expand {
+  display: none;
 }
 
 button {
@@ -575,7 +598,6 @@ div.message:before {
 
 .content {
   padding: 2rem;
-  margin:0 auto;
   margin-bottom: 0px !important;
   padding-bottom: 0px !important;
   background-image: url("http://steamcommunity-a.akamaihd.net/public/images/profile/profile_subpage_column_bottom.png?v=1"), url("http://steamcommunity-a.akamaihd.net/public/images/profile/profile_subpage_column.png?v=1");
@@ -604,5 +626,7 @@ div.message:before {
   margin-bottom: 10px;
   border-bottom: 0px;
 }
+
+
 
 

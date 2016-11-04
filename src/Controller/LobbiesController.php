@@ -3,6 +3,8 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Event\Event;
+use Cake\Cache\Cache;
+use Cake\Log\Log;
 
 /**
  * Lobbies Controller
@@ -12,26 +14,95 @@ use Cake\Event\Event;
 class LobbiesController extends AppController
 {
 
+    // view/edit/delete/index
+    //index: req
+    // edit/delete: own
+    //view: all
+    // join: only matching req.
+
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
         $this->Auth->allow();
     }
 
+
     /**
- * Index method
- *
- * @return \Cake\Network\Response|null
- */
+     * Add method
+     *
+     * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
+     *
+     * TODO make sure you can only add one at a  time
+     */
+    public function new($lobby)
+    {
+        $lobby = $this->Lobbies->patchEntity($lobby, $this->request->data);
+        $lobby->owned_by = $this->Auth->user('user_id');
+        if ($this->Lobbies->save($lobby)) {
+            $this->join($lobby->lobby_id);
+            $this->Flash->success(__('The lobby has been saved.'));
+
+            // start websocket stuff make sure req. data contains info about the topic
+            $context = new \ZMQContext();
+            $socket = $context->getSocket(\ZMQ::SOCKET_PUSH, 'PusherComponent');
+            $socket->connect("tcp://localhost:5555");
+            $socket->send(json_encode($this->request->data));
+            // end websocket stuff
+
+            return $this->redirect($this->referer());
+        } else {
+            $this->Flash->error(__('The lobby could not be saved. Please, try again.'));
+        }
+    }
+
+    /**
+     * Index method
+     *
+     * @return \Cake\Network\Response|null
+     *
+     * Shows all the lobbies matching with the users characteristics ()
+     */
     public function index()
     {
-        $this->paginate = [
+        $user_region = $this->Lobbies->Users->getRegionCode($this->Auth->user('user_id'));
+        $user_min_age = explode('-', $this->Auth->user('age_range'))[0];
 
-        ];
-        $lobbies = $this->paginate($this->Lobbies);
+        $ranks = $this->Lobbies->Users->Ranks->find('list');
+        $ages = [12, 14, 16, 18, 20];
 
-        $this->set(compact('lobbies'));
+        $lobby = $this->Lobbies->newEntity();
+        if ($this->request->is('post')) {
+            $this->new($lobby);
+        }
+        $languages = Cache::read('languages');
+        if ($languages === false) {
+            $languages = $this->Lobbies->Users->Countries->getLocalesOfContinent($user_region);
+            Cache::write('languages', $languages);
+        }
+
+        $this->set(compact('ages', 'ranks', 'lobby', 'languages'));
+
+        // TODO uncomment later on
+        $lobbies = $this->Lobbies->find()->where([
+            //'min_upvotes <=' => $this->Auth->user('upvotes'),
+            //'max_downvotes >=' => $this->Auth->user('downvotes'),
+            //'min_playtime <=' => $this->Auth->user('playtime'),
+            //'rank_from <=' => $this->Auth->user('rank'),
+            //'rank_to >=' => $this->Auth->user('rank'),
+            //'min_age <=' => $user_min_age,
+            //'region =' => $user_region
+        ])->contain(['Users']);
+        // test this!!
+        $show_no_mic_lobbies_only = $this->Auth->user('microphone') ? false : true;
+        if ($show_no_mic_lobbies_only) $lobbies->where(['microphone_req' => false]);
+        $show_no_teamspeak_lobbies_only = $this->Auth->user('teamspeak') ? false : true;
+        if ($show_no_teamspeak_lobbies_only) $lobbies->where(['teamspeak_req' => false]);
+
+        $lobbies = $this->paginate($lobbies);
+        $this->set(compact('lobbies', 'users'));
         $this->set('_serialize', ['lobbies']);
+
+
     }
 
     /**
@@ -67,39 +138,44 @@ class LobbiesController extends AppController
         $this->set('_serialize', ['lobby']);
     }
 
-    /**
-     * Add method
-     *
-     * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
-     */
-    public function add()
+    public function join($lobby_id)
     {
-        $lobby = $this->Lobbies->newEntity();
-        if ($this->request->is('post')) {
-            $lobby = $this->Lobbies->patchEntity($lobby, $this->request->data);
+        $lobby = $this->Lobbies->get($lobby_id);
+        if($lobby->free_slots == 0) {
+            $this->Flash->error(__('The lobby could not be saved. Please, try again.'));
+            return $this->redirect($this->referer());
+        }
+        $lobby_users = $this->Lobbies->Users->find()->where(['user_id' => $this->Auth->user('user_id')])->toArray();
+
+        if ($this->Lobbies->association('Users')->link($lobby, $lobby_users)) {
+            $lobby->free_slots = $lobby->free_slots - 1;
             if ($this->Lobbies->save($lobby)) {
                 $this->Flash->success(__('The lobby has been saved.'));
-
-                // start websocket stuff make sure req. data contains info about the topic
-                $context = new \ZMQContext();
-                $socket = $context->getSocket(\ZMQ::SOCKET_PUSH, 'PusherComponent');
-                $socket->connect("tcp://localhost:5555");
-                $socket->send(json_encode($this->request->data));
-                // end websocket stuff
-
-                return $this->redirect(['action' => 'index']);
+                // TODO spread mssg an alle lobbyguys und lösche aus indexliste aller
+                return $this->redirect($this->referer());
             } else {
                 $this->Flash->error(__('The lobby could not be saved. Please, try again.'));
+                return $this->redirect($this->referer());
             }
+
         }
-        $lobbies = $this->Lobbies->Lobbies->find('list', ['limit' => 200]);
-        $users = $this->Lobbies->Users->find('list', ['limit' => 200]);
-        $this->set(compact('lobby', 'lobbies', 'users'));
-        $this->set('_serialize', ['lobby']);
     }
 
-    public function join() {
+    public function leave($lobby_id)
+    {
+        $lobby = $this->Lobbies->get($lobby_id);
+        $lobby_users = $this->Lobbies->Users->find()->where(['user_id' => $this->Auth->user('user_id')])->toArray();
 
+        if ($this->Lobbies->association('Users')->unlink($lobby, $lobby_users)) {
+            $lobby->free_slots = $lobby->free_slots + 1;
+            if ($this->Lobbies->save($lobby)) {
+                $this->Flash->success(__('The lobby has been saved.'));
+                return $this->redirect($this->referer());
+            } else {
+                $this->Flash->error(__('The lobby could not be saved. Please, try again.'));
+                return $this->redirect($this->referer());
+            }
+        }
     }
 
     /**

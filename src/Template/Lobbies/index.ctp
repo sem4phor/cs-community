@@ -1,59 +1,95 @@
-<div class="lobbies index large-9 medium-8 columns content">
+<script src="http://autobahn.s3.amazonaws.com/js/autobahn.min.js"></script>
+<script>
+    var conn = new ab.Session('ws://localhost:8080',
+        function() {
+            conn.subscribe('language', function(topic, data) {
+                // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
+                console.log('New article published to category "' + topic + '" : ' + data.title);
+                location.reload(); // append neues db obj. wie? reload einen bestimmten div mit ajax,
+                // bei lobbys: neue immer oben
+            });
+        },
+        function() {
+            console.warn('WebSocket connection closed');
+        },
+        {'skipSubprotocolCheck': true}
+    );
+</script>
+
+
+
+<div class="lobbies index large-9 medium-8 columns medium-centered content">
+<div class='row'>
+<?= $this->element('new_lobby_form'); ?>
+<div>
     <h3><?= __('Lobbies') ?></h3>
-    <table cellpadding="0" cellspacing="0">
-        <thead>
-            <tr>
-                <th scope="col"><?= $this->Paginator->sort('lobby_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('owned_by') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('free_slots') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('url') ?></th>
+
+               <!-- <th scope="col"><?= $this->Paginator->sort(__('users')) ?></th>
                 <th scope="col"><?= $this->Paginator->sort('created') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('microphone_req') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('min_age') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('teamspeak_req') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('rank_to') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('rank_from') ?></th>
+                <th></th>
+                 <th scope="col"><?= $this->Paginator->sort('rank_to') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('min_playtime') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('language') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('min_upvotes') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('max_downvotes') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
-            </tr>
-        </thead>
-        <tbody>
+                <th scope="col"><?= __('Action') ?></th>-->
+
+        <div id='lobbies-list'>
             <?php foreach ($lobbies as $lobby): ?>
-            <tr>
-                <td><?= $lobby->has('lobby') ? $this->Html->link($lobby->lobby->lobby_id, ['controller' => 'Lobbies', 'action' => 'view', $lobby->lobby->lobby_id]) : '' ?></td>
-                <td><?= $this->Number->format($lobby->owned_by) ?></td>
-                <td><?= $this->Number->format($lobby->free_slots) ?></td>
-                <td><?= h($lobby->url) ?></td>
-                <td><?= h($lobby->created) ?></td>
-                <td><?= h($lobby->modified) ?></td>
-                <td><?= h($lobby->microphone_req) ?></td>
-                <td><?= $this->Number->format($lobby->min_age) ?></td>
-                <td><?= h($lobby->teamspeak_req) ?></td>
-                <td><?= h($lobby->rank_to) ?></td>
-                <td><?= h($lobby->rank_from) ?></td>
-                <td><?= $this->Number->format($lobby->min_playtime) ?></td>
-                <td><?= h($lobby->language) ?></td>
-                <td><?= $this->Number->format($lobby->min_upvotes) ?></td>
-                <td><?= $this->Number->format($lobby->max_downvotes) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $lobby->lobby_id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $lobby->lobby_id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $lobby->lobby_id], ['confirm' => __('Are you sure you want to delete # {0}?', $lobby->lobby_id)]) ?>
-                </td>
-            </tr>
+            <div class='lobby-item row'>
+                <div class='column large-2'>
+                    <?php $user_ids_of_lobby = []; ?>
+                    <?php foreach($lobby->users as $user): ?>
+                        <?php array_push($user_ids_of_lobby, $user->user_id); ?>
+                        <?php if ($user->user_id == $lobby->owned_by): ?>
+                            <?= $this->Html->image($user->avatar, ["alt" => 'steam avatar', "heigth" => '20', "width" => '20', 'url' => $user->profileurl, 'class' => 'lobby_owner']); ?>
+                        <?php else: ?>
+                            <?= $this->Html->image($user->avatar, ["alt" => 'steam avatar', "heigth" => '20', "width" => '20', 'url' => $user->profileurl]); ?>
+                        <?php endif; ?>
+                        <?= $this->Html->image('flags/'.$user->country_code.'.png', ["alt" => $user->country_code, "heigth" => '20', "width" => '20']); ?>
+                    <?php endforeach; ?>
+                </div>
+                <div class='column large-1'><?= h($lobby->created) ?></div>
+                <div class='column large-1'><?= h($lobby->modified) ?></div>
+                <div class='column large-1'>
+                    <?= $this->Html->image('microphone.png', ["alt" => 'microphone', "heigth" => '20', "width" => '20']); ?>
+                    <?= h($lobby->microphone_req) ? __('Yes') : __('No'); ?>
+                </div>
+                <div class='column large-1'><?= $this->Number->format($lobby->min_age) ?></div>
+                <div class='column large-1'><?= $this->Html->image('ranks/'.$lobby->rank_from.'.png', ["alt" => $lobby->rank_to]); ?></div>
+                <div class='until column large-11'>-</div>
+                <div class='column large-1'><?= $this->Html->image('ranks/'.$lobby->rank_to.'.png', ["alt" => $lobby->rank_to]); ?></div>
+                <div class='column large-1'><?= $this->Number->format($lobby->min_playtime) ?></div>
+                 <div class='column large-1'><?= $this->Html->image('flags/'.$lobby->language.'.png', ["alt" => $lobby->language]); ?></div>
+                <?php if(in_array($user['user_id'], $user_ids_of_lobby)): ?>
+                    <div class='column large-1'><?= $this->Html->link('Leave', ["action" => 'leave', $lobby->lobby_id]); ?></div>
+                 <?php else: ?>
+                        <div class='column large-1'><?= $this->Html->link('Join', ["action" => 'join', $lobby->lobby_id]); ?></div>
+                 <?php endif; ?>
+            </div>
             <?php endforeach; ?>
-        </tbody>
-    </table>
+
+    <script>
+      $(function(){
+        var $container = $('#lobbies-list');
+        $container.infinitescroll({
+          navSelector  : '.next',    // selector for the paged navigation
+          nextSelector : '.next a',  // selector for the NEXT link (to page 2)
+          itemSelector : '.lobby-item',     // selector for all items you'll retrieve
+          debug         : true,
+          dataType      : 'html',
+          loading: {
+              finishedMsg: 'No more lobbies to load!',
+            }
+          }
+        );
+      });
+    </script>
     <div class="paginator">
         <ul class="pagination">
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
             <?= $this->Paginator->next(__('next') . ' >') ?>
         </ul>
-        <p><?= $this->Paginator->counter() ?></p>
     </div>
 </div>

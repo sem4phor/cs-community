@@ -2076,12 +2076,12 @@ meta.foundation-mq-topbar {
 
 .top-bar .name h1 {
     line-height: 108px;
-    font-size: 1.0625rem;
+    font-size: 1.4rem;
     margin: 0
 }
 
 .top-bar .name h1 a {
-    font-weight: normal;
+    font-weight: bold;
     color: #fff;
     width: 75%;
     display: block;
