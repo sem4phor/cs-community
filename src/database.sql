@@ -367,6 +367,7 @@ INSERT INTO `ranks` (rank_id, abbr, img_path) VALUES
         prime_req BOOL DEFAULT false,
         min_age INT,
         teamspeak_req BOOL DEFAULT false,
+        teamspeak_ip VARCHAR(100) DEFAULT NULL,
         rank_from VARCHAR(20),
         rank_to VARCHAR(20),
         min_playtime INT,
