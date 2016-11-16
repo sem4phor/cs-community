@@ -84,13 +84,13 @@ class LobbiesController extends AppController
 
         $this->set(compact('ages', 'ranks', 'new_lobby', 'languages'));
 
-        Log::write('debug', $this->Lobbies->Users->get($this->Auth->user('user_id'))->Lobbies);
-        if (!$this->Lobbies->find()->contain(['Users' => function ($q) {return $q->where(['Users.user_id =' => $this->Auth->user('user_id')]);}])->isEmpty() ) {
-            $your_lobby = $this->Lobbies->get($this->Lobbies->Users->find()->contain(['Lobbies'])->where(['user_id =' => $this->Auth->user('user_id'), 'Lobbies.Users'])->toArray()[0]->lobbies[0]->lobby_id, ['contain' => 'Users']);
+      //  Log::write('debug', $this->Lobbies->Users->get($this->Auth->user('user_id'))->Lobbies);
+       // if (!$this->Lobbies->find()->contain(['Users' => function ($q) {return $q->where(['Users.user_id =' => $this->Auth->user('user_id')]);}])->isEmpty() ) {
+            //$your_lobby = $this->Lobbies->get($this->Lobbies->Users->find()->contain(['Lobbies'])->where(['user_id =' => $this->Auth->user('user_id'), 'Lobbies.Users'])->toArray()[0]->lobbies[0]->lobby_id, ['contain' => 'Users']);
             //$your_lobby = $this->Lobbies->find()->contain(['Users' => function ($q) {return $q->where(['Users.user_id =' => $this->Auth->user('user_id')]);}])->toArray()[0];
-            $is_own_lobby = $your_lobby->owned_by == $this->Auth->user('user_id');
-            $this->set(compact('your_lobby', 'is_own_lobby'));
-        }
+         //   $is_own_lobby = $your_lobby->owned_by == $this->Auth->user('user_id');
+           // $this->set(compact('your_lobby', 'is_own_lobby'));
+      //  }
         //
 
 
