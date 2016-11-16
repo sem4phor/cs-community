@@ -16,7 +16,7 @@
         <legend><?= __('Register User') ?></legend>
         <?php
             echo $this->Form->input('age_range');
-            echo $this->Form->input('rank');
+            echo $this->Form->input('rank_id');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

@@ -5,6 +5,8 @@ use App\Controller\AppController;
 use Cake\Event\Event;
 use Cake\Cache\Cache;
 use Cake\Log\Log;
+use React\ZMQ;
+use Cake\I18n\Time;
 
 /**
  * Lobbies Controller
@@ -13,12 +15,6 @@ use Cake\Log\Log;
  */
 class LobbiesController extends AppController
 {
-
-    // view/edit/delete/index
-    //index: req
-    // edit/delete: own
-    //view: all
-    // join: only matching req.
 
     public function beforeFilter(Event $event)
     {
@@ -44,11 +40,17 @@ class LobbiesController extends AppController
 
             // start websocket stuff make sure req. data contains info about the topic
             $context = new \ZMQContext();
-            $socket = $context->getSocket(\ZMQ::SOCKET_PUSH, 'PusherComponent');
+            $socket = $context->getSocket(\ZMQ::SOCKET_PUSH, 'Pusher');
             $socket->connect("tcp://localhost:5555");
+            $this->request->data['newLobby'] = 'topicValue';
+            $this->request->data['lobby_id'] = $this->Lobbies->find()->where(['owned_by =' => $this->Auth->user('user_id')])->toArray()[0]->lobby_id;
+            $this->request->data['owned_by'] = $this->Lobbies->Users->get($this->Auth->user('user_id'));
+
+            Log::write('debug', $this->request->data);
             $socket->send(json_encode($this->request->data));
             // end websocket stuff
 
+            // deny new as long as user has own lobby?
             return $this->redirect($this->referer());
         } else {
             $this->Flash->error(__('The lobby could not be saved. Please, try again.'));
@@ -70,9 +72,9 @@ class LobbiesController extends AppController
         $ranks = $this->Lobbies->Users->Ranks->find('list');
         $ages = [12, 14, 16, 18, 20];
 
-        $lobby = $this->Lobbies->newEntity();
+        $new_lobby = $this->Lobbies->newEntity();
         if ($this->request->is('post')) {
-            $this->new($lobby);
+            $this->new($new_lobby);
         }
         $languages = Cache::read('languages');
         if ($languages === false) {
@@ -80,7 +82,17 @@ class LobbiesController extends AppController
             Cache::write('languages', $languages);
         }
 
-        $this->set(compact('ages', 'ranks', 'lobby', 'languages'));
+        $this->set(compact('ages', 'ranks', 'new_lobby', 'languages'));
+
+        Log::write('debug', $this->Lobbies->Users->get($this->Auth->user('user_id'))->Lobbies);
+        if (!$this->Lobbies->find()->contain(['Users' => function ($q) {return $q->where(['Users.user_id =' => $this->Auth->user('user_id')]);}])->isEmpty() ) {
+            $your_lobby = $this->Lobbies->get($this->Lobbies->Users->find()->contain(['Lobbies'])->where(['user_id =' => $this->Auth->user('user_id'), 'Lobbies.Users'])->toArray()[0]->lobbies[0]->lobby_id, ['contain' => 'Users']);
+            //$your_lobby = $this->Lobbies->find()->contain(['Users' => function ($q) {return $q->where(['Users.user_id =' => $this->Auth->user('user_id')]);}])->toArray()[0];
+            $is_own_lobby = $your_lobby->owned_by == $this->Auth->user('user_id');
+            $this->set(compact('your_lobby', 'is_own_lobby'));
+        }
+        //
+
 
         // TODO uncomment later on
         $lobbies = $this->Lobbies->find()->where([
@@ -164,9 +176,24 @@ class LobbiesController extends AppController
     public function leave($lobby_id)
     {
         $lobby = $this->Lobbies->get($lobby_id);
-        $lobby_users = $this->Lobbies->Users->find()->where(['user_id' => $this->Auth->user('user_id')])->toArray();
+        $lobby_users = $this->Lobbies->Users->find()->where(['user_id' => $this->Auth->user('user_id')])->toArray();// müsste auch mit get($thisauthuserid) gehen
 
         if ($this->Lobbies->association('Users')->unlink($lobby, $lobby_users)) {
+            $lobby->free_slots = $lobby->free_slots + 1;
+            if ($this->Lobbies->save($lobby)) {
+                $this->Flash->success(__('The lobby has been saved.'));
+                return $this->redirect($this->referer());
+            } else {
+                $this->Flash->error(__('The lobby could not be saved. Please, try again.'));
+                return $this->redirect($this->referer());
+            }
+        }
+    }
+
+    public function kick($user_id) {
+        $lobby = $this->Lobbies->find()->where(['owned_by =' => $this->Auth->user('user_id')])->toArray()[0];
+
+        if ($this->Lobbies->association('Users')->unlink($lobby, $this->Lobbies->Users->get($user_id))) {
             $lobby->free_slots = $lobby->free_slots + 1;
             if ($this->Lobbies->save($lobby)) {
                 $this->Flash->success(__('The lobby has been saved.'));

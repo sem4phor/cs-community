@@ -81,13 +81,14 @@ class UsersController extends AppController
             $this->Flash->success(__('The User has been saved.'));
         } else {
             $this->Flash->error(__('The absence could not be saved. Please, try again.'));
-            return $this->redirect($this->Auth->logout());
+            return $this->redirect($this->logout());
         }
         return $user;
     }
 
     public function register($steam_id = null)
     {
+        Log::write('debug', 'reg');
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->data);

@@ -2,7 +2,7 @@
 <script>
     var conn = new ab.Session('ws://localhost:8080',
         function() {
-            conn.subscribe('language', function(topic, data) {
+            conn.subscribe('topicValue', function(topic, data) {
                 // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
                 console.log('New article published to category "' + topic + '" : ' + data.title);
                 location.reload(); // append neues db obj. wie? reload einen bestimmten div mit ajax,
