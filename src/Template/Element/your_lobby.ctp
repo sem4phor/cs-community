@@ -10,7 +10,7 @@
         <div class='row'>
             <?php foreach ($your_lobby->users as $user): ?>
                 <?php array_push($user_ids_of_lobby, $user->user_id); ?>
-                <?php if ($user->user_id == $your_lobby->owned_by): ?>
+                <?php if ($user->user_id == $your_lobby->owner_id): ?>
                     <?= $this->Html->image($user->avatar, ["alt" => 'steam avatar', "heigth" => '20', "width" => '20', 'url' => $user->profileurl, 'class' => 'lobby_owner']); ?>
                 <?php else: ?>
                     <?= $this->Html->image($user->avatar, ["alt" => 'steam avatar', "heigth" => '20', "width" => '20', 'url' => $user->profileurl]); ?>
@@ -40,11 +40,11 @@
         </div>
     </div>
     <div class='column medium-1'>
-        <?= $your_lobby->created; ?>
+        <?= $your_lobby->created->timeAgoInWords(); ?>
     </div>
     <div class='column medium-2'>
         <?php if ($is_own_lobby): ?>
-            <?= $this->Html->link('Delete', ["action" => 'delete', $your_lobby->lobby_id], ['class' => 'button']); ?>
+            <?= $this->Form->postLink('Delete', ["action" => 'delete', $your_lobby->lobby_id], ['class' => 'button']); ?>
         <?php else: ?>
             <?= $this->Html->link('Leave', ["action" => 'leave', $your_lobby->lobby_id], ['class' => 'button']); ?>
         <?php endif; ?>

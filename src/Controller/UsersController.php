@@ -5,6 +5,7 @@ use App\Controller\AppController;
 use Cake\Log\Log;
 use Cake\Core\Configure;
 use Cake\Event\Event;
+use Cake\Mailer\Email;
 
 /**
  * Users Controller
@@ -88,22 +89,23 @@ class UsersController extends AppController
 
     public function register($steam_id = null)
     {
-        Log::write('debug', 'reg');
-        $user = $this->Users->newEntity();
+        $reg_user = $this->Users->newEntity();
+        $ages = ['0-11', '12-15', '16-18', '19-30', '31-99'];
+        $ranks = $this->Users->Rank->find('list');
         if ($this->request->is('post')) {
-            $user = $this->Users->patchEntity($user, $this->request->data);
-            $user->steam_id = $steam_id;
-            if ($this->Users->save($user)) {
+            $reg_user = $this->Users->patchEntity($reg_user, $this->request->data);
+            $reg_user->steam_id = $steam_id;
+            if ($this->Users->save($reg_user)) {
                 $this->Flash->success(__('The user has been saved.'));
-                $user = $this->getUserData($user);
-                $this->Auth->setUser($user);
+                $user = $this->getUserData($reg_user);
+                $this->Auth->setUser($reg_user);
                 return $this->redirect($this->Auth->redirectUrl());
             } else {
                 $this->Flash->error(__('The user could not be saved. Please, try again.'));
             }
         }
-        $this->set(compact('user'));
-        $this->set('_serialize', ['user']);
+        $this->set(compact('reg_user', 'ranks', 'ages'));
+        $this->set('_serialize', ['reg_user']);
     }
 
     // adds steamdata to user
@@ -175,11 +177,11 @@ class UsersController extends AppController
      */
     public function view($id = null)
     {
-        $user = $this->Users->get($id, [
-            'contain' => []
+       $view_user = $this->Users->get($id, [
+            'contain' => ['Rank']
         ]);
 
-        $this->set('user', $user);
+        $this->set('view_user', $view_user);
         $this->set('_serialize', ['user']);
     }
 
@@ -192,19 +194,22 @@ class UsersController extends AppController
      */
     public function settings()
     {
-        $user = $this->Users->get($this->Auth->user('user_id'), [
+        $set_user = $this->Users->get($this->Auth->user('user_id'), [
             'contain' => []
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $user = $this->Users->patchEntity($user, $this->request->data);
-            if ($this->Users->save($user)) {
+            $set_user = $this->Users->patchEntity($set_user, $this->request->data);
+            if ($this->Users->save($set_user)) {
+                $this->Auth->setUser($set_user);
                 $this->Flash->success(__('The user has been saved.'));
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The user could not be saved. Please, try again.'));
             }
         }
-        $this->set(compact('user'));
+        $ages = ['0-11', '12-15', '16-18', '19-30', '31-99'];
+        $ranks = $this->Users->Rank->find('list');
+        $this->set(compact('set_user', 'ages', 'ranks'));
         $this->set('_serialize', ['user']);
     }
 

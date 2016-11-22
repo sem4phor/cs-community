@@ -13,7 +13,7 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-$cakeDescription = 'CS-Community: Find the best teammates ever!';
+$cakeDescription = 'CS-Community: Find the best teammates!';
 ?>
 <!DOCTYPE html>
 <html>
@@ -38,39 +38,51 @@ $cakeDescription = 'CS-Community: Find the best teammates ever!';
     <?= $this->Html->script('jquery.infinite-scroll.js'); ?>
 </head>
 <body>
-    <nav class="top-bar expanded" data-topbar role="navigation">
-        <ul class="title-area large-3 medium-4 colmuns">
-            <li class="name">
-                <h1><?= $this->Html->link(__('CS-Community'), ['controller' => 'lobbies', 'action' => 'home', 'class' => 'logo']) ?></a></h1>
-            </li>
+<nav class="top-bar" data-topbar role="navigation">
+    <ul class="title-area">
+        <li class="name" style="height:108px;width:238px;padding-top:15px;padding-bottom:15px;">
+            <?= $this->Html->image('logograuklein.png', ['alt' => 'logo']); ?>
+            <h3 style="color:#fff;text-align:center;font-weight:bold;">CS-Community</h3>
+        </li>
+    </ul>
+    <section class="top-bar-section">
+        <ul class="right">
+            <?php if (isset($user)): ?>
+                <li class='has-dropdown not-click'>
+                    <a href='#'><?= h($user->personaname) ?></a>
+                    <ul class="dropdown">
+                        <li> <?= $this->Html->link(__('Settings'), ['controller' => 'users', 'action' => 'settings']) ?></li>
+                        <li> <?= $this->Html->link(__('My Profile'), ['controller' => 'users', 'action' => 'view', $user->user_id]) ?></li>
+                        <li><?= $this->Html->link(__('Logout'), ['controller' => 'users', 'action' => 'logout']) ?></li>
+                        <li><a href="mailto:varappvr@gmail.com">Support</a></li>
+                    </ul>
+                </li>
+                <li><?= $this->Html->image($user->avatar, ['alt' => 'steam_avatar', 'url' => $user->profileurl]); ?></li>
+
+            <?php else: ?>
+                <li><?= $this->Html->image("http://cdn.steamcommunity.com/public/images/signinthroughsteam/sits_02.png", [
+                        "alt" => "Steam Login",
+                        'url' => ['controller' => 'Users', 'action' => 'login']]); ?>
+                </li>
+            <?php endif; ?>
         </ul>
-        <section class="top-bar-section">
-            <ul class="right">
-                <?php if (isset($user)): ?>
-                    <li class='has-dropdown not-click'><a href='#'> <?= h($user->steam_personaname) ?></a>
-                        <ul class="dropdown">
-                            <li > <?= $this->Html->link(__('Settings'), ['controller' => 'users','action' => 'settings']) ?></li>
-                            <li > <?= $this->Html->link(__('View Profile'), ['controller' => 'users','action' => 'view', $user['user_id']]) ?></li>
-                            <li><?= $this->Html->link(__('Logout'), ['controller' => 'users', 'action' => 'logout']) ?></li>
-                        </ul>
-                    </li>
-                    <li><?= $this->Html->image($user->steam_avatar, ['alt' => 'steam_avatar']); ?></li>
-                <?php else: ?>
-                   <li><?= $this->Html->image("http://cdn.steamcommunity.com/public/images/signinthroughsteam/sits_02.png", [
-                               "alt" => "Steam Login",
-                               'url' => ['controller' => 'Users', 'action' => 'login']]); ?>
-                   </li>
-
-                <?php endif; ?>
-            </ul>
-
-        </section>
-    </nav>
-    <?= $this->Flash->render() ?>
-    <section class="container clearfix">
-        <?= $this->fetch('content') ?>
+        <ul>
+            <!--div class="medium-8 columns medium-centered">
+                <div class="row">
+                    <div class="columns medium-3"><a href="#">First Link</a></div>
+                    <div class="columns medium-3"><a href="#">Second Link</a></div>
+                    <div class="columns medium-3"><a href="#">Third Link</a></div>
+                    <div class="columns medium-3"><a href="#">Fourth Link</a></div>
+                </div>
+            </div>
+        </ul-->
     </section>
-    <footer>
-    </footer>
+</nav>
+<?= $this->Flash->render() ?>
+<section class="container clearfix">
+    <?= $this->fetch('content') ?>
+</section>
+<footer>
+</footer>
 </body>
 </html>

@@ -45,11 +45,28 @@ class LobbiesTable extends Table
             'foreignKey' => 'lobby_id',
             'joinType' => 'INNER'
         ]);
-        $this->belongsToMany('Users', [
-            'foreignKey' => 'lobby_id',
-            'targetForeignKey' => 'user_id',
-            'joinTable' => 'lobbies_users'
+        $this->hasMany('Users', [
+            'foreignKey' => 'lobby_id' // other table
         ]);
+        $this->belongsTo('Owner', [
+            'className' => 'Users',
+            'foreignKey' => 'owner_id'// own table
+        ]);
+    }
+
+    public function isOwnedBy($absenceId, $userId)
+    {
+        //return $this->exists(['absence_id' => $absenceId, 'user_id' => $userId]);
+    }
+
+    public function rankFromHasToBeSmallerOrEqualToRankTo($value, array $context)
+    {
+        return $value <= $context['data']['rank_to'];
+    }
+
+    public function rankToHasToBeBiggerOrEqualToRankFrom($value, array $context)
+    {
+        return $value >= $context['data']['rank_from'];
     }
 
     /**
@@ -61,17 +78,49 @@ class LobbiesTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->integer('owned_by')
-            ->requirePresence('owned_by', 'create')
-            ->notEmpty('owned_by');
+            ->integer('owner_id')
+            ->requirePresence('owner_id', 'create')
+            ->notEmpty('owner_id');
 
         $validator
             ->integer('free_slots')
-            ->allowEmpty('free_slots');
+            ->requirePresence('free_slots', 'create')
+            ->add('free_slots', [
+                    'equalTo' => ['rule' => ['equalTo' => 4]]
+                ]);
 
         $validator
             ->requirePresence('url', 'create')
+            ->add('url', [
+                'validFormat' => ['rule' => ['custom', '/(steam:\/\/joinlobby\/[0-9]*\/[0-9]*\/[0-9]*)/i'],
+                'message' => __('Please enter a valid lobby url')
+                ]
+            ])
             ->notEmpty('url');
+
+        $validator
+            ->integer('rank_to')
+            ->requirePresence('rank_to', 'create')
+            ->add('rank_to', 'rankToHasToBeBiggerOrEqualToRankFrom', [
+                'rule' => 'rankToHasToBeBiggerOrEqualToRankFrom',
+                'message' => __('Ending rank has to be bigger or equal than the starting rank!'),
+                'provider' => 'table',
+            ])
+            ->notEmpty('rank_to');
+
+        $validator
+            ->integer('rank_from')
+            ->requirePresence('rank_from', 'create')
+            ->add('rank_from', 'rankFromHasToBeSmallerOrEqualToRankTo', [
+                'rule' => 'rankFromHasToBeSmallerOrEqualToRankTo',
+                'message' => __('Starting rank has to be lower or equal than the ending rank!'),
+                'provider' => 'table',
+            ])
+            ->notEmpty('rank_from');
+
+        $validator
+            ->requirePresence('language', 'create')
+            ->notEmpty('language');
 
         $validator
             ->boolean('microphone_req')
@@ -84,22 +133,14 @@ class LobbiesTable extends Table
         $validator
             ->boolean('teamspeak_req')
             ->allowEmpty('teamspeak_req');
+
         $validator
             ->boolean('prime_req')
             ->allowEmpty('prime_req');
 
         $validator
-            ->allowEmpty('rank_to');
-
-        $validator
-            ->allowEmpty('rank_from');
-
-        $validator
             ->integer('min_playtime')
             ->allowEmpty('min_playtime');
-
-        $validator
-            ->allowEmpty('language');
 
         $validator
             ->integer('min_upvotes')

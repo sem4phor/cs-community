@@ -33,9 +33,11 @@ class RanksTable extends Table
         parent::initialize($config);
 
         $this->table('ranks');
-        $this->displayField('rank_id');
+        $this->displayField('name');
         $this->primaryKey('rank_id');
-        $this->hasMany('Users');
+        $this->hasMany('Users', [
+            'foreignKey' => 'rank_id'
+        ]);
 
         $this->belongsTo('Ranks', [
             'foreignKey' => 'rank_id',

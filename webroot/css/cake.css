@@ -530,13 +530,13 @@ fieldset legend {
   box-shadow: none;
 }
 
-#language option, #rank_from option, #rank_to option {
+/*#language option, #rank_from option, #rank_to option {
   background-repeat: no-repeat;
   height: 37px;
   background-position: 50% center;
   background-size: 112px 37px;
   width: 112px;
-}
+}*/
 
 .form button:hover, .form button:focus {
   background: #BE840B;

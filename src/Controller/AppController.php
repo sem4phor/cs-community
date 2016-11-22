@@ -58,7 +58,7 @@ class AppController extends Controller
     
     public function beforeFilter(Event $event)
     {
-        $this->Auth->allow(['edit', 'delete','add', 'index', 'view', 'display']);
+        $this->Auth->allow();
     }
     
     public function isAuthorized($user)
@@ -69,7 +69,7 @@ class AppController extends Controller
         }
 
         // Default deny
-        return false;
+        return true;
     }
 
 

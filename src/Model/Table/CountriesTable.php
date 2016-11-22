@@ -50,11 +50,13 @@ public function getCountryCodesOfContinent($continent_code)
     return $country_codes_of_continent;
 }
 
+// returns locales of a continent, but every language only once.
 public function getLocalesOfContinent($continent_code) {
     $country_codes_of_continent = $this->getCountryCodesOfContinent($continent_code);
     $locales = [];
     foreach ($country_codes_of_continent as $key => $code) {
-        array_push($locales, $this->country_code_to_locale($code));
+        $locale = explode( '_', $this->country_code_to_locale($code))[0];
+        if ( !in_array($locale, $locales) ) $locales[$locale] = $locale;
     }
     return $locales;
 }
@@ -73,6 +75,7 @@ public function getLocalesOfContinent($continent_code) {
         // http://stackoverflow.com/questions/3191664/
         // list-of-all-locales-and-their-short-codes
         $locales = array('af-ZA',
+            'ca-AD',
             'am-ET',
             'ar-AE',
             'ar-BH',
@@ -103,7 +106,6 @@ public function getLocalesOfContinent($continent_code) {
             'br-FR',
             'bs-Cyrl-BA',
             'bs-Latn-BA',
-            'ca-ES',
             'co-FR',
             'cs-CZ',
             'cy-GB',
@@ -121,8 +123,12 @@ public function getLocalesOfContinent($continent_code) {
             'en-BZ',
             'en-CA',
             'en-GB',
+            'en-GG',
+            'en-GI',
             'en-IE',
+            'en-IM',
             'en-IN',
+            'en-JE',
             'en-JM',
             'en-MY',
             'en-NZ',
@@ -184,6 +190,8 @@ public function getLocalesOfContinent($continent_code) {
             'is-IS',
             'it-CH',
             'it-IT',
+            'it-SM',
+            'it-VA',
             'iu-Cans-CA',
             'iu-Latn-CA',
             'ja-JP',
@@ -210,6 +218,7 @@ public function getLocalesOfContinent($continent_code) {
             'ms-MY',
             'mt-MT',
             'nb-NO',
+            'nb-SJ',
             'ne-NP',
             'nl-BE',
             'nl-NL',
@@ -229,6 +238,7 @@ public function getLocalesOfContinent($continent_code) {
             'quz-PE',
             'rm-CH',
             'ro-RO',
+            'ro-MD',
             'ru-RU',
             'rw-RW',
             'sah-RU',
@@ -256,6 +266,7 @@ public function getLocalesOfContinent($continent_code) {
             'sr-Latn-RS',
             'sv-FI',
             'sv-SE',
+            'sv-AX',
             'sw-KE',
             'syr-SY',
             'ta-IN',

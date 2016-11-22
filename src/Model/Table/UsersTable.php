@@ -44,13 +44,13 @@ class UsersTable extends Table
         $this->belongsTo('Countries', [
             'foreignKey' => 'country_code'
         ]);
-        $this->belongsTo('Ranks', [
+        $this->belongsTo('Rank', [
+            'className' => 'Ranks',
             'foreignKey' => 'rank_id'
         ]);
-        $this->belongsToMany('Lobbies', [
-            'foreignKey' => 'user_id',
-            'targetForeignKey' => 'lobby_id',
-            'joinTable' => 'lobbies_users'
+        $this->belongsTo('Lobby', [
+            'className' => 'Lobbies',
+            'foreignKey' => 'lobby_id'// own table
         ]);
 
     }
@@ -105,6 +105,7 @@ class UsersTable extends Table
         $rules->add($rules->isUnique(['username']));
         $rules->add($rules->existsIn(['user_id'], 'Users'));
         $rules->add($rules->existsIn(['role_id'], 'Roles'));
+        $rules->add($rules->existsIn(['rank_id'], 'Rank'));
         return $rules;
     }
 }
