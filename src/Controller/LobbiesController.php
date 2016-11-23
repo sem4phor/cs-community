@@ -29,8 +29,9 @@ class LobbiesController extends AppController
      *
      * TODO make sure you can only add one at a  time
      */
-    public function new($lobby)
+    public function new()
     {
+        $lobby = $this->Lobbies->newEntity();
         $lobby = $this->Lobbies->patchEntity($lobby, $this->request->data);
         $lobby->owner_id = $this->Auth->user('user_id');
         $lobby->free_slots = 4;
@@ -71,19 +72,11 @@ class LobbiesController extends AppController
 
         // stuff for new lobby
         $new_lobby = $this->Lobbies->newEntity();
-        if ($this->request->is('post')) {
-            $this->new($new_lobby);
-        }
 
-        $ranks = $this->Lobbies->Users->Rank->find('list');
+        $this->loadModel('Ranks');
+        $ranks = $this->Ranks->find('list');
         $ages = [12, 14, 16, 18, 20];
         $languages = $this->Lobbies->Users->Countries->getLocalesOfContinent($user_region);
-
-        $rank_from = $this->Auth->user('rank_id');
-        $this->Auth->user('rank_id') - 2 >= 1 ?  $rank_from = $this->Auth->user('rank_id') - 2 : 1;
-
-        $rank_to = $this->Auth->user('rank_id');
-        $this->Auth->user('rank_id') + 2 <= 18 ?  $rank_to = $this->Auth->user('rank_id') + 2 : 18;
 
         $this->set(compact('ages', 'ranks', 'new_lobby', 'languages', 'rank_to', 'rank_from'));
 
@@ -95,20 +88,31 @@ class LobbiesController extends AppController
         }
 
         // stuff for index
-        // TODO uncomment later on
+        $filter = ['filter_prime_req' => 0,'filter_teamspeak_req' => 0, 'filter_microphone_req' => 0, 'filter_min_age' => 12, 'filter_rank_from' => 1, 'filter_rank_to' => 18, 'filter_language' => 'en', 'filter_min_playtime' => 0, 'filter_min_upvotes' => 0, 'filter_max_downvotes' => 50];
+        if ($this->request->is('post')) {
+            foreach ($this->request->data as $key => $value) {
+                if ($value!='') {
+                    $filter[$key] = $value;
+                }
+            }
+        }
+        // TODO uncomment later on, finde nur lobbies deren user so undsoviel srtunden/votes haben: andWhere( minupv =< userupv. ) oder nur in join abfragen?
         $lobbies = $this->Lobbies->find()->where([
-            //'min_upvotes <=' => $this->Auth->user('upvotes'),
-            //'max_downvotes >=' => $this->Auth->user('downvotes'),
-            //'min_playtime <=' => $this->Auth->user('playtime'),
-            //'rank_from <=' => $this->Auth->user('rank'),
-            //'rank_to >=' => $this->Auth->user('rank'),
-            //'min_age <=' => $user_min_age,
+            'min_upvotes <=' => $filter['filter_min_upvotes'],
+            'max_downvotes >=' => $filter['filter_max_downvotes'],
+            'min_playtime <=' => $filter['filter_min_playtime'],
+            'prime_req =' => $filter['filter_prime_req'],
+            'teamspeak_req =' => $filter['filter_teamspeak_req'],
+            'microphone_req =' => $filter['filter_microphone_req'],
+            'rank_from <=' => $filter['filter_rank_from'],
+            'rank_to >=' => $filter['filter_rank_to'],
+            'min_age <=' => $filter['filter_min_age'],
             //'region =' => $user_region,
             //'owner_id !=' => $this->Auth->user('user_id')
         ])->contain(['Users', 'Owner']);
 
         $lobbies = $this->paginate($lobbies);
-        $this->set(compact('lobbies'));
+        $this->set(compact('lobbies', 'filter'));
         $this->set('_serialize', ['lobbies']);
 
 

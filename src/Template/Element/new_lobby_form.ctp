@@ -1,5 +1,5 @@
 <div class="row lobbies new medium-centered">
-    <?= $this->Form->create($new_lobby) ?>
+    <?= $this->Form->create($new_lobby, ['url' => ['action' => 'new']]) ?>
     <fieldset>
         <div class='row' ?>
             <div class="medium-11 columns">
@@ -19,11 +19,11 @@
         </div>
         <div class='row' ?>
             <div class="medium-2 columns">
-                <?= $this->Form->input('rank_from', ['default' => $rank_from, 'type' => 'select', 'options' => $ranks, 'onchange' => 'updateRankFromSelectBackground()']); ?>
+                <?= $this->Form->input('rank_from', ['default' => $filter['filter_rank_from'], 'type' => 'select', 'options' => $ranks, 'onchange' => 'updateRankFromSelectBackground()']); ?>
             </div>
             <div class="medium-1 columns"><?= '-' ?></div>
             <div class="medium-2 columns">
-                <?= $this->Form->input('rank_to', ['default' => $rank_to, 'type' => 'select', 'options' => $ranks, 'onchange' => 'updateRankToSelectBackground()']); ?>
+                <?= $this->Form->input('rank_to', ['default' =>  $filter['filter_rank_to'], 'type' => 'select', 'options' => $ranks, 'onchange' => 'updateRankToSelectBackground()']); ?>
             </div>
             <div class="medium-4 columns">
                 <?= $this->Form->input('prime_req'); ?>

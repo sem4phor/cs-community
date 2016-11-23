@@ -44,10 +44,6 @@ class UsersTable extends Table
         $this->belongsTo('Countries', [
             'foreignKey' => 'country_code'
         ]);
-        $this->belongsTo('Rank', [
-            'className' => 'Ranks',
-            'foreignKey' => 'rank_id'
-        ]);
         $this->belongsTo('Lobby', [
             'className' => 'Lobbies',
             'foreignKey' => 'lobby_id'// own table
@@ -70,8 +66,6 @@ class UsersTable extends Table
         $validator
             ->allowEmpty('country_code');
 
-        $validator
-            ->allowEmpty('age_range');
 
         $validator
             ->allowEmpty('rank');
@@ -83,12 +77,6 @@ class UsersTable extends Table
         $validator
             ->add('downvotes', 'valid', ['rule' => 'numeric'])
             ->allowEmpty('downvotes');
-
-        $validator
-            ->allowEmpty('username');
-
-        $validator
-            ->allowEmpty('password');
 
         return $validator;
     }
@@ -102,10 +90,8 @@ class UsersTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->isUnique(['username']));
         $rules->add($rules->existsIn(['user_id'], 'Users'));
         $rules->add($rules->existsIn(['role_id'], 'Roles'));
-        $rules->add($rules->existsIn(['rank_id'], 'Rank'));
         return $rules;
     }
 }

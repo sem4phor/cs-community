@@ -35,9 +35,6 @@ class RanksTable extends Table
         $this->table('ranks');
         $this->displayField('name');
         $this->primaryKey('rank_id');
-        $this->hasMany('Users', [
-            'foreignKey' => 'rank_id'
-        ]);
 
         $this->belongsTo('Ranks', [
             'foreignKey' => 'rank_id',

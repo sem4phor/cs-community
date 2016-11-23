@@ -8,34 +8,48 @@
 
 
 <div class="lobbies index medium-8 columns medium-centered content">
-    <?php if(isset($your_lobby)): ?>
-            <?= $this->element('your_lobby'); ?>
+    <?php if (isset($your_lobby)): ?>
+        <?= $this->element('your_lobby'); ?>
     <?php else: ?>
-            <?= $this->element('new_lobby_form'); ?>
+        <?= $this->element('new_lobby_form'); ?>
     <?php endif; ?>
 
     <div class='row' style="margin-top:20px;"><h3><?= __('Lobbies') ?></h3></div>
-    <!-- div class='row'>
-        <div class="column medium-1"><?= $this->Paginator->sort('language') ?></div>
-        <div class="column medium-2"><?= $this->Paginator->sort(__('users')) ?></div>
-        <div class="column medium-2"><?= $this->Paginator->sort('rank_from') ?></div>
-        <div class="column medium-2"><?= $this->Paginator->sort('rank_to') ?></div>
-        <div class="column medium-1 right"><?= __('Action') ?></div>
-        <div class="column medium-1 right"><?= $this->Paginator->sort('created') ?></div>
-    </div -->
+
+    <div class="row">
+        <?= $this->Form->create('Filter'); ?>
+        <div class="columns medium-1"> <?= $this->Form->input('filter_prime_req', ['type' => 'checkbox']); ?></div>
+        <div class="columns medium-1"><?= $this->Form->input('filter_teamspeak_req', ['type' => 'checkbox']); ?></div>
+        <div class="columns medium-1"> <?= $this->Form->input('filter_microphone_req', ['type' => 'checkbox']); ?></div>
+        <div
+            class="columns medium-1"> <?= $this->Form->input('filter_min_age', ['type' => 'number', 'value' => $filter['filter_min_age']]); ?></div>
+        <div class="columns medium-2"> <?= $this->Form->input('filter_rank_from'); ?></div>
+        <div class="columns medium-2"> <?= $this->Form->input('filter_rank_to'); ?></div>
+        <div class="columns medium-1"> <?= $this->Form->input('filter_language'); ?></div>
+        <div
+            class="columns medium-1"> <?= $this->Form->input('filter_min_playtime', ['type' => 'number', 'value' => $filter['filter_min_playtime']]); ?></div>
+        <div
+            class="columns medium-1"> <?= $this->Form->input('filter_min_upvotes', ['type' => 'number', 'value' => $filter['filter_min_upvotes']]); ?></div>
+        <div
+            class="columns medium-1"> <?= $this->Form->input('filter_max_downvotes', ['type' => 'number', 'value' => $filter['filter_max_downvotes']]); ?></div>
+    </div><div class="row">
+        <?= $this->Form->button('submit'); ?>
+        <?= $this->Form->end(); ?>
+    </div>
     <div id='lobbies-list'>
         <?php foreach ($lobbies as $lobby): ?>
             <div class='lobby-item row'>
-                <div class='column medium-1'><?= $this->Html->image('flags/' . $lobby->language . '.png', ["alt" => $lobby->language]); ?></div>
+                <div
+                    class='column medium-1'><?= $this->Html->image('flags/' . $lobby->language . '.png', ["alt" => $lobby->language]); ?></div>
                 <div class='column medium-2'>
                     <?php $lobby_user_ids_of_lobby = []; ?>
                     <div class='row'>
                         <?= $this->Html->image($lobby->owner->avatar, ["alt" => 'steam avatar', "heigth" => '20', "width" => '20', 'url' => $lobby->owner->profileurl, 'class' => 'lobby_owner']); ?>
                         <?php foreach ($lobby->users as $lobby_user): ?>
-                            <?php if( $lobby_user->user_id != $lobby->owner->user_id): ?>
+                            <?php if ($lobby_user->user_id != $lobby->owner->user_id): ?>
                                 <?php array_push($lobby_user_ids_of_lobby, $lobby_user->user_id); ?>
                                 <?= $this->Html->image($lobby_user->avatar, ["alt" => 'steam avatar', "heigth" => '20', "width" => '20', 'url' => $lobby_user->profileurl]); ?>
-                                <?php endif; ?>
+                            <?php endif; ?>
                         <?php endforeach; ?>
                     </div>
                     <div class='row'>

@@ -90,7 +90,6 @@ class UsersController extends AppController
     public function register($steam_id = null)
     {
         $reg_user = $this->Users->newEntity();
-        $ages = ['0-11', '12-15', '16-18', '19-30', '31-99'];
         $ranks = $this->Users->Rank->find('list');
         if ($this->request->is('post')) {
             $reg_user = $this->Users->patchEntity($reg_user, $this->request->data);

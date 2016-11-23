@@ -332,7 +332,6 @@
         steam_id VARCHAR(255) UNIQUE,
         country_code CHAR(2),
         lobby_id INT UNSIGNED,
-        age_range VARCHAR(10),
         avatar VARCHAR(255),
         avatarmedium VARCHAR(255),
         avatarfull VARCHAR(255),
@@ -340,14 +339,12 @@
         profileurl VARCHAR(255),
         playtime INT,
         role_id INT UNSIGNED DEFAULT 1,
-        rank_id INT UNSIGNED,
         upvotes INT DEFAULT 0,
         downvotes INT DEFAULT 0,
         created DATETIME DEFAULT NULL,
         modified DATETIME DEFAULT NULL,
         FOREIGN KEY (country_code) REFERENCES countries(code),
         FOREIGN KEY (role_id) REFERENCES roles(role_id) ON DELETE CASCADE,
-        FOREIGN KEY (rank_id) REFERENCES ranks(rank_id) ON DELETE CASCADE,
         FOREIGN KEY (lobby_id) REFERENCES lobbies(lobby_id) ON DELETE SET NULL
         );
 
@@ -393,16 +390,16 @@ INSERT INTO `ranks` (rank_id, abbr, img_path, name) VALUES
         INSERT INTO `roles` (name) VALUES ('admin');
         INSERT INTO `roles` (name) VALUES ('mod');
 
-        INSERT INTO `users` (`user_id`, `steam_id`, `country_code`, `lobby_id`, `age_range`, `avatar`, `avatarmedium`, `avatarfull`, `personaname`, `profileurl`, `playtime`, `role_id`, `rank_id`, `upvotes`, `downvotes`, `created`) VALUES
-        (7, '76561198126151406', 'IN', NULL, '20-90', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_medium.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_full.jpg', 'Semaphor1', 'http://steamcommunity.com/id/stablestorage/', 900, 1, 17, 10, 100, NULL),
-        (3, '76561198126151405', 'CH', NULL, '20-90', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_medium.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_full.jpg', 'Semaphor2', 'http://steamcommunity.com/id/stablestorage/', 1402, 1, 5, 100, 10, NULL),
-        (4, '76561198126151404', 'GB', NULL, '20-90', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_medium.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_full.jpg', 'Semaphor3', 'http://steamcommunity.com/id/stablestorage/', 900, 1, 10, 10, 100, NULL),
-        (5, '76561198126151403', 'US', NULL, '20-90', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_medium.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_full.jpg', 'Semaphor4', 'http://steamcommunity.com/id/stablestorage/', 1402, 1, 11, 100, 10, NULL),
-        (6, '76561198126151402', 'DE', NULL, '20-90', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_medium.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_full.jpg', 'Semaphor5', 'http://steamcommunity.com/id/stablestorage/', 900, 1, 15, 10, 10, NULL);
+        INSERT INTO `users` (`user_id`, `steam_id`, `country_code`, `lobby_id`,`avatar`, `avatarmedium`, `avatarfull`, `personaname`, `profileurl`, `playtime`, `role_id`, `upvotes`, `downvotes`, `created`) VALUES
+        (7, '76561198126151406', 'IN', NULL, 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_medium.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_full.jpg', 'Semaphor1', 'http://steamcommunity.com/id/stablestorage/', 900, 1, 10, 100, NULL),
+        (3, '76561198126151405', 'CH', NULL, 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_medium.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_full.jpg', 'Semaphor2', 'http://steamcommunity.com/id/stablestorage/', 1402, 1, 100, 10, NULL),
+        (4, '76561198126151404', 'GB', NULL, 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_medium.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_full.jpg', 'Semaphor3', 'http://steamcommunity.com/id/stablestorage/', 900, 1, 10, 100, NULL),
+        (5, '76561198126151403', 'US', NULL, 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_medium.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_full.jpg', 'Semaphor4', 'http://steamcommunity.com/id/stablestorage/', 1402, 1, 100, 10, NULL),
+        (6, '76561198126151402', 'DE', NULL, 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_medium.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_full.jpg', 'Semaphor5', 'http://steamcommunity.com/id/stablestorage/', 900, 1,10, 10, NULL);
         /* Richtige Benutzer */
-        INSERT INTO `users` (`user_id`, `steam_id`, `country_code`, `age_range`, `avatar`, `avatarmedium`, `avatarfull`, `personaname`, `profileurl`, `playtime`, `role_id`, `rank_id`, `upvotes`, `downvotes`, `created`) VALUES
-        (1, '76561198179977039', 'DE', '22-24', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_medium.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_full.jpg', 'Semaphor', 'http://steamcommunity.com/profiles/76561198179977039/', 844, 1, 7, 0, 0, '2016-11-21 11:15:42'),
-        (2, '76561198126151407', 'DE', '20-90', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/63/63d693a3314bb3bfd579a5179dad3970d6ff5445.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/63/63d693a3314bb3bfd579a5179dad3970d6ff5445_medium.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/63/63d693a3314bb3bfd579a5179dad3970d6ff5445_full.jpg', 'Semaphor #1', 'http://steamcommunity.com/id/stablestorage/', 1457, 1, 5, 0, 0, '2016-11-21 11:32:28');
+        INSERT INTO `users` (`user_id`, `steam_id`, `country_code`, `avatar`, `avatarmedium`, `avatarfull`, `personaname`, `profileurl`, `playtime`, `role_id`, `upvotes`, `downvotes`, `created`) VALUES
+        (1, '76561198179977039', 'DE', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_medium.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_full.jpg', 'Semaphor', 'http://steamcommunity.com/profiles/76561198179977039/', 844, 1, 0, 0, '2016-11-21 11:15:42'),
+        (2, '76561198126151407', 'DE', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/63/63d693a3314bb3bfd579a5179dad3970d6ff5445.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/63/63d693a3314bb3bfd579a5179dad3970d6ff5445_medium.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/63/63d693a3314bb3bfd579a5179dad3970d6ff5445_full.jpg', 'Semaphor #1', 'http://steamcommunity.com/id/stablestorage/', 1457, 1, 0, 0, '2016-11-21 11:32:28');
 
         INSERT INTO `chat_messages` (sent_by, message) VALUES (1, 'Hi');
         INSERT INTO `chat_messages` (sent_by, message) VALUES (2, 'Hi there.');
