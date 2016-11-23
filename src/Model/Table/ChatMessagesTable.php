@@ -31,9 +31,13 @@ class ChatMessagesTable extends Table
 
         $this->addBehavior('Timestamp');
 
-        $this->belongsTo('Messages', [
+        $this->belongsTo('ChatMessages', [
             'foreignKey' => 'message_id',
             'joinType' => 'INNER'
+        ]);
+        $this->belongsTo('Sender', [
+            'className' => 'Users',
+            'foreignKey' => 'sent_by'// own table
         ]);
     }
 
@@ -46,7 +50,6 @@ class ChatMessagesTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->add('sent_by', 'valid', ['rule' => 'numeric'])
             ->requirePresence('sent_by', 'create')
             ->notEmpty('sent_by');
 
@@ -66,7 +69,7 @@ class ChatMessagesTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['message_id'], 'Messages'));
+        $rules->add($rules->existsIn(['message_id'], 'ChatMessages'));
         return $rules;
     }
 }

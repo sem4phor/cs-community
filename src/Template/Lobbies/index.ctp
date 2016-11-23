@@ -7,7 +7,11 @@
 <script src="http://localhost/cs-community/js/update-index.js"></script>
 
 
+<?= $this->element('chat'); ?>
 <div class="lobbies index medium-8 columns medium-centered content">
+
+
+
     <?php if (isset($your_lobby)): ?>
         <?= $this->element('your_lobby'); ?>
     <?php else: ?>

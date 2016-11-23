@@ -70,6 +70,11 @@ class LobbiesController extends AppController
         $user_region = $this->Lobbies->Users->getRegionCode($this->Auth->user('steam_id'));
         $user_min_age = explode('-', $this->Auth->user('age_range'))[0];
 
+        // chat stuff
+        $this->loadModel('ChatMessages');
+        $chatMessages = $this->ChatMessages->find()->contain(['Sender']);
+        $this->set(compact('chatMessages'));
+
         // stuff for new lobby
         $new_lobby = $this->Lobbies->newEntity();
 

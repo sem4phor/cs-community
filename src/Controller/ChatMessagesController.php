@@ -28,6 +28,26 @@ class ChatMessagesController extends AppController
     }
 
     /**
+     * New method
+     *
+     * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
+     */
+    public function new()
+    {
+        $chatMessage = $this->ChatMessages->newEntity();
+        $this->request->data['sent_by'] = $this->Auth->user('steam_id');
+        if ($this->request->is('post')) {
+            $chatMessage = $this->ChatMessages->patchEntity($chatMessage, $this->request->data);
+            if ($this->ChatMessages->save($chatMessage)) {
+                $this->Flash->success(__('The chat message has been saved.'));
+            } else {
+                $this->Flash->error(__('The chat message could not be saved. Please, try again.'));
+            }
+        }
+        return $this->redirect($this->referer());
+    }
+
+    /**
      * View method
      *
      * @param string|null $id Chat Message id.
