@@ -42,7 +42,7 @@ class UsersTable extends Table
             'foreignKey' => 'role_id'
         ]);
         $this->belongsTo('Countries', [
-            'foreignKey' => 'country_code'
+            'foreignKey' => 'loccountrycode'
         ]);
         $this->belongsTo('Lobby', [
             'className' => 'Lobbies',
@@ -64,7 +64,7 @@ class UsersTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->allowEmpty('country_code');
+            ->allowEmpty('loccountrycode');
 
 
         $validator

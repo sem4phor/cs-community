@@ -71,7 +71,7 @@ class UsersController extends AppController
         }
         // update DB
         $update_user = $this->Users->get($user['user_id']);
-        $update_user->country_code = $user['loccountrycode'];
+        $update_user->loccountrycode = $user['loccountrycode'];
         $update_user->avatar = $user['steam_avatar'];
         $update_user->avatarmedium = $user['steam_avatarmedium'];
         $update_user->avatarfull = $user['steam_avatarfull'];
@@ -90,26 +90,21 @@ class UsersController extends AppController
     public function register($steam_id = null)
     {
         $reg_user = $this->Users->newEntity();
-        $ranks = $this->Users->Rank->find('list');
-        if ($this->request->is('post')) {
-            $reg_user = $this->Users->patchEntity($reg_user, $this->request->data);
-            $reg_user->steam_id = $steam_id;
-            if ($this->Users->save($reg_user)) {
-                $this->Flash->success(__('The user has been saved.'));
-                $user = $this->getUserData($reg_user);
-                $this->Auth->setUser($reg_user);
-                return $this->redirect($this->Auth->redirectUrl());
-            } else {
-                $this->Flash->error(__('The user could not be saved. Please, try again.'));
-            }
+        $reg_user->steam_id = $steam_id;
+        if ($this->Users->save($reg_user)) {
+            $this->Flash->success(__('The user has been saved.'));
+            $user = $this->getUserData($reg_user);
+            $this->Auth->setUser($reg_user);
+            return $this->redirect($this->Auth->redirectUrl());
+        } else {
+            $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
-        $this->set(compact('reg_user', 'ranks', 'ages'));
-        $this->set('_serialize', ['reg_user']);
     }
 
-    // adds steamdata to user
-    // loccountrycode is set to false if not set
-    public function fetchSteamDataFromUser($user)
+// adds steamdata to user
+// loccountrycode is set to false if not set
+    public
+    function fetchSteamDataFromUser($user)
     {
         $url = file_get_contents("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=" . Configure::read('APIkey') . "&steamids=" . $user['steam_id']);
         $content = json_decode($url, true);
@@ -135,15 +130,17 @@ class UsersController extends AppController
         return $user;
     }
 
-    public function logout()
+    public
+    function logout()
     {
         session_unset();
         session_destroy();
         return $this->redirect($this->Auth->logout());
     }
 
-    // make sure you cant comend infinite
-    public function commend($user_id)
+// make sure you cant comend infinite
+    public
+    function commend($user_id)
     {
         $user = $this->Users->get($user_id);
         $user->upvotes += 1;
@@ -159,7 +156,8 @@ class UsersController extends AppController
      *
      * @return \Cake\Network\Response|null
      */
-    public function index()
+    public
+    function index()
     {
         $users = $this->paginate($this->Users);
 
@@ -174,9 +172,10 @@ class UsersController extends AppController
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
+    public
+    function view($id = null)
     {
-       $view_user = $this->Users->get($id, [
+        $view_user = $this->Users->get($id, [
             'contain' => ['Rank']
         ]);
 
@@ -191,7 +190,8 @@ class UsersController extends AppController
      * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function settings()
+    public
+    function settings()
     {
         $set_user = $this->Users->get($this->Auth->user('user_id'), [
             'contain' => []
@@ -219,7 +219,8 @@ class UsersController extends AppController
      * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function edit($id = null)
+    public
+    function edit($id = null)
     {
         $user = $this->Users->get($id, [
             'contain' => []
@@ -244,24 +245,24 @@ class UsersController extends AppController
      * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    // unexpected $this error
-  /*  public function ban($id = null)
-    {
-        $user = $this->Users->get($id, [
-            'contain' => []
-        ]);
-        $this->request->allowMethod(['post', 'delete']);
-            $user->role = 'blacklist';
-            if ($this->Users->save($user)) {
-                $this->Flash->success(__('The user has been banned.'));
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The user could not be saved. Please, try again.'));
-            }
-        }
-        $this->set(compact('user'));
-        $this->set('_serialize', ['user']);
-    }*/
+// unexpected $this error
+    /*  public function ban($id = null)
+      {
+          $user = $this->Users->get($id, [
+              'contain' => []
+          ]);
+          $this->request->allowMethod(['post', 'delete']);
+              $user->role = 'blacklist';
+              if ($this->Users->save($user)) {
+                  $this->Flash->success(__('The user has been banned.'));
+                  return $this->redirect(['action' => 'index']);
+              } else {
+                  $this->Flash->error(__('The user could not be saved. Please, try again.'));
+              }
+          }
+          $this->set(compact('user'));
+          $this->set('_serialize', ['user']);
+      }*/
 
     /**
      * Delete method
@@ -270,7 +271,8 @@ class UsersController extends AppController
      * @return \Cake\Network\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
+    public
+    function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
         $user = $this->Users->get($id);
