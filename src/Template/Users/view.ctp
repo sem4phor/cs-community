@@ -4,15 +4,7 @@
     <table class="vertical-table">
         <tr>
             <th scope="row"><?= __('Country Code') ?></th>
-            <td><?= h($view_user->country_code) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Age Range') ?></th>
-            <td><?= h($view_user->age_range) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Rank') ?></th>
-            <td><?= h($view_user->rank->name) ?></td>
+            <td><?= h($view_user->loccountrycode) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Username') ?></th>

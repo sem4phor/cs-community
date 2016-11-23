@@ -33,7 +33,7 @@ class LobbiesController extends AppController
     {
         $lobby = $this->Lobbies->newEntity();
         $lobby = $this->Lobbies->patchEntity($lobby, $this->request->data);
-        $lobby->owner_id = $this->Auth->user('user_id');
+        $lobby->owner_id = $this->Auth->user('steam_id');
         $lobby->free_slots = 4;
         if ($this->Lobbies->save($lobby)) {
             $this->join($lobby->lobby_id);
@@ -44,8 +44,8 @@ class LobbiesController extends AppController
             $socket = $context->getSocket(\ZMQ::SOCKET_PUSH, 'Pusher');
             $socket->connect("tcp://localhost:5555");
             $this->request->data['newLobby'] = 'topicValue';
-            $this->request->data['lobby_id'] = $this->Lobbies->Users->get($this->Auth->user('user_id'), ['contain' => 'Lobby'])->lobby_id;// test this
-            $this->request->data['owner_id'] = $this->Lobbies->Users->get($this->Auth->user('user_id'));
+            $this->request->data['lobby_id'] = $this->Lobbies->Users->get($this->Auth->user('steam_id'), ['contain' => 'Lobby'])->lobby_id;// test this
+            $this->request->data['owner_id'] = $this->Lobbies->Users->get($this->Auth->user('steam_id'));
 
             Log::write('debug', $this->request->data);
             $socket->send(json_encode($this->request->data));
@@ -67,7 +67,7 @@ class LobbiesController extends AppController
      */
     public function index()
     {
-        $user_region = $this->Lobbies->Users->getRegionCode($this->Auth->user('user_id'));
+        $user_region = $this->Lobbies->Users->getRegionCode($this->Auth->user('steam_id'));
         $user_min_age = explode('-', $this->Auth->user('age_range'))[0];
 
         // stuff for new lobby
@@ -81,9 +81,9 @@ class LobbiesController extends AppController
         $this->set(compact('ages', 'ranks', 'new_lobby', 'languages', 'rank_to', 'rank_from'));
 
         // stuff for own lobby
-        if ($this->Lobbies->Users->get($this->Auth->user('user_id'), ['contain' => 'Lobby'])->lobby != null) {
-            $your_lobby = $this->Lobbies->Users->get($this->Auth->user('user_id'), ['contain' => 'Lobby.Users'])->lobby;
-            $is_own_lobby = $your_lobby->owner_id == $this->Auth->user('user_id');
+        if ($this->Lobbies->Users->get($this->Auth->user('steam_id'), ['contain' => 'Lobby'])->lobby != null) {
+            $your_lobby = $this->Lobbies->Users->get($this->Auth->user('steam_id'), ['contain' => 'Lobby.Users'])->lobby;
+            $is_own_lobby = $your_lobby->owner_id == $this->Auth->user('steam_id');
             $this->set(compact('your_lobby', 'is_own_lobby'));
         }
 
@@ -108,7 +108,7 @@ class LobbiesController extends AppController
             'rank_to >=' => $filter['filter_rank_to'],
             'min_age <=' => $filter['filter_min_age'],
             //'region =' => $user_region,
-            //'owner_id !=' => $this->Auth->user('user_id')
+            //'owner_id !=' => $this->Auth->user('steam_id')
         ])->contain(['Users', 'Owner']);
 
         $lobbies = $this->paginate($lobbies);
@@ -158,7 +158,7 @@ class LobbiesController extends AppController
             $this->Flash->error(__('The lobby is full.'));
             return $this->redirect($this->referer());
         }
-        $user = $this->Lobbies->Users->get($this->Auth->user('user_id'));
+        $user = $this->Lobbies->Users->get($this->Auth->user('steam_id'));
         $user->lobby = $lobby;
         if ($this->Lobbies->Users->save($user)) {
             $lobby->free_slots = $lobby->free_slots - 1;
@@ -177,7 +177,7 @@ class LobbiesController extends AppController
     public function leave($lobby_id)
     {
         $lobby = $this->Lobbies->get($lobby_id);
-        $user = $this->Lobbies->Users->find()->where(['user_id' => $this->Auth->user('user_id')])->toArray();
+        $user = $this->Lobbies->Users->find()->where(['steam_id' => $this->Auth->user('steam_id')])->toArray();
 
         if ($this->Lobbies->association('Users')->unlink($lobby, $user)) {
             $lobby->free_slots = $lobby->free_slots + 1;
@@ -190,10 +190,10 @@ class LobbiesController extends AppController
         }
     }
 
-    public function kick($user_id)
+    public function kick($steam_id)
     {
-        $lobby = $this->Lobbies->find()->where(['owner_id =' => $this->Auth->user('user_id')])->toArray()[0];
-        $user = $this->Lobbies->Users->find()->where(['user_id' => $user_id])->toArray();
+        $lobby = $this->Lobbies->find()->where(['owner_id =' => $this->Auth->user('steam_id')])->toArray()[0];
+        $user = $this->Lobbies->Users->find()->where(['steam_id' => $steam_id])->toArray();
 
         if ($this->Lobbies->association('Users')->unlink($lobby, $user)) {
             $lobby->free_slots = $lobby->free_slots + 1;

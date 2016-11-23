@@ -51,8 +51,7 @@ $cakeDescription = 'CS-Community: Find the best teammates!';
                 <li class='has-dropdown not-click'>
                     <a href='#'><?= h($user->personaname) ?></a>
                     <ul class="dropdown">
-                        <li> <?= $this->Html->link(__('Settings'), ['controller' => 'users', 'action' => 'settings']) ?></li>
-                        <li> <?= $this->Html->link(__('My Profile'), ['controller' => 'users', 'action' => 'view', $user->user_id]) ?></li>
+                        <li> <?= $this->Html->link(__('My Profile'), ['controller' => 'users', 'action' => 'view', $user->steam_id]) ?></li>
                         <li><?= $this->Html->link(__('Logout'), ['controller' => 'users', 'action' => 'logout']) ?></li>
                         <li><a href="mailto:varappvr@gmail.com">Support</a></li>
                     </ul>

@@ -21,19 +21,6 @@ class UsersController extends AppController
         $this->Auth->allow();
     }
 
-    // TODO set steam variables
-    /*public function loginTest()
-    {
-        if ($this->request->is('post')) {
-            $user = $this->Auth->identify();
-            if ($user) {
-                $this->Auth->setUser($user);
-                return $this->redirect($this->Auth->redirectUrl());
-            }
-            $this->Flash->error(__('Invalid username or password, try again'));
-        }
-    }*/
-
     public function login()
     {
         $user = $this->Auth->identify();
@@ -70,7 +57,7 @@ class UsersController extends AppController
             return $this->redirect($this->Auth->logout());
         }
         // update DB
-        $update_user = $this->Users->get($user['user_id']);
+        $update_user = $this->Users->get($user['steam_id']);
         $update_user->loccountrycode = $user['loccountrycode'];
         $update_user->avatar = $user['steam_avatar'];
         $update_user->avatarmedium = $user['steam_avatarmedium'];
@@ -140,9 +127,9 @@ class UsersController extends AppController
 
 // make sure you cant comend infinite
     public
-    function commend($user_id)
+    function commend($steam_id)
     {
-        $user = $this->Users->get($user_id);
+        $user = $this->Users->get($steam_id);
         $user->upvotes += 1;
         if ($this->Users->save($user)) {
             return $this->redirect($this->Auth->redirectUrl());
@@ -176,41 +163,13 @@ class UsersController extends AppController
     function view($id = null)
     {
         $view_user = $this->Users->get($id, [
-            'contain' => ['Rank']
+            'contain' => []
         ]);
 
         $this->set('view_user', $view_user);
         $this->set('_serialize', ['user']);
     }
 
-    /**
-     * Settings method
-     *
-     * @param string|null $id User id.
-     * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
-     */
-    public
-    function settings()
-    {
-        $set_user = $this->Users->get($this->Auth->user('user_id'), [
-            'contain' => []
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $set_user = $this->Users->patchEntity($set_user, $this->request->data);
-            if ($this->Users->save($set_user)) {
-                $this->Auth->setUser($set_user);
-                $this->Flash->success(__('The user has been saved.'));
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The user could not be saved. Please, try again.'));
-            }
-        }
-        $ages = ['0-11', '12-15', '16-18', '19-30', '31-99'];
-        $ranks = $this->Users->Rank->find('list');
-        $this->set(compact('set_user', 'ages', 'ranks'));
-        $this->set('_serialize', ['user']);
-    }
 
     /**
      * Edit method

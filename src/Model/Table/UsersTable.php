@@ -30,12 +30,12 @@ class UsersTable extends Table
 
         $this->table('users');
         $this->displayField('name');
-        $this->primaryKey('user_id');
+        $this->primaryKey('steam_id');
 
         $this->addBehavior('Timestamp');
 
         $this->belongsTo('Users', [
-            'foreignKey' => 'user_id',
+            'foreignKey' => 'steam_id',
             'joinType' => 'INNER'
         ]);
         $this->belongsTo('Roles', [
@@ -52,7 +52,7 @@ class UsersTable extends Table
     }
 
     public function getRegionCode($user_id) {
-        return $this->find()->where(['user_id =' => $user_id])->contain(['Countries.Continents'])->toArray()[0]->country->continent->code;
+        return $this->find()->where(['steam_id =' => $user_id])->contain(['Countries.Continents'])->toArray()[0]->country->continent->code;
     }
 
     /**
@@ -90,7 +90,7 @@ class UsersTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['user_id'], 'Users'));
+        $rules->add($rules->existsIn(['steam_id'], 'Users'));
         $rules->add($rules->existsIn(['role_id'], 'Roles'));
         return $rules;
     }
