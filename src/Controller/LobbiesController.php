@@ -32,8 +32,8 @@ class LobbiesController extends AppController
     public function new()
     {
         $lobby = $this->Lobbies->newEntity();
+        $this->request->data['owner_id'] = $this->Auth->user('steam_id');
         $lobby = $this->Lobbies->patchEntity($lobby, $this->request->data);
-        $lobby->owner_id = $this->Auth->user('steam_id');
         $lobby->free_slots = 4;
         if ($this->Lobbies->save($lobby)) {
             $this->join($lobby->lobby_id);
@@ -79,7 +79,10 @@ class LobbiesController extends AppController
         $new_lobby = $this->Lobbies->newEntity();
 
         $this->loadModel('Ranks');
-        $ranks = $this->Ranks->find('list');
+        $ranks = $this->Ranks->find('list', [
+            'keyField' => 'rank_id',
+            'valueField' => 'name'
+        ]);
         $ages = [12, 14, 16, 18, 20];
         $languages = $this->Lobbies->Users->Countries->getLocalesOfContinent($user_region);
 
@@ -87,13 +90,13 @@ class LobbiesController extends AppController
 
         // stuff for own lobby
         if ($this->Lobbies->Users->get($this->Auth->user('steam_id'), ['contain' => 'Lobby'])->lobby != null) {
-            $your_lobby = $this->Lobbies->Users->get($this->Auth->user('steam_id'), ['contain' => 'Lobby.Users'])->lobby;
+            $your_lobby = $this->Lobbies->Users->get($this->Auth->user('steam_id'), ['contain' => ['Lobby.Users', 'Lobby.RankFrom', 'Lobby.RankTo']])->lobby;
             $is_own_lobby = $your_lobby->owner_id == $this->Auth->user('steam_id');
             $this->set(compact('your_lobby', 'is_own_lobby'));
         }
 
         // stuff for index
-        $filter = ['filter_prime_req' => 0,'filter_teamspeak_req' => 0, 'filter_microphone_req' => 0, 'filter_min_age' => 12, 'filter_rank_from' => 1, 'filter_rank_to' => 18, 'filter_language' => 'en', 'filter_min_playtime' => 0, 'filter_min_upvotes' => 0, 'filter_max_downvotes' => 50];
+        $filter = ['filter_prime_req' => 0,'filter_teamspeak_req' => 0, 'filter_microphone_req' => 0, 'filter_min_age' => 12, 'filter_user_rank' => 1, 'filter_language' => 'en', 'filter_min_playtime' => 0, 'filter_min_upvotes' => 0, 'filter_max_downvotes' => 50];
         if ($this->request->is('post')) {
             foreach ($this->request->data as $key => $value) {
                 if ($value!='') {
@@ -103,15 +106,15 @@ class LobbiesController extends AppController
         }
         // TODO uncomment later on, finde nur lobbies deren user so undsoviel srtunden/votes haben: andWhere( minupv =< userupv. ) oder nur in join abfragen?
         $lobbies = $this->Lobbies->find()->where([
-            'min_upvotes <=' => $filter['filter_min_upvotes'],
-            'max_downvotes >=' => $filter['filter_max_downvotes'],
+            //'min_upvotes <=' => $filter['filter_min_upvotes'],
+           /* 'max_downvotes >=' => $filter['filter_max_downvotes'],
             'min_playtime <=' => $filter['filter_min_playtime'],
             'prime_req =' => $filter['filter_prime_req'],
             'teamspeak_req =' => $filter['filter_teamspeak_req'],
-            'microphone_req =' => $filter['filter_microphone_req'],
-            'rank_from <=' => $filter['filter_rank_from'],
-            'rank_to >=' => $filter['filter_rank_to'],
-            'min_age <=' => $filter['filter_min_age'],
+            'microphone_req =' => $filter['filter_microphone_req'],*/
+            'rank_from <=' => $filter['filter_user_rank'],
+            'rank_to >=' => $filter['filter_user_rank'],
+           // 'min_age <=' => $filter['filter_min_age'],
             //'region =' => $user_region,
             //'owner_id !=' => $this->Auth->user('steam_id')
         ])->contain(['Users', 'Owner']);
@@ -119,8 +122,6 @@ class LobbiesController extends AppController
         $lobbies = $this->paginate($lobbies);
         $this->set(compact('lobbies', 'filter'));
         $this->set('_serialize', ['lobbies']);
-
-
     }
 
     /**

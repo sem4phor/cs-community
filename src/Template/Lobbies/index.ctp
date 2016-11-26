@@ -1,16 +1,11 @@
 <script src="http://autobahn.s3.amazonaws.com/js/autobahn.min.js"></script>
-<script
-    src="https://code.jquery.com/jquery-3.1.1.min.js"
-    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-    crossorigin="anonymous"></script>
+
 <script src="http://localhost/cs-community/js/jquery.infinite-scroll.js"></script>
 <script src="http://localhost/cs-community/js/update-index.js"></script>
 
 
 <?= $this->element('chat'); ?>
-<div class="lobbies index medium-8 columns medium-centered content">
-
-
+<div class="lobbies medium-7 columns content">
 
     <?php if (isset($your_lobby)): ?>
         <?= $this->element('your_lobby'); ?>
@@ -20,26 +15,6 @@
 
     <div class='row' style="margin-top:20px;"><h3><?= __('Lobbies') ?></h3></div>
 
-    <div class="row">
-        <?= $this->Form->create('Filter'); ?>
-        <div class="columns medium-1"> <?= $this->Form->input('filter_prime_req', ['type' => 'checkbox']); ?></div>
-        <div class="columns medium-1"><?= $this->Form->input('filter_teamspeak_req', ['type' => 'checkbox']); ?></div>
-        <div class="columns medium-1"> <?= $this->Form->input('filter_microphone_req', ['type' => 'checkbox']); ?></div>
-        <div
-            class="columns medium-1"> <?= $this->Form->input('filter_min_age', ['type' => 'number', 'value' => $filter['filter_min_age']]); ?></div>
-        <div class="columns medium-2"> <?= $this->Form->input('filter_rank_from'); ?></div>
-        <div class="columns medium-2"> <?= $this->Form->input('filter_rank_to'); ?></div>
-        <div class="columns medium-1"> <?= $this->Form->input('filter_language'); ?></div>
-        <div
-            class="columns medium-1"> <?= $this->Form->input('filter_min_playtime', ['type' => 'number', 'value' => $filter['filter_min_playtime']]); ?></div>
-        <div
-            class="columns medium-1"> <?= $this->Form->input('filter_min_upvotes', ['type' => 'number', 'value' => $filter['filter_min_upvotes']]); ?></div>
-        <div
-            class="columns medium-1"> <?= $this->Form->input('filter_max_downvotes', ['type' => 'number', 'value' => $filter['filter_max_downvotes']]); ?></div>
-    </div><div class="row">
-        <?= $this->Form->button('submit'); ?>
-        <?= $this->Form->end(); ?>
-    </div>
     <div id='lobbies-list'>
         <?php foreach ($lobbies as $lobby): ?>
             <div class='lobby-item row'>
@@ -101,6 +76,9 @@
     </div>
 </div>
 
+<?= $this->element('filter_options'); ?>
+
+
 <script>
     $(function () {
         var $container = $('#lobbies-list');
@@ -115,5 +93,101 @@
                 }
             }
         );
+    });
+</script>
+
+
+<script>
+    $(function () {
+        $.widget("custom.iconselectmenu", $.ui.selectmenu, {
+            _renderItem: function (ul, item) {
+                var li = $("<li>"),
+                    wrapper = $("<div>", {text: item.label});
+                if (item.disabled) {
+                    li.addClass("ui-state-disabled");
+                }
+                $("<span>", {
+                    style: item.element.attr("data-style"),
+                    "class": "ui-icon " + item.element.attr("data-class")
+                })
+                    .appendTo(wrapper);
+
+                return li.append(wrapper).appendTo(ul);
+            }
+        });
+    });
+
+    function updateSelectBackground(select_id, img_path, button_id) {
+        var sel_item = $(select_id+' option:selected').text();
+        console.log(sel_item);
+        console.log($(select_id+' option:selected').text());
+        console.log($(select_id+' option:selected').text());
+        $(button_id).css('background-image', 'url(\'' + img_path + sel_item + '.png\')');
+    }
+
+    function initImageSelector(select_id, img_path) {
+        $(select_id)
+            .iconselectmenu()
+            .iconselectmenu("menuWidget")
+            .addClass("ui-menu-icons avatar");
+        var options = $(select_id).children();
+
+        for (var x = 0; x < options.length; x++) {
+            options[x].setAttribute('data-class', 'avatar');
+            options[x].setAttribute('data-style', "background-image: url(\'" + img_path + options[x].innerHTML + ".png');");
+        }
+    }
+
+    $(document).ready(function () {
+        $('#expand').hide();
+        $('#expand_new_lobby').on('click', function() {
+            if ($('#expand').is(':hidden')) {
+                $('#expand').slideDown();
+                $('#expand_new_lobby').text('less options');
+            } else {
+                $('#expand').slideUp();
+                $('#expand_new_lobby').text('more options');
+            }
+        });
+
+        // filter selectors
+        initImageSelector('#filter-language', '/cs-community/webroot/img/flags/', '#filter-language-button');
+        initImageSelector('#filter-user-rank', '/cs-community/webroot/img/ranks/', '#filter-user-rank-button');
+        updateSelectBackground('#filter-language', '/cs-community/webroot/img/flags/', '#filter-language-button');
+        updateSelectBackground('#filter-user-rank', '/cs-community/webroot/img/ranks/', '#filter-user-rank-button');
+        $('#filter-language-menu').on('click', function () {
+            updateSelectBackground('#filter-language', '/cs-community/webroot/img/flags/', '#filter-language-button');
+        });
+        $('#filter-user-rank-menu').on('click', function () {
+            updateSelectBackground('#filter-user-rank', '/cs-community/webroot/img/ranks/', '#filter-user-rank-button');
+        });
+        // new lobby selectors
+        initImageSelector('#language', '/cs-community/webroot/img/flags/', '#language-button');
+        initImageSelector('#rank-from', '/cs-community/webroot/img/ranks/', '#rank-from-button');
+        initImageSelector('#rank-to', '/cs-community/webroot/img/ranks/', '#rank-to-button');
+        updateSelectBackground('#language', '/cs-community/webroot/img/flags/', '#language-button');
+        updateSelectBackground('#rank-from', '/cs-community/webroot/img/ranks/', '#rank-from-button');
+        updateSelectBackground('#rank-to', '/cs-community/webroot/img/ranks/', '#rank-to-button');
+        $('#language-menu').on('click', function () {
+            updateSelectBackground('#language', '/cs-community/webroot/img/flags/', '#language-button');
+        });
+        $('#rank-from-menu').on('click', function () {
+            var e1 = $('#rank-to');
+            var e2 = $('#rank-from');
+            if (parseInt(e1.val()) < parseInt(e2.val())) {
+                e1.val(e2.val());
+                updateSelectBackground('#rank-to', '/cs-community/webroot/img/ranks/', '#rank-to-button');
+            }
+            updateSelectBackground('#rank-from', '/cs-community/webroot/img/ranks/', '#rank-from-button');
+        });
+        $('#rank-to-menu').on('click', function () {
+            var e1 = $('#rank-from');
+            var e2 = $('#rank-to');
+            if (parseInt(e1.val()) > parseInt(e2.val())) {
+                e1.val(e2.val());
+                updateSelectBackground('#rank-from', '/cs-community/webroot/img/ranks/', '#rank-from-button');
+            }
+            updateSelectBackground('#rank-to', '/cs-community/webroot/img/ranks/', '#rank-to-button');
+        });
     });
 </script>

@@ -52,6 +52,16 @@ class LobbiesTable extends Table
             'className' => 'Users',
             'foreignKey' => 'owner_id'// own table
         ]);
+        $this->belongsTo('RankFrom', [
+            'className' => 'Ranks',
+            'propertyName' => 'RankFrom',
+            'foreignKey' => 'rank_from'// own table
+        ]);
+        $this->belongsTo('RankTo', [
+        'className' => 'Ranks',
+            'propertyName' => 'RankTo',
+        'foreignKey' => 'rank_to'// own table
+    ]);
     }
 
     public function isOwnedBy($absenceId, $userId)

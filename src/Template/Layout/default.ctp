@@ -32,10 +32,9 @@ $cakeDescription = 'CS-Community: Find the best teammates!';
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
-    <?= $this->Html->script('https://code.jquery.com/jquery-3.1.1.min.js"
-                             			  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-                             			  crossorigin="anonymous'); ?>
-    <?= $this->Html->script('jquery.infinite-scroll.js'); ?>
+    <?= $this->Html->script('https://code.jquery.com/jquery-3.1.1.min.js'); ?>
+    <?= $this->Html->script('http://code.jquery.com/ui/1.12.1/jquery-ui.min.js'); ?>
+    <?= $this->Html->css('http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css') ?>
 </head>
 <body>
 <nav class="top-bar" data-topbar role="navigation">

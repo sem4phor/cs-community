@@ -314,15 +314,17 @@
         min_age INT,
         teamspeak_req BOOL DEFAULT false,
         teamspeak_ip VARCHAR(100) DEFAULT NULL,
-        rank_from VARCHAR(20),
-        rank_to VARCHAR(20),
+        rank_from INT UNSIGNED,
+        rank_to INT UNSIGNED,
         min_playtime INT,
         region CHAR(2),
         language CHAR(6),
         min_upvotes INT DEFAULT NULL,
         max_downvotes INT DEFAULT NULL,
         users_count INT,
-        FOREIGN KEY (region) REFERENCES continents(code) ON DELETE CASCADE
+        FOREIGN KEY (region) REFERENCES continents(code) ON DELETE CASCADE,
+        FOREIGN KEY (rank_from) REFERENCES ranks(rank_id) ON DELETE CASCADE,
+        FOREIGN KEY (rank_to) REFERENCES ranks(rank_id) ON DELETE CASCADE
         );
 
 

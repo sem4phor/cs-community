@@ -40,6 +40,7 @@ class RanksTable extends Table
             'foreignKey' => 'rank_id',
             'joinType' => 'INNER'
         ]);
+
     }
 
     /**
