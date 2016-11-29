@@ -1,10 +1,15 @@
 var conn;
 conn = new ab.Session('ws://localhost:8080',
     function () {
-        conn.subscribe('topicValue', function (topic, data) {
+        conn.subscribe('new_chat_message', function(topic, data) {
             // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
-            console.log("New article published to category " + topic + ' : ' + data.title);
-
+            console.log('New chat message received');
+            console.log(data);
+        });
+        conn.subscribe('new_lobby', function (topic, data) {
+            // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
+            console.log('New lobby received');
+            console.log(data);
             // check if lobby should be displayed with user comparing lobby data
 
             var lobby_item = document.createElement("div");

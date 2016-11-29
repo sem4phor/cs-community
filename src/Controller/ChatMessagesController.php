@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Log\Log;
 
 /**
  * ChatMessages Controller
@@ -40,6 +41,13 @@ class ChatMessagesController extends AppController
             $chatMessage = $this->ChatMessages->patchEntity($chatMessage, $this->request->data);
             if ($this->ChatMessages->save($chatMessage)) {
                 $this->Flash->success(__('The chat message has been saved.'));
+                // start websocket stuff make sure req. data contains info about the topic
+                $context = new \ZMQContext();
+                $socket = $context->getSocket(\ZMQ::SOCKET_PUSH, 'Pusher');
+                $socket->connect("tcp://localhost:5555");
+                $this->request->data['chat'] = 'new_chat_message';
+                $socket->send(json_encode($this->request->data));
+                // end websocket stuff
             } else {
                 $this->Flash->error(__('The chat message could not be saved. Please, try again.'));
             }

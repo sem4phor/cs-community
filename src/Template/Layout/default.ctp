@@ -35,6 +35,10 @@ $cakeDescription = 'CS-Community: Find the best teammates!';
     <?= $this->Html->script('https://code.jquery.com/jquery-3.1.1.min.js'); ?>
     <?= $this->Html->script('http://code.jquery.com/ui/1.12.1/jquery-ui.min.js'); ?>
     <?= $this->Html->css('http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css') ?>
+
+    <?= $this->Html->script('http://autobahn.s3.amazonaws.com/js/autobahn.min.js'); ?>
+    <?= $this->Html->script('http://localhost/cs-community/js/jquery.infinite-scroll.js'); ?>
+    <?= $this->Html->script('/webroot/js/update-index.js'); ?>
 </head>
 <body>
 <nav class="top-bar" data-topbar role="navigation">

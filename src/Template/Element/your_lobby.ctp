@@ -49,27 +49,28 @@
                     <?= h($your_lobby->prime_req) ? __('Yes') : __('No'); ?>
                 </div>
                 <div class="row">
-                    <?= $this->Html->image('prime.png', ["alt" => 'prime', "heigth" => '20', "width" => '20']); ?>
-                    <?= h($your_lobby->prime_req) ? __('Yes') : __('No'); ?>
+                    <?= $this->Html->image('teamspeak.png', ["alt" => 'TS3', "heigth" => '20', "width" => '20']); ?>
+                    <?= h($your_lobby->teamspeak_req) ? __('Yes') : __('No'); ?>
                 </div>
             </div>
 
+
+            <div class='column medium-2'>
+                <?= $your_lobby->created->timeAgoInWords(); ?>
+            </div>
             <div class='column medium-2'>
                 <?php if ($is_own_lobby): ?>
-                    <?= $this->Form->postLink('Delete', ["action" => 'delete', $your_lobby->lobby_id], ['class' => 'radius button']); ?>
+                    <?= $this->Form->postLink('Delete', ["action" => 'delete', $your_lobby->lobby_id], ['class' => 'radius button small']); ?>
                 <?php else: ?>
                     <?= $this->Html->link('Leave', ["action" => 'leave', $your_lobby->lobby_id], ['class' => 'button']); ?>
                 <?php endif; ?>
             </div>
-            <div class='column medium-2'>
-                <?= $your_lobby->created->timeAgoInWords(); ?>
-            </div>
         </div>
         <div class="row">
+            <div class='column medium-3'><?= __('Min. Playtime: ') . h($your_lobby->min_playtime); ?></div>
             <div class='column medium-3'><?= __('Min. Age: ') . h($your_lobby->min_age); ?></div>
             <div class='column medium-3'><?= __('Min. Upvotes: ') . h($your_lobby->min_upvotes); ?></div>
             <div class='column medium-3'><?= __('Max. Downvotes: ') . h($your_lobby->max_downvotes); ?></div>
-            <div class='column medium-3'><?= __('Min. Playtime: ') . h($your_lobby->min_playtime); ?></div>
 
         </div>
     </div>

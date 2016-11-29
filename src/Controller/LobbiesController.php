@@ -43,11 +43,9 @@ class LobbiesController extends AppController
             $context = new \ZMQContext();
             $socket = $context->getSocket(\ZMQ::SOCKET_PUSH, 'Pusher');
             $socket->connect("tcp://localhost:5555");
-            $this->request->data['newLobby'] = 'topicValue';
+            $this->request->data['lobbies'] = 'new_lobby';
             $this->request->data['lobby_id'] = $this->Lobbies->Users->get($this->Auth->user('steam_id'), ['contain' => 'Lobby'])->lobby_id;// test this
             $this->request->data['owner_id'] = $this->Lobbies->Users->get($this->Auth->user('steam_id'));
-
-            Log::write('debug', $this->request->data);
             $socket->send(json_encode($this->request->data));
             // end websocket stuff
 
@@ -117,7 +115,7 @@ class LobbiesController extends AppController
            // 'min_age <=' => $filter['filter_min_age'],
             //'region =' => $user_region,
             //'owner_id !=' => $this->Auth->user('steam_id')
-        ])->contain(['Users', 'Owner']);
+        ])->contain(['Users', 'Owner', 'RankFrom', 'RankTo']);
 
         $lobbies = $this->paginate($lobbies);
         $this->set(compact('lobbies', 'filter'));
