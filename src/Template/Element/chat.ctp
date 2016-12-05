@@ -27,7 +27,7 @@
         </div>
         <div class="submit-message row">
             <div class="chat-message-input columns medium-8">
-                <?= $this->Form->create('ChatMessage', ['url' => ['controller' => 'ChatMessages', 'action' => 'new']]); ?>
+                <?= $this->Form->create('ChatMessage', ['type' => 'post', 'onsubmit' => 'return performPostRequest(this)', 'url' => ['controller' => 'ChatMessages', 'action' => 'new']]); ?>
                 <?= $this->Form->input('message', ['label' => false, 'width' => '10px']); ?>
             </div>
             <div class="chat-message-input columns medium-4">
@@ -37,3 +37,24 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    function performPostRequest(form) {
+        console.log(form);
+        parameters="";
+        for(var i=0;i<form.elements.length;i++) {
+            if(parameters!="")
+                parameters+="&";
+            if(form.elements[i].checked==true || !(form.elements[i].type=="radio" || form.elements[i].type=="checkbox"))
+                parameters+=form.elements[i].name+"="+encodeURIComponent(form.elements[i].value);
+        }
+
+        $.ajax({
+            url: form.action,
+            data: parameters,
+            type : 'POST',
+        });
+
+        return false;
+    };
+</script>
