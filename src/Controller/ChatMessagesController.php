@@ -37,17 +37,19 @@ class ChatMessagesController extends AppController
     {
         $chatMessage = $this->ChatMessages->newEntity();
         $this->request->data['sent_by'] = $this->Auth->user('steam_id');
+        $this->request->data['personaname'] = $this->Auth->user('personaname');
         if ($this->request->is('post')) {
             $chatMessage = $this->ChatMessages->patchEntity($chatMessage, $this->request->data);
             if ($this->ChatMessages->save($chatMessage)) {
                 $this->Flash->success(__('The chat message has been saved.'));
-                // start websocket stuff make sure req. data contains info about the topic
+                // websocket
                 $context = new \ZMQContext();
                 $socket = $context->getSocket(\ZMQ::SOCKET_PUSH, 'Pusher');
                 $socket->connect("tcp://localhost:5555");
                 $this->request->data['chat'] = 'new_chat_message';
+                //$this->request->data['last_sender'] = $this->ChatMessages->find()->order(['created' => 'DESC'])->toArray()[1]->sent_by;
                 $socket->send(json_encode($this->request->data));
-                // end websocket stuff
+                // end
             } else {
                 $this->Flash->error(__('The chat message could not be saved. Please, try again.'));
             }

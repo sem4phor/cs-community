@@ -3,37 +3,33 @@
     <div class="row">
         <h3><?= __('Your Lobby') ?></h3>
     </div>
-    <div class='lobby-item row'>
+    <div class='lobby-item row' id="<?= $your_lobby->lobby_id ?>">
         <div class="row">
             <div class='column medium-1'>
                 <?= $this->Html->image('flags/' . $your_lobby->language . '.png', ["alt" => $your_lobby->language]); ?>
             </div>
-            <div class='column medium-2'>
+            <div class='lobby-users-column column medium-2'>
                 <?php $steam_ids_of_lobby = []; ?>
-                <div class='row'>
-                    <?php foreach ($your_lobby->users as $lobby_user): ?>
-                        <?php if ($lobby_user->steam_id != $user->steam_id): ?>
-                            <?= $this->Html->image('kick.png', ["alt" => 'help button', "heigth" => '20', "width" => '20', "url" => '/users/kick/' . $lobby_user->steam_id]); ?>
-                        <?php endif; ?>
-                    <?php endforeach; ?>
-                </div>
-                <div class='row'>
-                    <?php foreach ($your_lobby->users as $lobby_user): ?>
-                        <?php array_push($steam_ids_of_lobby, $lobby_user->steam_id); ?>
-                        <?php if ($lobby_user->steam_id == $your_lobby->owner_id): ?>
-                            <?= $this->Html->image($lobby_user->avatar, ["alt" => 'steam avatar', "heigth" => '20', "width" => '20', 'url' => $lobby_user->profileurl, 'class' => 'lobby_owner']); ?>
-                        <?php else: ?>
-                            <?= $this->Html->image($lobby_user->avatar, ["alt" => 'steam avatar', "heigth" => '20', "width" => '20', 'url' => $lobby_user->profileurl]); ?>
-                        <?php endif; ?>
-
-                    <?php endforeach; ?>
-                </div>
-                <div class='row'>
-                    <?php foreach ($your_lobby->users as $lobby_user): ?>
-                        <?= $this->Html->image('flags/' . $lobby_user->loccountrycode . '.png', ["alt" => $lobby_user->loccountrycode, "heigth" => '20px', "width" => '20px']); ?>
-                    <?php endforeach; ?>
-                </div>
-
+                <?php foreach ($your_lobby->users as $lobby_user): ?>
+                    <div steam_id="<?php echo $lobby_user->steam_id ?>" class="lobby-user-column column medium-2">
+                        <div class="kick-row row">
+                            <?php if ($lobby_user->steam_id != $user->steam_id): ?>
+                                <?= $this->Html->image('kick.png', ["alt" => 'kick button', "heigth" => '20', "width" => '20', "url" => '/lobbies/kick/' . $lobby_user->steam_id]); ?>
+                            <?php endif; ?>
+                        </div>
+                        <div class="row">
+                            <?php array_push($steam_ids_of_lobby, $lobby_user->steam_id); ?>
+                            <?php if ($lobby_user->steam_id == $user->steam_id): ?>
+                                <?= $this->Html->image($user->avatar, ["alt" => 'steam avatar', "heigth" => '20', "width" => '20', 'url' => $user->profileurl, 'class' => 'lobby_owner']); ?>
+                            <?php else: ?>
+                                <?= $this->Html->image($lobby_user->avatar, ["alt" => 'steam avatar', "heigth" => '20', "width" => '20', 'url' => $lobby_user->profileurl]); ?>
+                            <?php endif; ?>
+                        </div>
+                        <div class="row">
+                            <?= $this->Html->image('flags/' . $lobby_user->loccountrycode . '.png', ["alt" => $lobby_user->loccountrycode, "heigth" => '20', "width" => '20']); ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
             </div>
             <div class='column medium-4'>
                 <?= $this->Html->image('ranks/' . $your_lobby->RankFrom->name . '.png', ["alt" => $your_lobby->RankFrom, "heigth" => '37px', "width" => '100px']); ?>
@@ -71,9 +67,6 @@
             <div class='column medium-3'><?= __('Min. Age: ') . h($your_lobby->min_age); ?></div>
             <div class='column medium-3'><?= __('Min. Upvotes: ') . h($your_lobby->min_upvotes); ?></div>
             <div class='column medium-3'><?= __('Max. Downvotes: ') . h($your_lobby->max_downvotes); ?></div>
-
         </div>
     </div>
-
-
 </div>

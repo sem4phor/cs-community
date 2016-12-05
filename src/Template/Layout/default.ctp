@@ -37,7 +37,7 @@ $cakeDescription = 'CS-Community: Find the best teammates!';
     <?= $this->Html->css('http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css') ?>
 
     <?= $this->Html->script('http://autobahn.s3.amazonaws.com/js/autobahn.min.js'); ?>
-    <?= $this->Html->script('http://localhost/cs-community/js/jquery.infinite-scroll.js'); ?>
+    <?= $this->Html->script('/webroot/js/jquery.infinite-scroll.js'); ?>
     <?= $this->Html->script('/webroot/js/update-index.js'); ?>
 </head>
 <body>
@@ -59,7 +59,7 @@ $cakeDescription = 'CS-Community: Find the best teammates!';
                         <li><a href="mailto:varappvr@gmail.com">Support</a></li>
                     </ul>
                 </li>
-                <li><?= $this->Html->image($user->avatar, ['alt' => 'steam_avatar', 'url' => $user->profileurl]); ?></li>
+                <li><?= $this->Html->image($user->avatar, ['alt' => 'steam_avatar', 'url' => $user->profileurl, 'id' => 'topbar-avatar', 'steam_id' => $user->steam_id]); ?></li>
 
             <?php else: ?>
                 <li><?= $this->Html->image("http://cdn.steamcommunity.com/public/images/signinthroughsteam/sits_02.png", [

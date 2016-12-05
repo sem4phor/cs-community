@@ -627,6 +627,13 @@ div.filter-options-container {
 
 }
 
+.lobby-user-column {
+  padding:0;
+  margin:0;
+  margin-right:5px;
+  float:left !important;
+}
+
 div.chat-message-container {
   height: 300px;
   overflow-y: scroll;

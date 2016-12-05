@@ -30,7 +30,6 @@ class Pusher implements WampServerInterface
         $entryData = json_decode($msg, true);
         if (array_key_exists($entryData['lobbies'], $this->subscribedTopics)) {
             $topic = $this->subscribedTopics[$entryData['lobbies']];
-            // re-send the data to all the clients subscribed to that category
             $topic->broadcast($entryData);
         } else
             if (array_key_exists($entryData['chat'], $this->subscribedTopics)) {

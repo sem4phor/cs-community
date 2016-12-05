@@ -1,5 +1,5 @@
 <?= $this->element('chat'); ?>
-<div class="lobbies medium-7 columns content">
+<div class="lobbies lobbies-index medium-7 columns content">
 
     <?php if (isset($your_lobby)): ?>
         <?= $this->element('your_lobby'); ?>
@@ -11,26 +11,28 @@
 
     <div id='lobbies-list'>
         <?php foreach ($lobbies as $lobby): ?>
-            <div class='lobby-item row'>
+            <div class='lobby-item row' id="<?= $lobby->lobby_id ?>">
                 <div class="row">
                     <div class='column medium-1'>
-                        <?= $this->Html->image('flags/' . $lobby->language . '.png', ["alt" => $lobby->language]); ?></div>
-                    <div class='column medium-2'>
-                        <?php $lobby_user_ids_of_lobby = []; ?>
-                        <div class='row'>
-                            <?= $this->Html->image($lobby->owner->avatar, ["alt" => 'steam avatar', "heigth" => '20', "width" => '20', 'url' => $lobby->owner->profileurl, 'class' => 'lobby_owner']); ?>
-                            <?php foreach ($lobby->users as $lobby_user): ?>
-                                <?php if ($lobby_user->user_id != $lobby->owner->user_id): ?>
-                                    <?php array_push($lobby_user_ids_of_lobby, $lobby_user->user_id); ?>
-                                    <?= $this->Html->image($lobby_user->avatar, ["alt" => 'steam avatar', "heigth" => '20', "width" => '20', 'url' => $lobby_user->profileurl]); ?>
-                                <?php endif; ?>
-                            <?php endforeach; ?>
-                        </div>
-                        <div class='row'>
-                            <?php foreach ($lobby->users as $lobby_user): ?>
-                                <?= $this->Html->image('flags/' . $lobby_user->country_code . '.png', ["alt" => $lobby_user->country_code, "heigth" => '20', "width" => '20']); ?>
-                            <?php endforeach; ?>
-                        </div>
+                        <?= $this->Html->image('flags/' . $lobby->language . '.png', ["alt" => $lobby->language]); ?>
+                    </div>
+                    <div class='lobby-users-column column medium-2'>
+                        <?php $lobby_steam_ids_of_lobby = []; ?>
+                        <?php foreach ($lobby->users as $lobby_user): ?>
+                            <div steam_id="<?php echo $lobby_user->steam_id ?>"                                 class="lobby-user-column column medium-2">
+                                <div class="row">
+                                    <?php array_push($lobby_steam_ids_of_lobby, $lobby_user->steam_id); ?>
+                                    <?php if ($lobby_user->steam_id == $lobby->owner->steam_id): ?>
+                                        <?= $this->Html->image($lobby->owner->avatar, ["alt" => 'steam avatar', "heigth" => '20', "width" => '20', 'url' => $lobby->owner->profileurl, 'class' => 'lobby_owner']); ?>
+                                    <?php else: ?>
+                                        <?= $this->Html->image($lobby_user->avatar, ["alt" => 'steam avatar', "heigth" => '20', "width" => '20', 'url' => $lobby_user->profileurl]); ?>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="row">
+                                    <?= $this->Html->image('flags/' . $lobby_user->loccountrycode . '.png', ["alt" => $lobby_user->loccountrycode, "heigth" => '20', "width" => '20']); ?>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
                     <div class='column medium-4'>
                         <?= $this->Html->image('ranks/' . $lobby->RankFrom->name . '.png', ["alt" => $lobby->rank_to]); ?>
@@ -54,9 +56,9 @@
                         <?= $lobby->created->timeAgoInWords(); ?>
                     </div>
                     <div class='column medium-2'>
-                        <?php if (($user['user_id'] == $lobby->owner_id)): ?>
+                        <?php if (($user['steam_id'] == $lobby->owner_id)): ?>
                             <?= $this->Form->postLink('Delete', ["action" => 'delete', $lobby->lobby_id], ['class' => 'button small radius']); ?>
-                        <?php elseif (in_array($user['user_id'], $lobby_user_ids_of_lobby)): ?>
+                        <?php elseif (in_array($user['steam_id'], $lobby_steam_ids_of_lobby)): ?>
                             <?= $this->Html->link('Leave', ["action" => 'leave', $lobby->lobby_id], ['class' => 'button small radius']); ?>
                         <?php else: ?>
                             <?= $this->Html->link('Join', ["action" => 'join', $lobby->lobby_id], ['class' => 'button small radius']); ?>
@@ -65,9 +67,9 @@
                 </div>
                 <div class='row'>
                     <div class='column medium-3'><?= __('Min. Playtime: ') . $lobby->min_playtime; ?></div>
-                    <div class='column medium-3'><?=  __('Min. Age: ') . $lobby->min_age; ?></div>
-                    <div class='column medium-3'><?=  __('Min. Upvotes: ') . $lobby->min_upvotes; ?></div>
-                    <div class='column medium-3'><?=  __('Max. Downvotes: ') . $lobby->max_downvotes; ?></div>
+                    <div class='column medium-3'><?= __('Min. Age: ') . $lobby->min_age; ?></div>
+                    <div class='column medium-3'><?= __('Min. Upvotes: ') . $lobby->min_upvotes; ?></div>
+                    <div class='column medium-3'><?= __('Max. Downvotes: ') . $lobby->max_downvotes; ?></div>
                 </div>
             </div>
         <?php endforeach; ?>
