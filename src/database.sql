@@ -305,7 +305,7 @@
         CREATE TABLE IF NOT EXISTS `lobbies` (
         lobby_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         owner_id VARCHAR(255) NOT NULL,
-        free_slots INT DEFAULT 4,
+        free_slots INT DEFAULT 5,
         url VARCHAR(255) NOT NULL UNIQUE,
         created DATETIME DEFAULT NULL,
         modified DATETIME DEFAULT NULL,

@@ -194,16 +194,16 @@ conn = new ab.Session('ws://localhost:8080',
             extended_settings.setAttribute("class", "row");
             var playtime_col = document.createElement("div");
             playtime_col.setAttribute("class", "column medium-3");
-            playtime_col.textContent = 'Min. Playtime: '+data.lobby.min_playtime;
+            playtime_col.textContent = 'Min. Playtime: ' + data.lobby.min_playtime;
             var min_age_col = document.createElement("div");
             min_age_col.setAttribute("class", "column medium-3");
-            min_age_col.textContent = 'Min. Age: '+data.lobby.min_age;
+            min_age_col.textContent = 'Min. Age: ' + data.lobby.min_age;
             var min_upvotes_col = document.createElement("div");
             min_upvotes_col.setAttribute("class", "column medium-3");
-            min_upvotes_col.textContent = 'Min. Upvotes: '+data.lobby.min_upvotes;
+            min_upvotes_col.textContent = 'Min. Upvotes: ' + data.lobby.min_upvotes;
             var max_downvotes_col = document.createElement("div");
             max_downvotes_col.setAttribute("class", "column medium-3");
-            max_downvotes_col.textContent = 'Max. Downvotes: '+data.lobby.max_downvotes;
+            max_downvotes_col.textContent = 'Max. Downvotes: ' + data.lobby.max_downvotes;
             extended_settings.appendChild(playtime_col);
             extended_settings.appendChild(min_age_col);
             extended_settings.appendChild(min_upvotes_col);
@@ -223,6 +223,9 @@ conn = new ab.Session('ws://localhost:8080',
         );
         conn.subscribe('lobby_delete', function (topic, data) {
             var current_user_id = document.getElementById('topbar-avatar').getAttribute('steam_id');
+            if (data.lobby.owner_id == current_user_id) {
+                return;
+            }
             data['lobby'].users.forEach(function (lobby_user) {
                 if (lobby_user.steam_id == current_user_id) {
                     alert('Your lobby has been deleted.');
@@ -248,6 +251,10 @@ conn = new ab.Session('ws://localhost:8080',
     },
     function () {
         console.warn('WebSocket connection closed');
-    },
-    {'skipSubprotocolCheck': true}
-);
+    }
+    ,
+    {
+        'skipSubprotocolCheck': true
+    }
+)
+;

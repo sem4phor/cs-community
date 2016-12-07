@@ -81,6 +81,7 @@ $cakeDescription = 'CS-Community: Find the best teammates!';
     </section>
 </nav>
 <?= $this->Flash->render() ?>
+<?= $this->Flash->render('auth') ?>
 <section class="container clearfix">
     <?= $this->fetch('content') ?>
 </section>

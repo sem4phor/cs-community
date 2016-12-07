@@ -64,9 +64,9 @@ class LobbiesTable extends Table
     ]);
     }
 
-    public function isOwnedBy($absenceId, $userId)
+    public function isOwnedBy($lobby_id, $steam_id)
     {
-        //return $this->exists(['absence_id' => $absenceId, 'user_id' => $userId]);
+        return $this->exists(['lobby_id' => $lobby_id, 'owner_id' => $steam_id]);
     }
 
     public function rankFromHasToBeSmallerOrEqualToRankTo($value, array $context)
@@ -96,7 +96,7 @@ class LobbiesTable extends Table
             ->integer('free_slots')
             ->requirePresence('free_slots', 'create')
             ->add('free_slots', [
-                    'equalTo' => ['rule' => ['equalTo' => 4]]
+                    'equalTo' => ['rule' => ['equalTo' => 5]]
                 ]);
 
         $validator

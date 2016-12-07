@@ -6,7 +6,7 @@
         <div id="chat-message-container" class="row chat-message-container">
             <?php $col_index = 0; ?>
             <?php $colors = ["#234567", "#CF142B", "#C5AC6A", "#5E9FB8", "#4CAF50", "#234567", "#CF142B", "#C5AC6A", "#5E9FB8", "#4CAF50"]; ?>
-            <?php $last_sender = null; ?>
+            <?php //$last_sender = null; ?>
             <?php foreach ($chatMessages as $chatMessage): ?>
                 <div class="row">
                     <?php
@@ -19,7 +19,7 @@
                         <?= h($chatMessage->sender->personaname) . ':' ?>
                         <?= h($chatMessage->message) ?>
                         <?php
-                        $last_sender = $chatMessage->sender->personaname;
+                        //$last_sender = $chatMessage->sender->personaname;
                         ?>
                     </div>
                 </div>
@@ -40,7 +40,6 @@
 
 <script type="text/javascript">
     function performPostRequest(form) {
-        console.log(form);
         parameters="";
         for(var i=0;i<form.elements.length;i++) {
             if(parameters!="")
@@ -52,9 +51,8 @@
         $.ajax({
             url: form.action,
             data: parameters,
-            type : 'POST',
+            type : 'POST'
         });
-
         return false;
-    };
+    }
 </script>

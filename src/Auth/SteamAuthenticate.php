@@ -30,7 +30,6 @@ class SteamAuthenticate extends BaseAuthenticate
     public function authenticate(Request $request, Response $response)
     {
         $openid = new \LightOpenID(Configure::read('domainname'));
-        Log::write('debug','auth');
         if (!$openid->mode) {
             $openid->identity = 'http://steamcommunity.com/openid';
             header('Location: ' . $openid->authUrl());

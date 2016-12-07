@@ -51,6 +51,10 @@ class UsersTable extends Table
 
     }
 
+    public function isPartOfLobby($lobby_id, $steam_id) {
+        return $this->exists(['steam_id' => $steam_id, 'lobby_id' => $lobby_id]);
+    }
+
     public function getRegionCode($user_id) {
         return $this->find()->where(['steam_id =' => $user_id])->contain(['Countries.Continents'])->toArray()[0]->country->continent->code;
     }
@@ -64,12 +68,12 @@ class UsersTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->allowEmpty('loccountrycode');
-
-
+            ->notEmpty('role_id');
         $validator
-            ->allowEmpty('rank');
-
+            ->notEmpty('loccountrycode');
+        $validator
+            ->add('playtime', 'valid', ['rule' => 'numeric'])
+            ->allowEmpty('playtime');
         $validator
             ->add('upvotes', 'valid', ['rule' => 'numeric'])
             ->allowEmpty('upvotes');
@@ -92,6 +96,7 @@ class UsersTable extends Table
     {
         $rules->add($rules->existsIn(['steam_id'], 'Users'));
         $rules->add($rules->existsIn(['role_id'], 'Roles'));
+        $rules->add($rules->existsIn(['lobby_id'], 'Lobby'));
         return $rules;
     }
 }

@@ -51,25 +51,26 @@ class AppController extends Controller
             'logoutRedirect' => [
                 'controller' => 'Lobbies',
                 'action' => 'home'
-            ]
+            ],
+            'authorize' => 'controller',
+            'authError' => 'You are not allowed to do this.'
         ]);
 
     }
     
     public function beforeFilter(Event $event)
     {
-        $this->Auth->allow();
+        $this->Auth->allow('home');
     }
     
     public function isAuthorized($user)
     {
         // Admin can access every action
-        if (isset($user['role']) && $user['role'] === 'admin') {
+        if (isset($user['role_id']) && $user['role_id'] === 2) {
             return true;
         }
-
         // Default deny
-        return true;
+        return false;
     }
 
 
