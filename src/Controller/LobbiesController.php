@@ -109,79 +109,73 @@ class LobbiesController extends AppController
      *
      * Shows all the lobbies matching with the users characteristics ()
      */
-    public function index()
-    {
-        $user_region = $this->Lobbies->Users->getRegionCode($this->Auth->user('steam_id'));
-
-        // load chat messages
-        $this->loadModel('ChatMessages');
-        $chatMessages = $this->ChatMessages->find('all', [
-            'order' => ['ChatMessages.created' => 'DESC']
-        ])->contain(['Sender']);
-        $this->set(compact('chatMessages'));
-
-        // stuff for new lobby
-        $new_lobby = $this->Lobbies->newEntity();
-        $this->loadModel('Ranks');
-        $ranks = $this->Ranks->find('list', [
-            'keyField' => 'rank_id',
-            'valueField' => 'name'
-        ]);
-        $ages = [12, 14, 16, 18, 20];
-        $languages = $this->Lobbies->Users->Countries->getLocalesOfContinent($user_region);
-        $this->set(compact('ages', 'ranks', 'new_lobby', 'languages'));
-
-        // own lobby
-        if ($this->Lobbies->Users->get($this->Auth->user('steam_id'))->lobby_id != null) {
-            //$your_lobby = $this->Lobbies->Users->get($this->Auth->user('steam_id'), ['contain' => ['Lobby.Users', 'Lobby.RankFrom', 'Lobby.RankTo']])->lobby;
-            $your_lobby = $this->Lobbies->get($this->Lobbies->Users->get($this->Auth->user('steam_id'))->lobby_id, ['contain' => ['Users', 'RankFrom', 'RankTo']]);
-            $is_own_lobby = $your_lobby->owner_id == $this->Auth->user('steam_id');
-            $this->set(compact('your_lobby', 'is_own_lobby'));
-        }
-
-        // index
-        $filter = ['filter_prime_req' => 0, 'filter_teamspeak_req' => 0, 'filter_microphone_req' => 0, 'filter_min_age' => 12, 'filter_user_rank' => 1, 'filter_language' => 'en', 'filter_min_playtime' => 0, 'filter_min_upvotes' => 0, 'filter_max_downvotes' => 50];
-        if ($this->request->is('post')) {
-            foreach ($this->request->data as $key => $value) {
-                if ($value != '') {
-                    $filter[$key] = $value;
-                }
-            }
-        }
-        // TODO uncomment later on, finde nur lobbies deren user so undsoviel srtunden/votes haben: andWhere( minupv =< userupv. ) oder nur in join abfragen?
-        $lobbies = $this->Lobbies->find()->where([
-            //'min_upvotes <=' => $filter['filter_min_upvotes'],
-            /* 'max_downvotes >=' => $filter['filter_max_downvotes'],
-             'min_playtime <=' => $filter['filter_min_playtime'],
-             'prime_req =' => $filter['filter_prime_req'],
-             'teamspeak_req =' => $filter['filter_teamspeak_req'],
-             'microphone_req =' => $filter['filter_microphone_req'],*/
-            'rank_from <=' => $filter['filter_user_rank'],
-            'rank_to >=' => $filter['filter_user_rank'],
-            // 'min_age <=' => $filter['filter_min_age'],
-            //'region =' => $user_region,
-            'owner_id !=' => $this->Auth->user('steam_id')
-        ])->contain(['Users', 'Owner', 'RankFrom', 'RankTo']);
-
-        $lobbies = $this->paginate($lobbies);
-        $this->set(compact('lobbies', 'filter'));
-        $this->set('_serialize', ['lobbies']);
-    }
-
-    /**
-     * Display method
-     *
-     * @return \Cake\Network\Response|null
-     */
     public function home()
     {
-        $this->paginate = [
-            'contain' => ['Users']
-        ];
-        $lobbies = $this->paginate($this->Lobbies);
+        if ($this->Auth->user() === null) {
+            $this->paginate = [
+                'contain' => ['Users', 'RankTo', 'RankFrom', 'Owner']
+            ];
+            $lobbies = $this->paginate($this->Lobbies);
 
-        $this->set(compact('lobbies'));
-        $this->set('_serialize', ['lobbies']);
+            $this->set(compact('lobbies'));
+            $this->set('_serialize', ['lobbies']);
+        } else {
+            $user_region = $this->Lobbies->Users->getRegionCode($this->Auth->user('steam_id'));
+
+            // load chat messages
+            $this->loadModel('ChatMessages');
+            $chatMessages = $this->ChatMessages->find('all', [
+                'order' => ['ChatMessages.created' => 'DESC']
+            ])->contain(['Sender']);
+            $this->set(compact('chatMessages'));
+
+            // stuff for new lobby
+            $new_lobby = $this->Lobbies->newEntity();
+            $this->loadModel('Ranks');
+            $ranks = $this->Ranks->find('list', [
+                'keyField' => 'rank_id',
+                'valueField' => 'name'
+            ]);
+            $ages = [12, 14, 16, 18, 20];
+            $languages = $this->Lobbies->Users->Countries->getLocalesOfContinent($user_region);
+            $this->set(compact('ages', 'ranks', 'new_lobby', 'languages'));
+
+            // own lobby
+            if ($this->Lobbies->Users->get($this->Auth->user('steam_id'))->lobby_id != null) {
+                //$your_lobby = $this->Lobbies->Users->get($this->Auth->user('steam_id'), ['contain' => ['Lobby.Users', 'Lobby.RankFrom', 'Lobby.RankTo']])->lobby;
+                $your_lobby = $this->Lobbies->get($this->Lobbies->Users->get($this->Auth->user('steam_id'))->lobby_id, ['contain' => ['Users', 'RankFrom', 'RankTo']]);
+                $is_own_lobby = $your_lobby->owner_id == $this->Auth->user('steam_id');
+                $this->set(compact('your_lobby', 'is_own_lobby'));
+            }
+
+            // index
+            $filter = ['filter_prime_req' => 0, 'filter_teamspeak_req' => 0, 'filter_microphone_req' => 0, 'filter_min_age' => 12, 'filter_user_rank' => 1, 'filter_language' => 'en', 'filter_min_playtime' => 0/*, 'filter_min_upvotes' => 0, 'filter_max_downvotes' => 50*/];
+            if ($this->request->is('post')) {
+                foreach ($this->request->data as $key => $value) {
+                    if ($value != '') {
+                        $filter[$key] = $value;
+                    }
+                }
+            }
+            // TODO uncomment later on
+            $lobbies = $this->Lobbies->find()->where([
+                //'min_upvotes <=' => $filter['filter_min_upvotes'],
+                // 'max_downvotes >=' => $filter['filter_max_downvotes'],
+                 /*'min_playtime <=' => $filter['filter_min_playtime'],
+                 'prime_req =' => $filter['filter_prime_req'],
+                 'teamspeak_req =' => $filter['filter_teamspeak_req'],
+                 'microphone_req =' => $filter['filter_microphone_req'],*/
+                'rank_from <=' => $filter['filter_user_rank'],
+                'rank_to >=' => $filter['filter_user_rank'],
+                // 'min_age <=' => $filter['filter_min_age'],
+                //'region =' => $user_region,
+                'owner_id !=' => $this->Auth->user('steam_id')
+            ])->contain(['Users', 'Owner', 'RankFrom', 'RankTo']);
+
+            $lobbies = $this->paginate($lobbies);
+            $this->set(compact('lobbies', 'filter'));
+            $this->set('_serialize', ['lobbies']);
+        }
     }
 
     public function join($lobby_id)
@@ -199,7 +193,7 @@ class LobbiesController extends AppController
             return $this->redirect($this->referer());
         }
 
-        if ($user->upvotes < $lobby->min_upvotes) {
+        /*if ($user->upvotes < $lobby->min_upvotes) {
             $this->Flash->error('You don\'t have enough upvotes to join this lobby.');
             return $this->redirect($this->referer());
         }
@@ -207,7 +201,7 @@ class LobbiesController extends AppController
         if ($user->downvotes > $lobby->max_downvotes) {
             $this->Flash->error('You have too many downvotes to join this lobby.');
             return $this->redirect($this->referer());
-        }
+        }*/
 
         $user->lobby_id = $lobby->lobby_id;
         if ($this->Lobbies->Users->save($user)) {

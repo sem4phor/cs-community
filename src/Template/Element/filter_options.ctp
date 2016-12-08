@@ -17,14 +17,14 @@
                 <?= $this->Form->input('filter_language', ['default' => 'en', 'label' => 'Language', 'type' => 'select', 'options' => $languages]); ?>
             </div>
         </div>
-        <div class="row">
+        <!--div class="row">
             <div class="columns medium-6">
-                <?= $this->Form->input('filter_min_upvotes', ['label' => 'Min. Upvotes', 'value' => $filter['filter_min_upvotes']]); ?>
+                <!--?= $this->Form->input('filter_min_upvotes', ['label' => 'Min. Upvotes', 'value' => $filter['filter_min_upvotes']]); ?>
             </div>
             <div class="columns medium-6">
-                <?= $this->Form->input('filter_max_downvotes', ['label' => 'Max. Downvotes', 'value' => $filter['filter_max_downvotes']]); ?>
+                <!--?= //$this->Form->input('filter_max_downvotes', ['label' => 'Max. Downvotes', 'value' => $filter['filter_max_downvotes']]); ?>
             </div>
-        </div>
+        </div-->
         <div class="row">
             <div class="columns medium-12">
                 <?= $this->Form->input('filter_prime_req', ['type' => 'checkbox', 'label' => 'Only Prime Lobbies']); ?>

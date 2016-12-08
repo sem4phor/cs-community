@@ -45,18 +45,18 @@
                 <?= $this->Form->input('teamspeak_req', ['label' => 'Teamspeak', 'style' => 'margin-bottom:0;', 'checked' => false, 'onchange' => 'toggleReadOnly()']); ?>
                 <?= $this->Form->input('teamspeak_ip', ['label' => false, 'readOnly' => true]); ?>
             </div>
-            <div class="medium-2 columns">
+            <div class="medium-6 columns">
                 <?= $this->Form->input('min_playtime', ['label' => 'Min. Playtime', 'default' => '0']); ?>
             </div>
-            <div class="medium-2 columns">
+            <div class="medium-6 columns">
                 <?= $this->Form->input('min_age', ['label' => 'Min. Age', 'type' => 'select', 'options' => $ages, 'default' => '12']); ?>
             </div>
-            <div class="medium-2 columns">
-                <?= $this->Form->input('min_upvotes', ['label' => 'Min. Upvotes', 'default' => '0']); ?>
+            <!--div class="medium-2 columns">
+                <!--?= $this->Form->input('min_upvotes', ['label' => 'Min. Upvotes', 'default' => '0']); ?>
             </div>
             <div class="medium-3 columns">
-                <?= $this->Form->input('max_downvotes', ['label' => 'Max. Downvotes', 'default' => '5']); ?>
-            </div>
+                <!--?= $this->Form->input('max_downvotes', ['label' => 'Max. Downvotes', 'default' => '5']); ?>
+            </div-->
         </div>
     </div>
 

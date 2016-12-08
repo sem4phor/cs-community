@@ -46,7 +46,7 @@ class AppController extends Controller
                 'Steam',
             'loginRedirect' => [
                 'controller' => 'Lobbies',
-                'action' => 'index'
+                'action' => 'home'
             ],
             'logoutRedirect' => [
                 'controller' => 'Lobbies',

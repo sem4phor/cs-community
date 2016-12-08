@@ -74,13 +74,13 @@ class UsersTable extends Table
         $validator
             ->add('playtime', 'valid', ['rule' => 'numeric'])
             ->allowEmpty('playtime');
-        $validator
+        /*$validator
             ->add('upvotes', 'valid', ['rule' => 'numeric'])
             ->allowEmpty('upvotes');
 
         $validator
             ->add('downvotes', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('downvotes');
+            ->allowEmpty('downvotes');*/
 
         return $validator;
     }

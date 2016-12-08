@@ -63,10 +63,10 @@
             </div>
         </div>
         <div class="row">
-            <div class='column medium-3'><?= __('Min. Playtime: ') . h($your_lobby->min_playtime); ?></div>
-            <div class='column medium-3'><?= __('Min. Age: ') . h($your_lobby->min_age); ?></div>
-            <div class='column medium-3'><?= __('Min. Upvotes: ') . h($your_lobby->min_upvotes); ?></div>
-            <div class='column medium-3'><?= __('Max. Downvotes: ') . h($your_lobby->max_downvotes); ?></div>
+            <div class='column medium-6'><?= __('Min. Playtime: ') . h($your_lobby->min_playtime); ?></div>
+            <div class='column medium-6'><?= __('Min. Age: ') . h($your_lobby->min_age); ?></div>
+            <!--div class='column medium-3'><!--?= __('Min. Upvotes: ') . h($your_lobby->min_upvotes); ?></div>
+            <div class='column medium-3'><!--?= __('Max. Downvotes: ') . h($your_lobby->max_downvotes); ?></div-->
         </div>
     </div>
 </div>
