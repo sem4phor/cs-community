@@ -24,6 +24,10 @@ class LobbiesController extends AppController
 
     public function isAuthorized($user)
     {
+        // banned user cant access anything but home
+        if (isset($user['role_id']) && $user['role_id'] === 4) {
+            return false;
+        }
         // All registered users can add lobbies
         if ($this->request->action === 'new' || $this->request->action === 'index') {
             return true;
@@ -209,7 +213,7 @@ class LobbiesController extends AppController
             if ($this->Lobbies->save($lobby)) {
                 $this->Flash->success(__('Joined lobby.'));
 
-                // start websocket stuff make sure req. data contains info about the topic
+                // websocket
                 $context = new \ZMQContext();
                 $socket = $context->getSocket(\ZMQ::SOCKET_PUSH, 'Pusher');
                 $socket->connect("tcp://localhost:5555");
@@ -218,7 +222,7 @@ class LobbiesController extends AppController
                 $this->request->data['joined_user'] = $user;
                 $socket->send(json_encode($this->request->data));
                 if ($lobby->free_slots == 0) $this->broadCastFullLobby($lobby);
-                // end websocket stuff
+                // end
 
                 return $this->redirect($this->referer());
             } else {
@@ -235,7 +239,9 @@ class LobbiesController extends AppController
         $socket = $context->getSocket(\ZMQ::SOCKET_PUSH, 'Pusher');
         $socket->connect("tcp://localhost:5555");
         $this->request->data['lobbies'] = 'lobby_full';
-        $this->request->data['lobby'] = $lobby;
+        $this->request->data['lobby'] = $this->Lobbies->get($lobby->lobby_id, [
+            'contain' => ['Users']
+        ]);
         $socket->send(json_encode($this->request->data));
         // end websocket stuff
     }
@@ -327,6 +333,6 @@ class LobbiesController extends AppController
             $this->Flash->error(__('The lobby could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect(['action' => 'home']);
     }
 }

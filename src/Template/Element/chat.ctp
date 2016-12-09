@@ -4,26 +4,7 @@
             <div class="columns medium-12"><h3 style="color:#fff"><?= __('Chat') ?></h3></div>
         </div>
         <div id="chat-message-container" class="row chat-message-container">
-            <?php $col_index = 0; ?>
-            <?php $colors = ["#234567", "#CF142B", "#C5AC6A", "#5E9FB8", "#4CAF50", "#234567", "#CF142B", "#C5AC6A", "#5E9FB8", "#4CAF50"]; ?>
-            <?php //$last_sender = null; ?>
-            <?php foreach ($chatMessages as $chatMessage): ?>
-                <div class="row">
-                    <?php
-                    /*if ($chatMessage->sender->personaname != $last_sender) {
-                        $col_index += 1;
-                    }
-                    if ($col_index >= count($colors)) $col_index = 0;*/
-                    ?>
-                    <div class="columns medium-12" style="color:<?php echo $colors[rand(0,9)]; ?>">
-                        <?= h($chatMessage->sender->personaname) . ':' ?>
-                        <?= h($chatMessage->message) ?>
-                        <?php
-                        //$last_sender = $chatMessage->sender->personaname;
-                        ?>
-                    </div>
-                </div>
-            <?php endforeach; ?>
+            <?= __('Welcome '.$user->personaname.'!') ?>
         </div>
         <div class="submit-message row">
             <div class="chat-message-input columns medium-8">

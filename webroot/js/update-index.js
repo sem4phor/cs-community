@@ -4,22 +4,25 @@ conn = new ab.Session('ws://localhost:8080',
         conn.subscribe('lobby_full', function (topic, data) {
             console.log('New full lobby');
             console.log(data);
-            // TODO viel css aber im prinzip funzt es
+            // wenn selbst, nur allert dasss lobby voll ist kein hjoin button
             var current_user_id = document.getElementById('topbar-avatar').getAttribute('steam_id');
-            if (lobby_user.steam_id == current_user_id) {
-                if (data['lobby'].teamspeak_req == false) {
-                    $("<div><a class='radius button small' href=" + data['lobby'].url + ">Join</a></div>").dialog();
+            data.lobby.users.forEach(function (lobby_user) {
+                if (lobby_user.steam_id == current_user_id) {
+                    if (data.lobby.teamspeak_req == false) {
+                        var message = $("<div data-alert class=\"alert-box\"><a class='radius button small' href=" + data.lobby.url + ">Join</a><a href='#' class='close'>&times;</a></div>");
+                        $("#errorArea").prepend(message);
+                    } else {
+                        var ts3link = 'ts3server://' + data.lobby.teamspeak_ip;
+                        var message = $("<div data-alert class=\"alert-box\"><a class='radius button small' href=" + data.lobby.url + ">Join</a><a class='radius button small' href=" + ts3link + ">Join TS3</a><a href='#' class='close'>&times;</a></div>");
+                        $("#errorArea").prepend(message);
+                    }
                 } else {
-                    $("<div><a class='radius button small' href=" + data['lobby'].url + ">Join</a></div>" +
-                        "<div><a class='radius button small' href=" + data['lobby'].teamspeak_ip + ">Join TS3</a></div>")
-                        .dialog();
+                    return;
                 }
-            } else {
-                return;
-            }
+            });
         });
         conn.subscribe('lobby_join', function (topic, data) {
-            // TODO kick button schön
+            // TODO kick button rictgi machen
             var current_user_id = document.getElementById('topbar-avatar').getAttribute('steam_id');
             if (current_user_id.length == 0) console.log('Element not found!');
             var your_lobby = false;

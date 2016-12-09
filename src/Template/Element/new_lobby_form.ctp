@@ -5,7 +5,7 @@
             <h2><?= __('Add your own Lobby') ?></h2>
         </div>
         <div class="medium-1 columns">
-            <?= $this->Html->image('help.png', ["alt" => 'help button', "heigth" => '15', "width" => '15', 'url' => '']); ?>
+            <?= $this->Html->image('help.png', ['data-tooltip', 'aria-haspopup' => 'true', 'class' => 'has-tip', "alt" => 'help button', 'title' => 'To get the Lobby Link create a Lobby go to your steamprofile, rightclick on the Join Game Button, copy and paste it here.', "heigth" => '15', "width" => '15', 'url' => '']); ?>
         </div>
     </div>
     <div class='row' ?>
