@@ -64,7 +64,7 @@ $cakeDescription = 'CS-Community: Find the best teammates!';
             <?php else: ?>
                 <li><?= $this->Html->image("http://cdn.steamcommunity.com/public/images/signinthroughsteam/sits_02.png", [
                         "alt" => "Steam Login",
-                        'url' => ['controller' => 'Users', 'action' => 'login']]); ?>
+                        'url' => $loginUrl]); ?>
                 </li>
             <?php endif; ?>
         </ul>

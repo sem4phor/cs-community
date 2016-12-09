@@ -6,6 +6,7 @@ use Cake\Log\Log;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Mailer\Email;
+use Cake\Routing\Router;
 
 /**
  * Users Controller
@@ -30,112 +31,44 @@ class UsersController extends AppController
         // allow mods to ban users but not other mods or admins
         if ($this->request->action == 'ban' || $this->request->action == 'unban') {
             $ban_user = $this->Users->get($this->request->params['pass'][0]);
-            if($user['role_id'] == 3 && $ban_user->role_id != 2 || $ban_user->role_id != 3)
+            if ($user['role_id'] == 3 && $ban_user->role_id != 2 || $ban_user->role_id != 3)
                 return true;
         }
         return parent::isAuthorized($user);
     }
 
-
-
     public function login()
     {
-        $user = $this->Auth->identify();
-        if ($user) {
-            $query = $this->Users->find()->where(['steam_id =' => $user['steam_id']]);
-            if ($query->isEmpty()) {
-                return $this->redirect(['action' => 'register', $user['steam_id']]);
-            }
-            $user = $this->getUserData($user);
-            if ($user['role_id'] == 4) {
-                $this->Flash->error(__('You are currently banned from this site!'));
-                return $this->redirect($this->Auth->logout());
-            }
-            $this->Auth->setUser($user);
-            return $this->redirect($this->Auth->redirectUrl());
+        $steamId = $this->SteamOpenId->validate();
+        $this->request->data['Users']['steam_id'] = $steamId;
+
+        $user = $this->Users->get($steamId);
+        if ($user == null) {
+            $this->Users->register($steamId);
         }
-        $this->Flash->error(__('Authentification Error!'));
-    }
-
-    public function getUserData($user)
-    {
-        $query = $this->Users->find()->where(['steam_id =' => $user['steam_id']]);
-        $user = $query->first();
-
-        $user = $this->fetchSteamDataFromUser($user);
-        if ($user['steam_communityvisibilitystate'] != 3 || $user['steam_profilestate'] != 1) {
-            $this->Flash->error(__('Make profile public!'));
+        $this->Users->updateSteamData($steamId);
+        $user = $this->Users->get($steamId);
+        if ($user['role_id'] == 4) {
+            $this->Flash->error(__('You are currently banned from this site!'));
             return $this->redirect($this->Auth->logout());
         }
-        if ($user['loccountrycode'] == false) {
-            $this->Flash->error(__('Set up your country!'));
-            return $this->redirect($this->Auth->logout());
-        }
-        // update DB
-        $update_user = $this->Users->get($user['steam_id']);
-        $update_user->loccountrycode = $user['loccountrycode'];
-        $update_user->avatar = $user['steam_avatar'];
-        $update_user->avatarmedium = $user['steam_avatarmedium'];
-        $update_user->avatarfull = $user['steam_avatarfull'];
-        $update_user->profileurl = $user['steam_profileurl'];
-        $update_user->personaname = $user['steam_personaname'];
-        $update_user->playtime = $user['steam_csgo_total_time_played'];
-        if ($this->Users->save($update_user)) {
-
+        Log::write('debug', $this->request->data);
+        if ($this->Auth->identify()) {
+            if ($user) {
+                $this->Auth->setUser($user);
+                $this->Flash->success(__('Authentification Success!'));
+            }
+            return $this->redirect(['controller' => 'Lobbies', 'action' => 'home']);
         } else {
-            $this->Flash->error(__('Could not get UserData, please try again.'));
-            return $this->redirect($this->logout());
-        }
-        return $user;
-    }
-
-    public function register($steam_id = null)
-    {
-        $reg_user = $this->Users->newEntity();
-        $reg_user->steam_id = $steam_id;
-        if ($this->Users->save($reg_user)) {
-            $user = $this->getUserData($reg_user);
-            $this->Auth->setUser($reg_user);
-            return $this->redirect($this->Auth->redirectUrl());
-        } else {
-            $this->Flash->error(__('The user could not be saved. Please, try again.'));
+            $this->Flash->error(__('Authentification Failed!'));
+            return $this->redirect(['controller' => 'Lobbies', 'action' => 'home']);
         }
     }
 
-// adds steamdata to user
-// loccountrycode is set to false if not set
-    public
-    function fetchSteamDataFromUser($user)
-    {
-        $url = file_get_contents("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=" . Configure::read('APIkey') . "&steamids=" . $user['steam_id']);
-        $content = json_decode($url, true);
-        $user['steam_communityvisibilitystate'] = $content['response']['players'][0]['communityvisibilitystate'];
-        $user['steam_profilestate'] = $content['response']['players'][0]['profilestate'];
-        $user['steam_lastlogoff'] = $content['response']['players'][0]['lastlogoff'];
-        $user['steam_profileurl'] = $content['response']['players'][0]['profileurl'];
-        $user['steam_avatar'] = $content['response']['players'][0]['avatar'];
-        $user['steam_avatarmedium'] = $content['response']['players'][0]['avatarmedium'];
-        $user['steam_avatarfull'] = $content['response']['players'][0]['avatarfull'];
-        $user['steam_personastate'] = $content['response']['players'][0]['personastate'];
-        $user['steam_timecreated'] = $content['response']['players'][0]['timecreated'];
-        $user['steam_personaname'] = $content['response']['players'][0]['personaname'];
-        isset($content['response']['players'][0]['loccountrycode']) ? $user['loccountrycode'] = $content['response']['players'][0]['loccountrycode'] : $user['loccountrycode'] = false;
-        $url = file_get_contents("http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=" . Configure::read('APIkey') . "&steamid=" . $user['steam_id'] . "&format=json");
-        $content = json_decode($url, true);
-        foreach ($content['response']['games'] as $key => $value) {
-            if ($value['appid'] == 730) {
-                $user['steam_csgo_total_time_played'] = $value['playtime_forever'] / 60;
-                break;
-            };
-        }
-        return $user;
-    }
 
     public
     function logout()
     {
-        //session_unset();
-        //session_destroy();
         return $this->redirect($this->Auth->logout());
     }
 
@@ -207,4 +140,9 @@ class UsersController extends AppController
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
     }
+
+
+
+
+
 }
