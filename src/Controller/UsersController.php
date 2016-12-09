@@ -21,17 +21,33 @@ class UsersController extends AppController
         $this->Auth->allow(['logout', 'register', 'view']);
     }
 
+    public function isAuthorized($user)
+    {
+        // banned user cant access anything but home
+        if (isset($user['role_id']) && $user['role_id'] === 4) {
+            return false;
+        }
+        // allow mods to ban users but not other mods or admins
+        if ($this->request->action == 'ban' || $this->request->action == 'unban') {
+            $ban_user = $this->Users->get($this->request->params['pass'][0]);
+            if($user['role_id'] == 3 && $ban_user->role_id != 2 || $ban_user->role_id != 3)
+                return true;
+        }
+        return parent::isAuthorized($user);
+    }
+
+
+
     public function login()
     {
         $user = $this->Auth->identify();
         if ($user) {
-            // if user not exists register him
             $query = $this->Users->find()->where(['steam_id =' => $user['steam_id']]);
             if ($query->isEmpty()) {
                 return $this->redirect(['action' => 'register', $user['steam_id']]);
             }
             $user = $this->getUserData($user);
-            if ($user['role'] == 'blacklist') {
+            if ($user['role_id'] == 4) {
                 $this->Flash->error(__('You are currently banned from this site!'));
                 return $this->redirect($this->Auth->logout());
             }
@@ -49,7 +65,6 @@ class UsersController extends AppController
         $user = $this->fetchSteamDataFromUser($user);
         if ($user['steam_communityvisibilitystate'] != 3 || $user['steam_profilestate'] != 1) {
             $this->Flash->error(__('Make profile public!'));
-            //return $this->redirect(['action' => 'logout']);
             return $this->redirect($this->Auth->logout());
         }
         if ($user['loccountrycode'] == false) {
@@ -66,9 +81,9 @@ class UsersController extends AppController
         $update_user->personaname = $user['steam_personaname'];
         $update_user->playtime = $user['steam_csgo_total_time_played'];
         if ($this->Users->save($update_user)) {
-            $this->Flash->success(__('The User has been saved.'));
+
         } else {
-            $this->Flash->error(__('The absence could not be saved. Please, try again.'));
+            $this->Flash->error(__('Could not get UserData, please try again.'));
             return $this->redirect($this->logout());
         }
         return $user;
@@ -79,7 +94,6 @@ class UsersController extends AppController
         $reg_user = $this->Users->newEntity();
         $reg_user->steam_id = $steam_id;
         if ($this->Users->save($reg_user)) {
-            $this->Flash->success(__('The user has been saved.'));
             $user = $this->getUserData($reg_user);
             $this->Auth->setUser($reg_user);
             return $this->redirect($this->Auth->redirectUrl());
@@ -125,33 +139,6 @@ class UsersController extends AppController
         return $this->redirect($this->Auth->logout());
     }
 
-// make sure you cant comend infinite
-    public
-    function commend($steam_id)
-    {
-        $user = $this->Users->get($steam_id);
-        $user->upvotes += 1;
-        if ($this->Users->save($user)) {
-            return $this->redirect($this->Auth->redirectUrl());
-        } else {
-            $this->Flash->error(__('The user could not be saved. Please, try again.'));
-        }
-    }
-
-    /**
-     * Index method
-     *
-     * @return \Cake\Network\Response|null
-     */
-    public
-    function index()
-    {
-        $users = $this->paginate($this->Users);
-
-        $this->set(compact('users'));
-        $this->set('_serialize', ['users']);
-    }
-
     /**
      * View method
      *
@@ -162,12 +149,13 @@ class UsersController extends AppController
     public
     function view($id = null)
     {
+        $roles = $this->Users->Roles->find('list');
         $view_user = $this->Users->get($id, [
-            'contain' => []
+            'contain' => ['Roles']
         ]);
 
         $this->set('view_user', $view_user);
-        $this->set('_serialize', ['user']);
+        $this->set('roles', $roles);
     }
 
     /**
@@ -177,23 +165,46 @@ class UsersController extends AppController
      * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-// unexpected $this error
-    /*  public function ban($id = null)
-      {
-          $user = $this->Users->get($id, [
-              'contain' => []
-          ]);
-          $this->request->allowMethod(['post', 'delete']);
-              $user->role = 'blacklist';
-              if ($this->Users->save($user)) {
-                  $this->Flash->success(__('The user has been banned.'));
-                  return $this->redirect(['action' => 'index']);
-              } else {
-                  $this->Flash->error(__('The user could not be saved. Please, try again.'));
-              }
-          }
-          $this->set(compact('user'));
-          $this->set('_serialize', ['user']);
-      }*/
+    public function ban($id = null)
+    {
+        $user = $this->Users->get($id);
+        $user->role_id = 4;// banned
+        if ($this->Users->save($user)) {
+            $this->Flash->success(__('The user has been banned.'));
+            return $this->redirect(['controller' => 'lobbies', 'action' => 'home']);
+        } else {
+            $this->Flash->error(__('The user could not be saved. Please, try again.'));
+        }
+    }
 
+    public function makeMod($id = null)
+    {
+        $user = $this->Users->get($id);
+        $user->role_id = 3;// banned
+        if ($this->Users->save($user)) {
+            $this->Flash->success(__('The user has been banned.'));
+            return $this->redirect(['controller' => 'lobbies', 'action' => 'home']);
+        } else {
+            $this->Flash->error(__('The user could not be saved. Please, try again.'));
+        }
+    }
+
+    /**
+     * Ban method
+     *
+     * @param string|null $id User id.
+     * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
+     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     */
+    public function unban($id = null)
+    {
+        $user = $this->Users->get($id);
+        $user->role_id = 1;// default
+        if ($this->Users->save($user)) {
+            $this->Flash->success(__('The user has been unbanned.'));
+            return $this->redirect(['controller' => 'lobbies', 'action' => 'home']);
+        } else {
+            $this->Flash->error(__('The user could not be saved. Please, try again.'));
+        }
+    }
 }

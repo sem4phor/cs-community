@@ -22,6 +22,7 @@ require_once("openid.php");
 class SteamAuthenticate extends BaseAuthenticate
 {
 
+    //
     /**
      * @param Request $request
      * @param Response $response
@@ -30,10 +31,11 @@ class SteamAuthenticate extends BaseAuthenticate
     public function authenticate(Request $request, Response $response)
     {
         $openid = new \LightOpenID(Configure::read('domainname'));
+
         if (!$openid->mode) {
             $openid->identity = 'http://steamcommunity.com/openid';
             header('Location: ' . $openid->authUrl());
-            $_POST[$openid];
+            exit();
         } elseif ($openid->mode == 'cancel') {
             return false;
         } else {
@@ -47,7 +49,6 @@ class SteamAuthenticate extends BaseAuthenticate
                 return false;
             }
         }
-        return false;
     }
 
 }
