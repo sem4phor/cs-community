@@ -11,14 +11,6 @@ a {
   color: #1798A5;
 }
 
-.side-nav li a:not(.button) {
-  color: #15848F;
-}
-
-.side-nav li a:not(.button):hover {
-  color: #15848F;
-}
-
 header {
   background-color: #15848F;
   color: #ffffff;
@@ -183,12 +175,23 @@ div.message {
   border-width: 1px;
   display: block;
   font-weight: normal;
+  margin-bottom: 0;
   position: relative;
-  padding: 0.875rem 1.5rem 0.875rem 20%;
-  transition: opacity 300ms ease-out 0s;
-  background-color: #DCE47E;
-  border-color: #DCE47E;
-  color: #626262;
+  padding: 0.875rem 1.5rem 0.875rem 0.875rem;
+  font-size: 0.8125rem;
+  transition: opacity 300ms ease-out;
+  background-color: #008cba;
+  border-color: #171A21;
+  color: #fff;
+}
+div.message.success {
+  background-color: ##007095;
+  border-color: #171A21;
+  color: #fff;
+}
+div.message .close {
+  float: right;
+  color: #171A21;
 }
 
 div.message.error {
@@ -211,12 +214,12 @@ div.message:before {
   background-color: #FFF;
   padding: 12px 14px 12px 10px;
   content: "i";
-  color: #DCE47E;
+  color: #008CBA;
 }
 
 div.message.error:before {
   padding: 11px 16px 14px 7px;
-  color: #C3232D;
+  color: #171A21;
   content: "x";
 }
 
@@ -395,29 +398,21 @@ pre {
 }
 
 .top-bar.expanded .title-area {
-  background: #01545b;
+  background: #171A21;
+}
+
+.top-bar-section {
+  padding: 20px;
 }
 
 .top-bar.expanded, .top-bar,.top-bar-section ul li,.top-bar-section li:not(.has-form) a:not(.button) {
-  background: #116d76;
+  background: #171A21;
 }
 
 .top-bar-section li:not(.has-form) a:not(.button):hover {
-  background-color: #308e97;
-  background: #308e97;
+  background-color: #171A21;
 }
 
-.side-nav li.heading {
-  color: #1798A5;
-  font-size: 0.875rem;
-  font-weight: bold;
-  text-transform: uppercase;
-  padding: 0.4375rem 0.875rem;
-}
-
-#actions-sidebar {
-  background: #fafafa;
-}
 
 .index table {
   margin-top: 0rem;
@@ -430,6 +425,7 @@ table {
   border: none;
   table-layout: fixed;
   width: 100%;
+  /*background-color: #353e49;*/
 }
 
 table thead {
@@ -456,6 +452,8 @@ table tr:nth-of-type(even) {
   background: none;
 }
 
+
+
 fieldset {
   border: none;
   padding: 1.25rem;
@@ -474,46 +472,17 @@ fieldset legend {
   box-shadow: none;
 }
 
+/*#language option, #rank_from option, #rank_to option {
+  background-repeat: no-repeat;
+  height: 37px;
+  background-position: 50% center;
+  background-size: 112px 37px;
+  width: 112px;
+}*/
+
 .form button:hover, .form button:focus {
   background: #BE840B;
   box-shadow: none;
-}
-
-button {
-  background: #966600;
-}
-
-div.message {
-  border-style: solid;
-  border-width: 1px;
-  display: block;
-  font-weight: normal;
-  padding: 0.875rem 1.5rem 0.875rem 1.5rem;
-  transition: opacity 300ms ease-out 0s;
-  background-color: #a0d3e8;
-  border-color: #74bfdd;
-  color: #626262;
-  position: fixed;
-  top: 15px;
-  right: 15px;
-  z-index: 999;
-}
-
-div.message:before {
-  line-height: 0px;
-  font-size: 20px;
-  height: 12px;
-  width: 12px;
-  border-radius: 15px;
-  text-align: center;
-  vertical-align: middle;
-  display: inline-block;
-  position: relative;
-  left: -11px;
-  background-color: #FFF;
-  padding: 12px 14px 12px 10px;
-  content: "i";
-  color: #a0d3e8;
 }
 
 .vertical-table th {
@@ -532,32 +501,23 @@ div.message:before {
   text-align: right;
 }
 
-
-.content {
-  padding: 2rem;
-}
-
 /* Use 'one true layout' methods to get equal height columns */
 .container {
   overflow: hidden;
   min-height: 92%; /* full height almost always */
+  background-color: #1B2838
 }
 
-/* Force equal height by overflowing */
-.content,
-#actions-sidebar {
-  margin-bottom: -99999px;
-  padding-bottom: 99999px;
+.content {
+  padding: 2rem;
+  margin-bottom: 0px !important;
+  padding-bottom: 0px !important;
+  color: #4d4d4d;
 }
-@media(max-width: 640px) {
-    #actions-sidebar {
-        padding-bottom: 2rem;
-        margin-bottom: 0;
-    }
-}
+
 
 .content h3 {
-  color: #be140b;
+  color: #66c0f4;
   padding-bottom: 0.5rem;
   margin-bottom: 20px;
 }
@@ -566,7 +526,7 @@ div.message:before {
   color: #be140b;
   padding-bottom: 0.5rem;
   margin-bottom: 20px;
-  border-bottom: 2px solid #be140b;
+  border-bottom: 2px solid #ffffff;
 }
 
 .content .related h4 {
@@ -575,4 +535,196 @@ div.message:before {
   margin-top: 20px;
   margin-bottom: 10px;
   border-bottom: 0px;
+}
+
+div #expand {
+  display: none;
+}
+
+
+
+button {
+  background: #966600;
+}
+
+
+
+/* select with CSS avatar icons */
+option.avatar {
+  background-repeat: no-repeat !important;
+  padding-left: 20px;
+}
+.avatar .ui-icon {
+  background-position: left top;
+  width: 100%;
+  height: auto;
+}
+
+#rank-from-button, #rank-to-button {
+  width: 110px !important;
+  background-repeat: no-repeat;
+}
+#rank-from-menu, #rank-to-menu {
+  width: 110px !important;
+}
+#language-button {
+  width: 20px !important;
+  height: 12px !important;
+  background-repeat: no-repeat;
+}
+#language-menu {
+  width: 20px !important;
+}
+#filter-language-button, #filter-user-rank-button {
+  width: 64px !important;
+  background-repeat: no-repeat;
+}
+#filter-user-rank-menu, #filter-language-menu {
+  width: 64px !important;
+}
+
+div.filter-options {
+  height: 463px;
+  padding: 1rem;
+  margin-bottom: 0px !important;
+  padding-bottom: 0px !important;
+  color:#fff;
+  float: right;
+  font-family: Arial, Helvetica, Verdana, sans-serif;
+}
+
+div.filter-options-container {
+  border-radius: 10px;
+  box-shadow: 3px 3px 0px 0px #05070A;
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,020304+18,131b26+77,17212e+100 */
+  background: #000000; /* Old browsers */
+  background: -moz-linear-gradient(top,  #000000 0%, #020304 18%, #131b26 77%, #17212e 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top,  #000000 0%,#020304 18%,#131b26 77%,#17212e 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom,  #000000 0%,#020304 18%,#131b26 77%,#17212e 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#17212e',GradientType=0 ); /* IE6-9 */
+
+}
+
+.lobby-user-column {
+  padding:0;
+  margin:0;
+  margin-right:5px;
+  float:left !important;
+}
+
+div.chat-message-container {
+  height: 300px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+div.chat-message-input {
+  padding-left: 0;
+}
+
+div.chat-container {
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 3px 3px 0px 0px #05070A;
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,020304+18,131b26+77,17212e+100 */
+  background: #000000; /* Old browsers */
+  background: -moz-linear-gradient(top,  #000000 0%, #020304 18%, #131b26 77%, #17212e 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top,  #000000 0%,#020304 18%,#131b26 77%,#17212e 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom,  #000000 0%,#020304 18%,#131b26 77%,#17212e 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#17212e',GradientType=0 ); /* IE6-9 */
+}
+
+div.chat {
+  height: 463px;
+  padding: 1rem;
+  margin-bottom: 0px !important;
+  padding-bottom: 0px !important;
+  color:#fff;
+  font-family: Arial, Helvetica, Verdana, sans-serif;
+}
+
+div.submit-message {
+  padding: 20px 5px 5px 5px;
+}
+
+.send-chat-message {
+  padding:0;
+}
+
+
+.lobbies table {
+  background-color: rgba(100,100,100,0.0);
+  margin-bottom: 1.25rem;
+  border: none;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.lobbies table thead {
+}
+
+.lobbies table tbody tr {
+  background: #0f151a;
+  border: 1px solid #365474;
+  color: #6390a1;
+}
+
+.lobbies .spacer{
+  border: none;
+  padding-bottom: 10px;
+  height: 20px;
+  background-color: rgba(100,100,100,0.0);
+}
+
+.lobbies td {
+  color: #e1e1e1;
+}
+
+.lobbies .lobby_owner {
+  border: 1px solid #F6C861;
+}
+
+.lobbies .until {
+  text-align: center;
+}
+
+div.lobby-item {
+  margin-bottom: 15px !important;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 3px 3px 0px 0px #05070A;
+
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,020304+18,131b26+77,17212e+100 */
+  background: #000000; /* Old browsers */
+  background: -moz-linear-gradient(top,  #000000 0%, #020304 18%, #131b26 77%, #17212e 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top,  #000000 0%,#020304 18%,#131b26 77%,#17212e 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom,  #000000 0%,#020304 18%,#131b26 77%,#17212e 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#17212e',GradientType=0 ); /* IE6-9 */
+
+}
+
+.lobbies table tr th {
+  padding: 0.5625rem 0.625rem;
+  font-size: 0.875rem;
+  color: #6390a1;
+  text-align: left;
+  border-bottom: 2px solid #6390a1;
+}
+
+div.lobbies.new {
+  border: 1px solid #6390a1;
+  border-radius: 20px;
+ background-color: #1B2838;
+  padding: 1rem;
+}
+
+.lobbies.new h2 {
+  /*kleiner, andere farbe*/
+  color: #66C0F4;
+  font-size: medium;
+  font-weight: bold;
+}
+
+.alert-box {
+  margin-bottom: 0;
 }

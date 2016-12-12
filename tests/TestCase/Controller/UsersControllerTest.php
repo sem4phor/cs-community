@@ -16,8 +16,51 @@ class UsersControllerTest extends IntegrationTestCase
      * @var array
      */
     public $fixtures = [
-        'app.users'
+        'app.users',
+        'app.lobbys',
+        'app.lobbies',
+        'app.lobbys_users'
     ];
+
+    /**
+     * Test loginTest method
+     *
+     * @return void
+     */
+    public function testLoginTest()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test logoutTest method
+     *
+     * @return void
+     */
+    public function testLogoutTest()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test login method
+     *
+     * @return void
+     */
+    public function testLogin()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test logout method
+     *
+     * @return void
+     */
+    public function testLogout()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
 
     /**
      * Test index method

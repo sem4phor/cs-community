@@ -1,26 +1,42 @@
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('Edit User'), ['action' => 'edit', $user->id]) ?> </li>
-        <li><?= $this->Form->postLink(__('Delete User'), ['action' => 'delete', $user->id], ['confirm' => __('Are you sure you want to delete # {0}?', $user->id)]) ?> </li>
-        <li><?= $this->Html->link(__('List Users'), ['action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New User'), ['action' => 'add']) ?> </li>
-    </ul>
-</nav>
 <div class="users view large-9 medium-8 columns content">
-    <h3><?= h($user->name) ?></h3>
-    <table class="vertical-table">
+    <h3><?= h($view_user->name) ?></h3>
+    <?= $this->Html->image($view_user->avatarfull, ["alt" => 'steam avatar full', 'url' => $view_user->profileurl]); ?>
+    <table>
         <tr>
-            <th><?= __('Name') ?></th>
-            <td><?= h($user->name) ?></td>
+            <th scope="row"><?= __('Country Code') ?></th>
+            <td><?= h($view_user->loccountrycode) ?></td>
         </tr>
         <tr>
-            <th><?= __('Role') ?></th>
-            <td><?= h($user->role) ?></td>
+            <th scope="row"><?= __('Username') ?></th>
+            <td><?= h($view_user->personaname) ?></td>
         </tr>
         <tr>
-            <th><?= __('Id') ?></th>
-            <td><?= $this->Number->format($user->id) ?></td>
+            <th scope="row"><?= __('Role') ?></th>
+            <td><?= h($view_user->role->name) ?></td>
+        </tr>
+
+        <tr>
+            <th scope="row"><?= __('Created') ?></th>
+            <td><?= h($view_user->created->timeAgoInWords()) ?></td>
         </tr>
     </table>
+    <?php if ($user->role_id == 2): ?>
+        <?= $this->Html->link(
+            'Give Moderator Rights',
+            ['controller' => 'Users', 'action' => 'makeMod', $view_user->steam_id], ['class' => 'button']
+        ); ?>
+    <?php endif; ?>
+    <?php if ($user->role_id == 3 || $user->role_id == 2): ?>
+        <?php if ($view_user->role_id == 4): ?>
+            <?= $this->Html->link(
+                'Unban',
+                ['controller' => 'Users', 'action' => 'unban', $view_user->steam_id], ['class' => 'button']
+            ); ?>
+        <?php else: ?>
+            <?= $this->Html->link(
+                'Ban',
+                ['controller' => 'Users', 'action' => 'ban', $view_user->steam_id], ['class' => 'button']
+            ); ?>
+        <?php endif; ?>
+    <?php endif; ?>
 </div>

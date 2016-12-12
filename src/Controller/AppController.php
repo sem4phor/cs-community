@@ -15,7 +15,8 @@
 namespace App\Controller;
 
 use Cake\Controller\Controller;
-use Cake\Event\Event;
+use Cake\Event\Event;use Cake\Routing\Router;
+
 
 /**
  * Application Controller
@@ -41,42 +42,40 @@ class AppController extends Controller
 
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
+        $this->loadComponent('SteamOpenId');
         $this->loadComponent('Auth', [
-            'authenticate' => [
-                'Steam' => [
-                    'fields' => ['id' => 'steam_steamid'],
-                    'userModel' => 'Users'
-                ]
-            ],
+            'authenticate' =>
+                ['FormValue' => [
+                    'userModel' => 'Users',
+                    'field' => 'steam_id']],
             'loginRedirect' => [
-                'controller' => 'Users',
-                'action' => 'index'
+                'controller' => 'Lobbies',
+                'action' => 'home'
             ],
             'logoutRedirect' => [
-                'controller' => 'Articles',
-                'action' => 'index'
-            ]
+                'controller' => 'Lobbies',
+                'action' => 'home'
+            ],
+            'authorize' => 'controller',
+            'authError' => 'You are not allowed to do this.'
         ]);
 
     }
     
     public function beforeFilter(Event $event)
     {
-        $this->Auth->allow(['edit', 'delete','add', 'index', 'view', 'display']);
+        $this->Auth->allow(['home']);
     }
     
     public function isAuthorized($user)
     {
         // Admin can access every action
-        if (isset($user['role']) && $user['role'] === 'admin') {
+        if (isset($user['role_id']) && $user['role_id'] === 2) {
             return true;
         }
-
         // Default deny
         return false;
     }
-
-
 
     /**
      * Before render callback.
@@ -86,6 +85,9 @@ class AppController extends Controller
      */
     public function beforeRender(Event $event)
     {
+        if($this->Auth->user() === null) $this->set('loginUrl', $this->SteamOpenId->genUrl(Router::url(['controller' => 'users', 'action' => 'login'], true), false));
+        if($this->Auth->user() !== null)$this->set('user', $this->Auth->user());
+
         if (!array_key_exists('_serialize', $this->viewVars) &&
             in_array($this->response->type(), ['application/json', 'application/xml'])
         ) {
