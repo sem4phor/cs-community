@@ -68,7 +68,7 @@ public function getLocalesOfContinent($continent_code) {
     /* @param $language_code ISO 639-1-alpha 2 language code
     /* @returns  a locale, formatted like en_US, or null if not found
     /**/
-    // TODO this is very slow maybe put it in database
+    // TODO if this is too slow consider putting it in database or cache again
     public function country_code_to_locale($country_code, $language_code = '')
     {
         // Locale list taken from:

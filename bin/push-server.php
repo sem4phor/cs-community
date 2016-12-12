@@ -9,9 +9,10 @@ require dirname(__DIR__) . '/vendor/autoload.php';
 use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\WampServerInterface;
 use React\ZMQ\Context;
+use App\Controller\Component\PusherComponent;
 
 $loop   = React\EventLoop\Factory::create();
-$pusher = new App\Pusher();
+$pusher = new PusherComponent();
 
 // Listen for the web server to make a ZeroMQ push after an ajax request
 $context = new Context($loop);

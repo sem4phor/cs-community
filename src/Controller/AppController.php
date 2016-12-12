@@ -85,8 +85,8 @@ class AppController extends Controller
      */
     public function beforeRender(Event $event)
     {
-        $this->set('loginUrl', $this->SteamOpenId->genUrl(Router::url(['controller' => 'users', 'action' => 'login'], true), false));
-        $this->set('user', $this->Auth->user());
+        if($this->Auth->user() === null) $this->set('loginUrl', $this->SteamOpenId->genUrl(Router::url(['controller' => 'users', 'action' => 'login'], true), false));
+        if($this->Auth->user() !== null)$this->set('user', $this->Auth->user());
 
         if (!array_key_exists('_serialize', $this->viewVars) &&
             in_array($this->response->type(), ['application/json', 'application/xml'])

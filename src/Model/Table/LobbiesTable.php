@@ -152,14 +152,13 @@ class LobbiesTable extends Table
             ->integer('min_playtime')
             ->allowEmpty('min_playtime');
 
-        $validator
+        /*$validator
             ->integer('min_upvotes')
             ->allowEmpty('min_upvotes');
 
         $validator
             ->integer('max_downvotes')
-            ->allowEmpty('max_downvotes');
-
+            ->allowEmpty('max_downvotes');*/
         return $validator;
     }
 
@@ -173,7 +172,6 @@ class LobbiesTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['lobby_id'], 'Lobbies'));
-
         return $rules;
     }
 }

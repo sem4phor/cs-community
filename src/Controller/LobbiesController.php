@@ -74,13 +74,19 @@ class LobbiesController extends AppController
         return parent::isAuthorized($user);
     }
 
+    public function websocketSend($data) {
+        $context = new \ZMQContext();
+        $socket = $context->getSocket(\ZMQ::SOCKET_PUSH, 'Pusher');
+        $socket->connect("tcp://localhost:5555");
+        $socket->send(json_encode($data));
+    }
+
 
     /**
      * Add method
      *
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
      *
-     * TODO make sure you can only add one at a  time
      */
     public function new()
     {
@@ -88,21 +94,15 @@ class LobbiesController extends AppController
         $lobby = $this->Lobbies->patchEntity($lobby, $this->request->data);
         $lobby->owner_id = $this->Auth->user('steam_id');
         $lobby->free_slots = 5;
-        // TODO check if user matches req. himself
         if ($this->Lobbies->save($lobby)) {
             $this->join($lobby->lobby_id);
-            // websocket: broadcast lobby
-            $context = new \ZMQContext();
-            $socket = $context->getSocket(\ZMQ::SOCKET_PUSH, 'Pusher');
-            $socket->connect("tcp://localhost:5555");
-            $this->request->data = [];
             $this->request->data['lobbies'] = 'lobby_new';
             $this->request->data['lobby'] = $this->Lobbies->get($lobby->lobby_id, ['contain' => ['RankFrom', 'RankTo', 'Owner']]);
-            $socket->send(json_encode($this->request->data));
-            // end
+            $this->websocketSend(json_encode($this->request->data));
             return $this->redirect($this->referer());
         } else {
             $this->Flash->error(__('The lobby could not be saved. Please, try again.'));
+            return $this->redirect($this->referer());
         }
     }
 

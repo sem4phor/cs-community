@@ -30,7 +30,7 @@ class UsersTable extends Table
         parent::initialize($config);
 
         $this->table('users');
-        $this->displayField('name');
+        $this->displayField('personaname');
         $this->primaryKey('steam_id');
 
         $this->addBehavior('Timestamp');
@@ -47,7 +47,12 @@ class UsersTable extends Table
         ]);
         $this->belongsTo('Lobby', [
             'className' => 'Lobbies',
-            'foreignKey' => 'lobby_id'// own table
+            'foreignKey' => 'lobby_id'
+        ]);
+        $this->hasMany('ChatMessages', [
+            'foreignKey' => 'message_id',
+            'dependent' => true,
+            'bindingKey' => 'steam_id'
         ]);
 
     }
@@ -71,6 +76,18 @@ class UsersTable extends Table
      */
     public function validationDefault(Validator $validator)
     {
+        $validator
+            ->notEmpty('steam_id')
+            ->add('steam_id', 'numeric', [
+                'rule' => ['numeric'],
+                'message' => 'No valid steam_id.'
+            ]);
+        $validator
+            ->notEmpty('playtime')
+            ->add('playtime', 'numeric', [
+                'rule' => ['numeric'],
+                'message' => 'No valid playtime.'
+            ]);
         $validator
             ->notEmpty('role_id');
         $validator
@@ -104,7 +121,7 @@ class UsersTable extends Table
         return $rules;
     }
 
-
+// if user not i ndb register him
     public function register($steam_id = null)
     {
         $newUser = $this->newEntity();
@@ -122,13 +139,13 @@ class UsersTable extends Table
         $url = file_get_contents("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=" . Configure::read('APIkey') . "&steamids=" . $steamId);
         $content = json_decode($url, true);
         //$user['steam_lastlogoff'] = $content['response']['players'][0]['lastlogoff'];
-        $user->steam_profileurl = $content['response']['players'][0]['profileurl'];
-        $user->steam_avatar = $content['response']['players'][0]['avatar'];
-        $user->steam_avatarmedium = $content['response']['players'][0]['avatarmedium'];
-        $user->steam_avatarfull = $content['response']['players'][0]['avatarfull'];
-        $user->steam_personastate = $content['response']['players'][0]['personastate'];
-        $user->steam_timecreated = $content['response']['players'][0]['timecreated'];
-        $user->steam_personaname = $content['response']['players'][0]['personaname'];
+        $user->profileurl = $content['response']['players'][0]['profileurl'];
+        $user->avatar = $content['response']['players'][0]['avatar'];
+        $user->avatarmedium = $content['response']['players'][0]['avatarmedium'];
+        $user->avatarfull = $content['response']['players'][0]['avatarfull'];
+        $user->personastate = $content['response']['players'][0]['personastate'];
+        $user->timecreated = $content['response']['players'][0]['timecreated'];
+        $user->personaname = $content['response']['players'][0]['personaname'];
 
         $url2 = file_get_contents("http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=" . Configure::read('APIkey') . "&steamid=" . $steamId . "&format=json");
         $content2 = json_decode($url2, true);

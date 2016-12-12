@@ -28,11 +28,9 @@ class FormValueAuthenticate extends BaseAuthenticate
      */
     public function authenticate(Request $request, Response $response)
     {
-        Log::write('debug', 'auth');
         $model = $this->config('userModel');
         $field = $this->config('field');
         return TableRegistry::get($model)->get($request->data[$model][$field]);
-
     }
 
 }

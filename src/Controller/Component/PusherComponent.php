@@ -1,5 +1,6 @@
 <?php
-namespace App;
+namespace App\Controller\Component;
+
 
 /**
  * Created by PhpStorm.
@@ -12,7 +13,7 @@ use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\WampServerInterface;
 use Cake\Log\Log;
 
-class Pusher implements WampServerInterface
+class PusherComponent implements WampServerInterface
 {
 
     /**

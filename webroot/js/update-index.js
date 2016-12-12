@@ -9,6 +9,7 @@ conn = new ab.Session('ws://localhost:8080',
             data.lobby.users.forEach(function (lobby_user) {
                 if (lobby_user.steam_id == current_user_id) {
                     if (data.lobby.teamspeak_req == false) {
+                        // just flash a mesage maybe
                         var message = $("<div data-alert class=\"alert-box\"><a class='radius button small' href=" + data.lobby.url + ">Join</a><a href='#' class='close'>&times;</a></div>");
                         $("#errorArea").prepend(message);
                     } else {

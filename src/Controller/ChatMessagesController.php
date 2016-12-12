@@ -40,6 +40,7 @@ class ChatMessagesController extends AppController
                 //$this->request->data['last_sender'] = $this->ChatMessages->find()->order(['created' => 'DESC'])->toArray()[1]->sent_by;
                 $socket->send(json_encode($this->request->data));
                 // end
+                return;
             } else {
                 $this->Flash->error(__('The chat message could not be saved. Please, try again.'));
             }

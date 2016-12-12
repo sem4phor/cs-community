@@ -30,7 +30,9 @@ class ContinentsTable extends Table
     {
         parent::initialize($config);
 
-        $this->hasMany('Countries');
+        $this->hasMany('Countries', [
+            'foreignKey' => 'code'
+        ]);
 
         $this->table('continents');
         $this->displayField('name');

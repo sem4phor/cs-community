@@ -15,7 +15,7 @@ class SteamOpenIdComponent extends Component
      */
     public static function validate()
     {
-        // Star off with some basic params
+        // Start off with some basic params
         $params = array(
             'openid.assoc_handle' => $_GET['openid_assoc_handle'],
             'openid.signed' => $_GET['openid_signed'],
