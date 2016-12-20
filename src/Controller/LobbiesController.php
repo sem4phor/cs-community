@@ -136,10 +136,7 @@ class LobbiesController extends AppController
             // stuff for new lobby
             $new_lobby = $this->Lobbies->newEntity();
             $this->loadModel('Ranks');
-            $ranks = $this->Ranks->find('list', [
-                'keyField' => 'rank_id',
-                'valueField' => 'name'
-            ]);
+            $ranks = $this->Ranks->find('list');
             $ages = [12, 14, 16, 18, 20];
             $languages = $this->Lobbies->Users->Countries->getLocalesOfContinent($user_region);
             $this->set(compact('ages', 'ranks', 'new_lobby', 'languages'));
@@ -211,8 +208,6 @@ class LobbiesController extends AppController
         if ($this->Lobbies->Users->save($user)) {
             $lobby->free_slots = $lobby->free_slots - 1;
             if ($this->Lobbies->save($lobby)) {
-                $this->Flash->success(__('Joined lobby.'));
-
                 $this->request->data['lobbies'] = 'lobby_join';
                 $this->request->data['lobby'] = $lobby;
                 $this->request->data['joined_user'] = $user;
@@ -220,7 +215,16 @@ class LobbiesController extends AppController
                 if ($lobby->free_slots == 0) {
                     $this->request->data['lobbies'] = 'lobby_full';
                     $this->websocketSend($this->request->data);
+                    $this->Flash->set(__('Your party is complete!'), [
+                        'element' => 'fullparty',
+                        'params' => [
+                            'lobby_link' => $lobby->url,
+                            'ts3_ip' => $lobby->teamspeak_ip
+                        ]
+                    ]);
+                    return $this->redirect($this->referer());
                 }
+                $this->Flash->success(__('Joined lobby.'));
                 return $this->redirect($this->referer());
             } else {
                 $this->Flash->error(__('The lobby could not be joined. Please, try again.'));

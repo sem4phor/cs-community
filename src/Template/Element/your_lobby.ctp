@@ -1,9 +1,8 @@
-<div class="row lobbies your-lobby medium-centered">
-
-    <div class="row">
-        <h3><?= __('Your Lobby') ?></h3>
-    </div>
-    <div class='lobby-item row' id="<?= $your_lobby->lobby_id ?>">
+<div class="row your-lobby">
+    <div class='row' id="<?= $your_lobby->lobby_id ?>">
+        <div class="row">
+            <h2><?= __('Your Lobby') ?></h2>
+        </div>
         <div class="row">
             <div class='column medium-1'>
                 <?= $this->Html->image('flags/' . $your_lobby->language . '.png', ["alt" => $your_lobby->language]); ?>
@@ -36,15 +35,15 @@
                 <?= $this->Html->image('ranks/' . $your_lobby->RankTo->name . '.png', ["alt" => $your_lobby->RankTo, "heigth" => '37px', "width" => '100px']); ?>
             </div>
             <div class='column medium-1'>
-                <div class="row">
+                <div class="row  row-row-row">
                     <?= $this->Html->image('microphone.png', ["alt" => 'microphone', "heigth" => '20', "width" => '20']); ?>
                     <?= h($your_lobby->microphone_req) ? __('Yes') : __('No'); ?>
                 </div>
-                <div class="row">
+                <div class="row  row-row-row">
                     <?= $this->Html->image('prime.png', ["alt" => 'prime', "heigth" => '20', "width" => '20']); ?>
                     <?= h($your_lobby->prime_req) ? __('Yes') : __('No'); ?>
                 </div>
-                <div class="row">
+                <div class="row  row-row-row">
                     <?= $this->Html->image('teamspeak.png', ["alt" => 'TS3', "heigth" => '20', "width" => '20']); ?>
                     <?= h($your_lobby->teamspeak_req) ? __('Yes') : __('No'); ?>
                 </div>

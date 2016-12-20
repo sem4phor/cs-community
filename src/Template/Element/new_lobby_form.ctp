@@ -1,4 +1,4 @@
-<div class="row lobbies new medium-centered">
+<div class="lobbies new row">
     <div class='row' ?>
         <div class="medium-11 columns">
             <?= $this->Form->create($new_lobby, ['url' => ['action' => 'new']]) ?>
@@ -33,9 +33,9 @@
         </div>
     </div>
     <div class='row'>
-        <div class="medium-3 columns right" id="expand_new_lobby">
+        <div class="medium-3 columns right ui-icon-triangle-1-s" id="expand_new_lobby">
             <?= __('more options') ?>
-            <?= $this->Html->image('expand.png', ["heigth" => '30', "width" => '30']) ?>
+            <span class="ui-selectmenu-icon ui-icon ui-icon-caret-1-s"></span>
         </div>
     </div>
 

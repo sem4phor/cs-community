@@ -2,21 +2,25 @@ var conn;
 conn = new ab.Session('ws://localhost:8080',
     function () {
         conn.subscribe('lobby_full', function (topic, data) {
+            // make invisible for all
             console.log('New full lobby');
             console.log(data);
-            // wenn selbst, nur allert dasss lobby voll ist kein hjoin button
+            // wenn eigene lobby, nur allert dasss lobby voll ist kein hjoin button
             var current_user_id = document.getElementById('topbar-avatar').getAttribute('steam_id');
+            if (current_user_id == data.lobby.owner_id) {
+                var message = $("<div class=\"dialog\" title='Your party is complete!'><p>Head into the game to start!</p></div>");
+                message.dialog();
+                return;
+            }
             data.lobby.users.forEach(function (lobby_user) {
                 if (lobby_user.steam_id == current_user_id) {
                     if (data.lobby.teamspeak_req == false) {
-                        // just flash a mesage maybe
-                        var message = $("<div data-alert class=\"alert-box\"><a class='radius button small' href=" + data.lobby.url + ">Join</a><a href='#' class='close'>&times;</a></div>");
-                        $("#errorArea").prepend(message);
+                        var message = $("<div class=\"dialog\" title='Your party is complete!'><a class='radius button small' href=" + data.lobby.url + ">Join Lobby</a></div>");
                     } else {
                         var ts3link = 'ts3server://' + data.lobby.teamspeak_ip;
-                        var message = $("<div data-alert class=\"alert-box\"><a class='radius button small' href=" + data.lobby.url + ">Join</a><a class='radius button small' href=" + ts3link + ">Join TS3</a><a href='#' class='close'>&times;</a></div>");
-                        $("#errorArea").prepend(message);
+                        var message = $("<div class=\"dialog\" title='Your party is complete!'><a class='radius button small' href=" + data.lobby.url + ">Join Lobby</a><a class='radius button small' href=" + ts3link + ">Join Teamspeak</a></div>");
                     }
+                    message.dialog();
                 } else {
                     return;
                 }
@@ -241,7 +245,6 @@ conn = new ab.Session('ws://localhost:8080',
         });
         conn.subscribe('new_chat_message', function (topic, data) {
             var colors = ["#234567", "#CF142B", "#C5AC6A", "#5E9FB8", "#4CAF50", "#234567", "#CF142B", "#C5AC6A", "#5E9FB8", "#4CAF50"];
-
             var chat_message_row = document.createElement("div");
             chat_message_row.setAttribute("class", "row");
             var chat_message = document.createElement("div");
@@ -250,7 +253,9 @@ conn = new ab.Session('ws://localhost:8080',
             chat_message.textContent = data['personaname'] + ': ' + data['message'];
             chat_message_row.appendChild(chat_message);
             document.getElementById("chat-message-container").append(chat_message_row);
-
+            $('#chat-message-container').stop().animate({
+                scrollTop: $('#chat-message-container')[0].scrollHeight
+            }, 800);
         });
     },
     function () {

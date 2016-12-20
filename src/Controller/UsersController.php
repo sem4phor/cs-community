@@ -56,7 +56,6 @@ class UsersController extends AppController
         if ($this->Auth->identify()) {
             if ($user) {
                 $this->Auth->setUser($user);
-                $this->Flash->success(__('Authentification Success!'));
             }
             return $this->redirect(['controller' => 'Lobbies', 'action' => 'home']);
         } else {

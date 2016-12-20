@@ -1,5 +1,5 @@
-<div class="filter-options medium-2 columns">
-    <div class="filter-options-container">
+<div class="filter-options-border medium-2 columns">
+    <div class="filter-options">
         <?= $this->Form->create('Filter'); ?>
         <div class="row">
             <div class="columns medium-6">

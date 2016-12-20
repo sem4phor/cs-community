@@ -27,25 +27,28 @@ $cakeDescription = 'CS-Community: Find the best teammates!';
     <?= $this->Html->meta('icon') ?>
 
     <?= $this->Html->css('base.css') ?>
+    <?= $this->Html->css('http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css') ?>
     <?= $this->Html->css('cake.css') ?>
+    <?= $this->Html->css('jquery.scrollbar.css') ?>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
     <?= $this->Html->script('https://code.jquery.com/jquery-3.1.1.min.js'); ?>
     <?= $this->Html->script('http://code.jquery.com/ui/1.12.1/jquery-ui.min.js'); ?>
-    <?= $this->Html->css('http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css') ?>
+
 
     <?= $this->Html->script('http://autobahn.s3.amazonaws.com/js/autobahn.min.js'); ?>
     <?= $this->Html->script('/webroot/js/jquery.infinite-scroll.js'); ?>
     <?= $this->Html->script('/webroot/js/update-index.js'); ?>
+    <?= $this->Html->script('/webroot/js/jquery.scrollbar.min.js'); ?>
 </head>
 <body>
 <nav class="top-bar" data-topbar role="navigation">
     <ul class="title-area">
-        <li class="name" style="height:108px;width:238px;padding-top:15px;padding-bottom:15px;">
+        <li class="name">
             <?= $this->Html->image('logograuklein.png', ['alt' => 'logo']); ?>
-            <h3 style="color:#fff;text-align:center;font-weight:bold;">CS-Community</h3>
+            <h3>CS-Community</h3>
         </li>
     </ul>
     <section class="top-bar-section">

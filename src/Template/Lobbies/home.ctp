@@ -1,8 +1,5 @@
 <?php if (!isset($user)): ?>
-    <div class="lobbies lobbies-index medium-7 medium-centered columns content">
-
-        <div class='row' style="margin-top:20px;"><h3><?= __('Lobbies') ?></h3></div>
-
+    <div class="lobbies home medium-7 medium-centered columns content">
         <div id='lobbies-list'>
             <?php foreach ($lobbies as $lobby): ?>
                 <div class='lobby-item row' id="<?= $lobby->lobby_id ?>">
@@ -69,8 +66,12 @@
         <?php else: ?>
             <?= $this->element('new_lobby_form'); ?>
         <?php endif; ?>
-        <div class='row' style="margin-top:20px;"><h3><?= __('Lobbies') ?></h3></div>
         <div id='lobbies-list'>
+            <?php if($lobbies->isEmpty()): ?>
+                <div class="row no-lobbies">
+                    <p><?= __('There is currently no party available') ?></p>
+                </div>
+            <?php endif; ?>
             <?php foreach ($lobbies as $lobby): ?>
                 <div class='lobby-item row' id="<?= $lobby->lobby_id ?>">
                     <div class="row">
@@ -160,16 +161,14 @@
         $.widget("custom.iconselectmenu", $.ui.selectmenu, {
             _renderItem: function (ul, item) {
                 var li = $("<li>"),
-                    wrapper = $("<div>", {text: item.label});
+                    wrapper = $("<div>", {
+                        /*text: item.label,*/
+                        style: item.element.attr("data-style"),
+                    "class": "ui-icon " + item.element.attr("data-class")
+                    });
                 if (item.disabled) {
                     li.addClass("ui-state-disabled");
                 }
-                $("<span>", {
-                    style: item.element.attr("data-style"),
-                    "class": "ui-icon " + item.element.attr("data-class")
-                })
-                    .appendTo(wrapper);
-
                 return li.append(wrapper).appendTo(ul);
             }
         });
@@ -193,15 +192,26 @@
         }
     }
 
+
     $(document).ready(function () {
+
+
         $('#expand').hide();
         $('#expand_new_lobby').on('click', function () {
+            var arrowUp = $("<span>", {
+                "class": "ui-selectmenu-icon ui-icon ui-icon-caret-1-n"
+        });
+            var arrowDown = $("<span>", {
+                "class": "ui-selectmenu-icon ui-icon ui-icon-caret-1-s"
+            });
             if ($('#expand').is(':hidden')) {
                 $('#expand').slideDown();
                 $('#expand_new_lobby').text('less options');
+               arrowUp.appendTo( $('#expand_new_lobby'));
             } else {
                 $('#expand').slideUp();
                 $('#expand_new_lobby').text('more options');
+                arrowDown.appendTo( $('#expand_new_lobby'));
             }
         });
 
@@ -244,5 +254,9 @@
             }
             updateSelectBackground('#rank-to', '/cs-community/webroot/img/ranks/', '#rank-to-button');
         });
+
+        //$('.ui-selectmenu-menu').addClass('scrollbar-inner');
+        $('.ui-menu').addClass('scrollbar-inner');
+        $('.scrollbar-inner').scrollbar();
     });
 </script>

@@ -2,25 +2,92 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e36198ec-8618-40bb-9eb7-04b0e11786a9" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/ranks/Distinguished Master Guardian.png" afterPath="$PROJECT_DIR$/webroot/img/ranks/Distinguished Master Guardian.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/ranks/Global Elite.png" afterPath="$PROJECT_DIR$/webroot/img/ranks/Global Elite.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/ranks/Gold Nova I.png" afterPath="$PROJECT_DIR$/webroot/img/ranks/Gold Nova I.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/ranks/Gold Nova II.png" afterPath="$PROJECT_DIR$/webroot/img/ranks/Gold Nova II.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/ranks/Gold Nova III.png" afterPath="$PROJECT_DIR$/webroot/img/ranks/Gold Nova III.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/ranks/Gold Nova Master.png" afterPath="$PROJECT_DIR$/webroot/img/ranks/Gold Nova Master.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/ranks/Legendary Eagle Master.png" afterPath="$PROJECT_DIR$/webroot/img/ranks/Legendary Eagle Master.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/ranks/Legendary Eagle.png" afterPath="$PROJECT_DIR$/webroot/img/ranks/Legendary Eagle.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/ranks/Master Guardian Elite.png" afterPath="$PROJECT_DIR$/webroot/img/ranks/Master Guardian Elite.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/ranks/Master Guardian I.png" afterPath="$PROJECT_DIR$/webroot/img/ranks/Master Guardian I.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/ranks/Master Guardian II.png" afterPath="$PROJECT_DIR$/webroot/img/ranks/Master Guardian II.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/ranks/Silver Elite Master.png" afterPath="$PROJECT_DIR$/webroot/img/ranks/Silver Elite Master.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/ranks/Silver Elite.png" afterPath="$PROJECT_DIR$/webroot/img/ranks/Silver Elite.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/ranks/Silver I.png" afterPath="$PROJECT_DIR$/webroot/img/ranks/Silver I.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/ranks/Silver II.png" afterPath="$PROJECT_DIR$/webroot/img/ranks/Silver II.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/ranks/Silver III.png" afterPath="$PROJECT_DIR$/webroot/img/ranks/Silver III.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/ranks/Silver IV.png" afterPath="$PROJECT_DIR$/webroot/img/ranks/Silver IV.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/ranks/Supreme Master First Class.png" afterPath="$PROJECT_DIR$/webroot/img/ranks/Supreme Master First Class.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Template/Element/Flash/fullparty.ctp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/webroot/css/jquery.scrollbar.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/webroot/js/jquery.scrollbar.min.js" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/webroot/img/flags/eo.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/webroot/img/flags/eu.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/webroot/img/flags/fa.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/webroot/img/flags/fil.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/webroot/img/flags/gl.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/webroot/img/flags/he.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/webroot/img/flags/hi.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/webroot/img/flags/ja.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/webroot/img/flags/ko.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/webroot/img/flags/ms.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/webroot/img/flags/nl.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/webroot/img/flags/nn.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/webroot/img/flags/pt-br.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/webroot/img/flags/pt-pt.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/webroot/img/flags/sco.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/webroot/img/flags/vi.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/webroot/img/flags/zh-hans.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/webroot/img/flags/zh-hant.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/webroot/img/languages/fr_BE.png" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/af.png" afterPath="$PROJECT_DIR$/webroot/img/flags/af.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/ar.png" afterPath="$PROJECT_DIR$/webroot/img/flags/ar.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/ba.png" afterPath="$PROJECT_DIR$/webroot/img/flags/ba.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/be.png" afterPath="$PROJECT_DIR$/webroot/img/flags/be.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/bg.png" afterPath="$PROJECT_DIR$/webroot/img/flags/bg.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/bo.png" afterPath="$PROJECT_DIR$/webroot/img/flags/bo.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/br.png" afterPath="$PROJECT_DIR$/webroot/img/flags/br.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/bs.png" afterPath="$PROJECT_DIR$/webroot/img/flags/bs.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/ca.png" afterPath="$PROJECT_DIR$/webroot/img/flags/ca.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/cs.png" afterPath="$PROJECT_DIR$/webroot/img/flags/cs.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/cy.png" afterPath="$PROJECT_DIR$/webroot/img/flags/cy.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/da.png" afterPath="$PROJECT_DIR$/webroot/img/flags/da.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/de.png" afterPath="$PROJECT_DIR$/webroot/img/flags/de.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/el.png" afterPath="$PROJECT_DIR$/webroot/img/flags/el.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/en.png" afterPath="$PROJECT_DIR$/webroot/img/flags/en.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/es.png" afterPath="$PROJECT_DIR$/webroot/img/flags/es.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/et.png" afterPath="$PROJECT_DIR$/webroot/img/flags/et.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/fi.png" afterPath="$PROJECT_DIR$/webroot/img/flags/fi.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/fo.png" afterPath="$PROJECT_DIR$/webroot/img/flags/fo.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/fr.png" afterPath="$PROJECT_DIR$/webroot/img/flags/fr.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/fy.png" afterPath="$PROJECT_DIR$/webroot/img/flags/fy.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/ga.png" afterPath="$PROJECT_DIR$/webroot/img/flags/ga.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/gb.png" afterPath="$PROJECT_DIR$/webroot/img/flags/gb.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/hr.png" afterPath="$PROJECT_DIR$/webroot/img/flags/hr.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/hu.png" afterPath="$PROJECT_DIR$/webroot/img/flags/hu.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/id.png" afterPath="$PROJECT_DIR$/webroot/img/flags/id.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/is.png" afterPath="$PROJECT_DIR$/webroot/img/flags/is.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/it.png" afterPath="$PROJECT_DIR$/webroot/img/flags/it.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/km.png" afterPath="$PROJECT_DIR$/webroot/img/flags/km.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/lb.png" afterPath="$PROJECT_DIR$/webroot/img/flags/lb.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/lt.png" afterPath="$PROJECT_DIR$/webroot/img/flags/lt.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/lv.png" afterPath="$PROJECT_DIR$/webroot/img/flags/lv.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/mk.png" afterPath="$PROJECT_DIR$/webroot/img/flags/mk.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/mn.png" afterPath="$PROJECT_DIR$/webroot/img/flags/mn.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/mt.png" afterPath="$PROJECT_DIR$/webroot/img/flags/mt.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/nb.png" afterPath="$PROJECT_DIR$/webroot/img/flags/nb.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/pl.png" afterPath="$PROJECT_DIR$/webroot/img/flags/pl.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/pt.png" afterPath="$PROJECT_DIR$/webroot/img/flags/pt.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/ro.png" afterPath="$PROJECT_DIR$/webroot/img/flags/ro.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/ru.png" afterPath="$PROJECT_DIR$/webroot/img/flags/ru.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/se.png" afterPath="$PROJECT_DIR$/webroot/img/flags/se.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/sk.png" afterPath="$PROJECT_DIR$/webroot/img/flags/sk.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/sl.png" afterPath="$PROJECT_DIR$/webroot/img/flags/sl.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/so.png" afterPath="$PROJECT_DIR$/webroot/img/flags/so.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/sq.png" afterPath="$PROJECT_DIR$/webroot/img/flags/sq.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/sr.png" afterPath="$PROJECT_DIR$/webroot/img/flags/sr.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/sv.png" afterPath="$PROJECT_DIR$/webroot/img/flags/sv.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/tg.png" afterPath="$PROJECT_DIR$/webroot/img/flags/tg.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/th.png" afterPath="$PROJECT_DIR$/webroot/img/flags/th.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/tl.png" afterPath="$PROJECT_DIR$/webroot/img/flags/tl.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/tr.png" afterPath="$PROJECT_DIR$/webroot/img/flags/tr.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/img/flags/uk.png" afterPath="$PROJECT_DIR$/webroot/img/flags/uk.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Controller/LobbiesController.php" afterPath="$PROJECT_DIR$/src/Controller/LobbiesController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Controller/UsersController.php" afterPath="$PROJECT_DIR$/src/Controller/UsersController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Template/Element/chat.ctp" afterPath="$PROJECT_DIR$/src/Template/Element/chat.ctp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Template/Element/filter_options.ctp" afterPath="$PROJECT_DIR$/src/Template/Element/filter_options.ctp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Template/Element/new_lobby_form.ctp" afterPath="$PROJECT_DIR$/src/Template/Element/new_lobby_form.ctp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Template/Element/your_lobby.ctp" afterPath="$PROJECT_DIR$/src/Template/Element/your_lobby.ctp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Template/Layout/default.ctp" afterPath="$PROJECT_DIR$/src/Template/Layout/default.ctp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Template/Lobbies/home.ctp" afterPath="$PROJECT_DIR$/src/Template/Lobbies/home.ctp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/css/base.css" afterPath="$PROJECT_DIR$/webroot/css/base.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/css/cake.css" afterPath="$PROJECT_DIR$/webroot/css/cake.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/js/update-index.js" afterPath="$PROJECT_DIR$/webroot/js/update-index.js" />
     </list>
     <ignored path="CakePHP-Blog-Tutorial-master.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -48,15 +115,95 @@
     <favorites_list name="CakePHP-Blog-Tutorial-master" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.50751877">
+    <splitter split-orientation="horizontal" split-proportion="0.5081761">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="LobbiesController.php" pinned="false" current-in-tab="true">
+          <file leaf-file-name="LobbiesController.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/Controller/LobbiesController.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="3978">
-                  <caret line="290" column="0" lean-forward="true" selection-start-line="290" selection-start-column="0" selection-end-line="290" selection-end-column="0" />
+                <state relative-caret-position="369">
+                  <caret line="138" column="48" lean-forward="true" selection-start-line="138" selection-start-column="48" selection-end-line="138" selection-end-column="48" />
                   <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="fullparty.ctp" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/Template/Element/Flash/fullparty.ctp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="68">
+                  <caret line="4" column="21" lean-forward="false" selection-start-line="4" selection-start-column="21" selection-end-line="4" selection-end-column="21" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="update-index.js" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/webroot/js/update-index.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="626">
+                  <caret line="257" column="20" lean-forward="false" selection-start-line="257" selection-start-column="20" selection-end-line="257" selection-end-column="20" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="home.ctp" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/Template/Lobbies/home.ctp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="673">
+                  <caret line="258" column="50" lean-forward="false" selection-start-line="258" selection-start-column="50" selection-end-line="258" selection-end-column="50" />
+                  <folding>
+                    <element signature="n#style#0;n#ul#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="your_lobby.ctp" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/Template/Element/your_lobby.ctp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="544">
+                  <caret line="35" column="18" lean-forward="true" selection-start-line="35" selection-start-column="18" selection-end-line="35" selection-end-column="18" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="base.css" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/webroot/css/base.css">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="309">
+                  <caret line="6072" column="22" lean-forward="false" selection-start-line="6072" selection-start-column="21" selection-end-line="6072" selection-end-column="22" />
+                  <folding>
+                    <element signature="e#148236#148559#2" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="default.ctp" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/Template/Layout/default.ctp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="289">
+                  <caret line="42" column="42" lean-forward="true" selection-start-line="42" selection-start-column="42" selection-end-line="42" selection-end-column="42" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="new_lobby_form.ctp" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/Template/Element/new_lobby_form.ctp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="17">
+                  <caret line="1" column="23" lean-forward="false" selection-start-line="1" selection-start-column="23" selection-end-line="1" selection-end-column="23" />
+                  <folding>
+                    <marker date="1482266915315" expanded="true" signature="2440:2480" ph="..." />
+                    <marker date="1482266915315" expanded="true" signature="2772:2812" ph="..." />
+                    <marker date="1482266915315" expanded="true" signature="2941:2981" ph="..." />
+                    <marker date="1482266915315" expanded="true" signature="3144:3187" ph="..." />
+                    <marker date="1482266915315" expanded="true" signature="3314:3357" ph="..." />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -65,31 +212,54 @@
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="ChatMessagesTable.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/Model/Table/ChatMessagesTable.php">
+          <file leaf-file-name="cake.css" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/webroot/css/cake.css">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="835">
-                  <caret line="77" column="10" lean-forward="false" selection-start-line="77" selection-start-column="10" selection-end-line="77" selection-end-column="10" />
+                <state relative-caret-position="547">
+                  <caret line="390" column="11" lean-forward="true" selection-start-line="390" selection-start-column="11" selection-end-line="390" selection-end-column="11" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="RanksTable.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/Model/Table/RanksTable.php">
+          <file leaf-file-name="filter_options.ctp" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/Template/Element/filter_options.ctp">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="833">
-                  <caret line="52" column="5" lean-forward="false" selection-start-line="52" selection-start-column="5" selection-end-line="52" selection-end-column="5" />
+                  <caret line="49" column="6" lean-forward="false" selection-start-line="49" selection-start-column="6" selection-end-line="49" selection-end-column="6" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="UsersTable.php" pinned="false" current-in-tab="true">
+          <file leaf-file-name="chat.ctp" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/Template/Element/chat.ctp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="170">
+                  <caret line="10" column="32" lean-forward="false" selection-start-line="10" selection-start-column="32" selection-end-line="10" selection-end-column="32" />
+                  <folding>
+                    <marker date="1482271227637" expanded="true" signature="392:495" ph="..." />
+                    <marker date="1482271227637" expanded="true" signature="454:495" ph="..." />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="jquery.scrollbar.css" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/webroot/css/jquery.scrollbar.css">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="246">
+                  <caret line="133" column="74" lean-forward="false" selection-start-line="133" selection-start-column="74" selection-end-line="133" selection-end-column="74" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="UsersTable.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/Model/Table/UsersTable.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="835">
-                  <caret line="73" column="53" lean-forward="false" selection-start-line="73" selection-start-column="53" selection-end-line="73" selection-end-column="53" />
+                <state relative-caret-position="663">
+                  <caret line="44" column="39" lean-forward="false" selection-start-line="44" selection-start-column="39" selection-end-line="44" selection-end-column="39" />
                   <folding>
                     <element signature="e#34#60#0#PHP" expanded="true" />
                   </folding>
@@ -100,8 +270,8 @@
           <file leaf-file-name="LobbiesTable.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/Model/Table/LobbiesTable.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="388">
-                  <caret line="154" column="20" lean-forward="true" selection-start-line="154" selection-start-column="20" selection-end-line="154" selection-end-column="20" />
+                <state relative-caret-position="2567">
+                  <caret line="154" column="20" lean-forward="false" selection-start-line="154" selection-start-column="20" selection-end-line="154" selection-end-column="20" />
                   <folding />
                 </state>
               </provider>
@@ -120,35 +290,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>lobby_new</find>
-      <find>country</find>
-      <find>user_id</find>
-      <find>user_</find>
-      <find>new_lo</find>
-      <find>public</find>
-      <find>contain</find>
-      <find>kick</find>
-      <find>owner_id</find>
-      <find>extendet_settings</find>
-      <find>free</find>
-      <find>flash</find>
-      <find>owner</find>
+      <find>h3</find>
+      <find>expand</find>
+      <find>avata</find>
+      <find>succes</find>
+      <find>success</find>
       <find>join</find>
-      <find>log</find>
-      <find>min.</find>
-      <find>home(</find>
-      <find>vote</find>
-      <find>users</find>
-      <find>ident</find>
-      <find>index</find>
-      <find>steam</find>
-      <find>edit</find>
-      <find>openid:</find>
-      <find>str_r</find>
-      <find>lobbies_us</find>
-      <find>alert</find>
-      <find>.message</find>
-      <find>.mess</find>
+      <find>your-lo</find>
+      <find>font-famil</find>
+      <find>ont-fa</find>
+      <find>font-fam</find>
+      <find>h1, h2</find>
+      <find>topbar</find>
+      <find>title-area</find>
+      <find>filter</find>
+      <find>body {</find>
+      <find>new</find>
+      <find>font-family</find>
+      <find>link(</find>
+      <find>scroll</find>
+      <find>-height</find>
+      <find>.full</find>
+      <find>.hei</find>
+      <find>chat-messa</find>
+      <find>lobbies</find>
+      <find>onfoc</find>
+      <find>.conte</find>
+      <find>chat-</find>
+      <find>chat</find>
+      <find>inner</find>
+      <find>.content</find>
     </findStrings>
     <replaceStrings>
       <replace>steam_id</replace>
@@ -161,9 +332,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/Template/Lobbies/new.ctp" />
-        <option value="$PROJECT_DIR$/src/Template/Element/new-lobby-form.ctp" />
-        <option value="$PROJECT_DIR$/src/Template/Users/add.ctp" />
         <option value="$PROJECT_DIR$/src/Template/Lobbies/home2.ctp" />
         <option value="$PROJECT_DIR$/src/Model/Table/LobbiesUsersTable.php" />
         <option value="$PROJECT_DIR$/webroot/js/jquery.infinite-scroll.js" />
@@ -174,24 +342,18 @@
         <option value="$PROJECT_DIR$/src/Template/Users/settings.ctp" />
         <option value="$PROJECT_DIR$/src/Template/Element/FilterOptions.ctp" />
         <option value="$USER_HOME$/AppData/Local/Temp/Temp1_foundation-5.5.3.zip/css/normalize.css" />
-        <option value="$PROJECT_DIR$/webroot/css/base.css" />
         <option value="$PROJECT_DIR$/src/Model/Table/RanksTable.php" />
         <option value="$PROJECT_DIR$/webroot/js/update-chat.js" />
         <option value="$PROJECT_DIR$/config/app.php" />
         <option value="$PROJECT_DIR$/src/push-server.php" />
         <option value="$PROJECT_DIR$/src/Pusher.php" />
         <option value="$PROJECT_DIR$/src/Template/Lobbies/index.ctp" />
-        <option value="$PROJECT_DIR$/src/Template/Lobbies/home.ctp" />
-        <option value="$PROJECT_DIR$/src/Template/Element/filter_options.ctp" />
-        <option value="$PROJECT_DIR$/src/Template/Element/your_lobby.ctp" />
         <option value="$PROJECT_DIR$/src/Template/Users/edit.ctp" />
         <option value="$PROJECT_DIR$/src/Template/Users/view.ctp" />
-        <option value="$PROJECT_DIR$/src/Template/Element/chat.ctp" />
         <option value="$PROJECT_DIR$/src/Auth/SteamAuthenticate.php" />
         <option value="$PROJECT_DIR$/src/Template/Users/login.ctp" />
         <option value="$PROJECT_DIR$/src/Model/Entity/User.php" />
         <option value="$PROJECT_DIR$/logs/debug.log" />
-        <option value="$PROJECT_DIR$/src/Controller/UsersController.php" />
         <option value="$PROJECT_DIR$/src/Controller/Component/SteamOpenIdComponent.php" />
         <option value="$PROJECT_DIR$/src/Auth/SteamOpenIdAuthenticate.php" />
         <option value="$PROJECT_DIR$/src/Auth/FormValueAuthenticate.php" />
@@ -204,14 +366,23 @@
         <option value="$PROJECT_DIR$/src/Model/Table/ChatMessagesTable.php" />
         <option value="$PROJECT_DIR$/src/Controller/ChatMessagesController.php" />
         <option value="$PROJECT_DIR$/src/Model/Table/LobbiesTable.php" />
-        <option value="$PROJECT_DIR$/src/Template/Element/new_lobby_form.ctp" />
-        <option value="$PROJECT_DIR$/src/Template/Layout/default.ctp" />
         <option value="$PROJECT_DIR$/src/Template/Element/Flash/success.ctp" />
         <option value="$PROJECT_DIR$/src/Template/Element/Flash/error.ctp" />
-        <option value="$PROJECT_DIR$/webroot/js/update-index.js" />
-        <option value="$PROJECT_DIR$/webroot/css/cake.css" />
         <option value="$PROJECT_DIR$/src/database.sql" />
+        <option value="$PROJECT_DIR$/src/Controller/UsersController.php" />
+        <option value="$PROJECT_DIR$/src/Template/Element/Flash/full_party.ctp" />
         <option value="$PROJECT_DIR$/src/Controller/LobbiesController.php" />
+        <option value="$PROJECT_DIR$/src/Template/Element/Flash/fullparty.ctp" />
+        <option value="$PROJECT_DIR$/src/Template/Element/your_lobby.ctp" />
+        <option value="$PROJECT_DIR$/webroot/css/base.css" />
+        <option value="$PROJECT_DIR$/webroot/js/update-index.js" />
+        <option value="$PROJECT_DIR$/src/Template/Element/new_lobby_form.ctp" />
+        <option value="$PROJECT_DIR$/src/Template/Layout/default.ctp" />
+        <option value="$PROJECT_DIR$/webroot/css/jquery.scrollbar.css" />
+        <option value="$PROJECT_DIR$/src/Template/Lobbies/home.ctp" />
+        <option value="$PROJECT_DIR$/src/Template/Element/filter_options.ctp" />
+        <option value="$PROJECT_DIR$/src/Template/Element/chat.ctp" />
+        <option value="$PROJECT_DIR$/webroot/css/cake.css" />
       </list>
     </option>
   </component>
@@ -266,7 +437,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
@@ -596,6 +766,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -609,15 +780,15 @@
     <property name="js.eslint.eslintPackage" value="" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\xampp\htdocs\cakephp-blog-tutorial-master\src\Controller" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\cs-community\webroot\js" />
+      <recent name="C:\xampp\htdocs\cs-community\webroot\css" />
       <recent name="C:\xampp\htdocs\cs-community\src\Controller\Component" />
       <recent name="C:\xampp\htdocs\cs-community\src" />
       <recent name="C:\xampp\htdocs\cs-community\bin" />
-      <recent name="C:\xampp\htdocs\cs-community\webroot\js" />
-      <recent name="C:\xampp\htdocs\cs-community\src\Template\Element" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\cakephp-blog-tutorial-master\src\Controller" />
     </key>
   </component>
   <component name="RunManager" selected="PHP Remote Debug.PHP REMOTE DEBUG">
@@ -774,18 +945,20 @@
       <workItem from="1481472320485" duration="1505000" />
       <workItem from="1481530431882" duration="12562000" />
       <workItem from="1481645980434" duration="1223000" />
-      <workItem from="1481722279672" duration="5645000" />
+      <workItem from="1481722279672" duration="20508000" />
+      <workItem from="1481807871126" duration="7014000" />
+      <workItem from="1482231352557" duration="30851000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="629010000" />
+    <option name="totallyTimeSpent" value="681738000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14925373" sideWeight="0.4943662" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15245202" sideWeight="0.4943662" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22101842" sideWeight="0.5021322" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -844,7 +1017,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/src/Controller/UsersController.php</url>
-          <line>73</line>
+          <line>72</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
@@ -853,34 +1026,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/vendor/cboden/ratchet/src/Ratchet/Wamp/WampConnection.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-760">
-          <caret line="26" column="44" lean-forward="false" selection-start-line="26" selection-start-column="44" selection-end-line="26" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/cboden/ratchet/src/Ratchet/Wamp/WampServerInterface.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/cboden/ratchet/src/Ratchet/Wamp/Topic.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1035">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/cboden/ratchet/src/Ratchet/Wamp/TopicManager.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1355">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vendor/cboden/ratchet/src/Ratchet/Http/HttpServer.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-729">
@@ -952,42 +1097,10 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Template/Lobbies/index.ctp" />
-    <entry file="file://$PROJECT_DIR$/src/Template/Element/filter_options.ctp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="26" column="15" lean-forward="false" selection-start-line="26" selection-start-column="15" selection-end-line="26" selection-end-column="15" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Template/Element/your_lobby.ctp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="753">
-          <caret line="68" column="113" lean-forward="false" selection-start-line="68" selection-start-column="113" selection-end-line="68" selection-end-column="113" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Template/Users/view.ctp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="4" column="12" lean-forward="true" selection-start-line="4" selection-start-column="12" selection-end-line="4" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Template/Element/chat.ctp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="18" lean-forward="false" selection-start-line="6" selection-start-column="18" selection-end-line="6" selection-end-column="18" />
-          <folding>
-            <marker date="1481206977563" expanded="true" signature="393:496" ph="..." />
-            <marker date="1481206977563" expanded="true" signature="455:496" ph="..." />
-            <marker date="1481206977563" expanded="true" signature="819:860" ph="..." />
-            <marker date="1481206977563" expanded="true" signature="1047:1551" ph="..." />
-            <marker date="1481206977563" expanded="true" signature="1087:1551" ph="{...}" />
-            <marker date="1481206977563" expanded="true" signature="1160:1454" ph="{...}" />
-            <marker date="1481206977563" expanded="true" signature="1471:1551" ph="{&quot;url&quot;: form.action...}" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1063,16 +1176,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/UsersController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="714">
-          <caret line="42" column="61" lean-forward="false" selection-start-line="42" selection-start-column="61" selection-end-line="42" selection-end-column="61" />
-          <folding>
-            <element signature="e#33#66#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Controller/Component/SteamOpenIdComponent.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
@@ -1097,52 +1200,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Template/Element/new_lobby_form.ctp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="668">
-          <caret line="60" column="10" lean-forward="false" selection-start-line="60" selection-start-column="10" selection-end-line="60" selection-end-column="10" />
-          <folding>
-            <marker date="1481538365615" expanded="true" signature="2445:2485" ph="..." />
-            <marker date="1481538365615" expanded="true" signature="2777:2817" ph="..." />
-            <marker date="1481538365615" expanded="true" signature="2946:2986" ph="..." />
-            <marker date="1481538365615" expanded="true" signature="3149:3192" ph="..." />
-            <marker date="1481538365615" expanded="true" signature="3319:3362" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Template/Element/Flash/success.ctp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-          <folding>
-            <element signature="e#98#105#0#HTML" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Template/Layout/default.ctp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="626">
-          <caret line="83" column="29" lean-forward="false" selection-start-line="83" selection-start-column="29" selection-end-line="83" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Template/Element/Flash/default.ctp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/webroot/js/update-index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="52" lean-forward="false" selection-start-line="11" selection-start-column="52" selection-end-line="11" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Template/Element/Flash/error.ctp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
@@ -1155,57 +1212,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="294">
           <caret line="559" column="0" lean-forward="true" selection-start-line="559" selection-start-column="0" selection-end-line="559" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Template/Lobbies/home.ctp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="14" column="52" lean-forward="false" selection-start-line="14" selection-start-column="52" selection-end-line="14" selection-end-column="52" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/webroot/css/cake.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="78" column="14" lean-forward="true" selection-start-line="78" selection-start-column="14" selection-end-line="78" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Model/Table/ChatMessagesTable.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="835">
-          <caret line="77" column="10" lean-forward="false" selection-start-line="77" selection-start-column="10" selection-end-line="77" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Model/Table/RanksTable.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="833">
-          <caret line="52" column="5" lean-forward="false" selection-start-line="52" selection-start-column="5" selection-end-line="52" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Model/Table/LobbiesTable.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="388">
-          <caret line="154" column="20" lean-forward="true" selection-start-line="154" selection-start-column="20" selection-end-line="154" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Model/Table/UsersTable.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="835">
-          <caret line="73" column="53" lean-forward="false" selection-start-line="73" selection-start-column="53" selection-end-line="73" selection-end-column="53" />
-          <folding>
-            <element signature="e#34#60#0#PHP" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1222,15 +1228,184 @@
         <state relative-caret-position="631">
           <caret line="58" column="23" lean-forward="false" selection-start-line="58" selection-start-column="23" selection-end-line="58" selection-end-column="23" />
           <folding>
-            <element signature="e#602#633#0#PHP" expanded="true" />
+            <element signature="e#602#633#0#PHP" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Model/Table/LobbiesTable.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2567">
+          <caret line="154" column="20" lean-forward="false" selection-start-line="154" selection-start-column="20" selection-end-line="154" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/UsersController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="53" column="9" lean-forward="true" selection-start-line="53" selection-start-column="9" selection-end-line="53" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Model/Table/ChatMessagesTable.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="835">
+          <caret line="77" column="10" lean-forward="false" selection-start-line="77" selection-start-column="10" selection-end-line="77" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Template/Element/Flash/full_party.ctp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Template/Element/Flash/success.ctp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Template/Element/Flash/default.ctp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Template/Element/Flash/fullparty.ctp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="21" lean-forward="false" selection-start-line="4" selection-start-column="21" selection-end-line="4" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Template/Element/your_lobby.ctp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="544">
+          <caret line="35" column="18" lean-forward="true" selection-start-line="35" selection-start-column="18" selection-end-line="35" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webroot/js/update-index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="626">
+          <caret line="257" column="20" lean-forward="false" selection-start-line="257" selection-start-column="20" selection-end-line="257" selection-end-column="20" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Controller/LobbiesController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3978">
-          <caret line="290" column="0" lean-forward="true" selection-start-line="290" selection-start-column="0" selection-end-line="290" selection-end-column="0" />
+        <state relative-caret-position="369">
+          <caret line="138" column="48" lean-forward="true" selection-start-line="138" selection-start-column="48" selection-end-line="138" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Model/Table/UsersTable.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="663">
+          <caret line="44" column="39" lean-forward="false" selection-start-line="44" selection-start-column="39" selection-end-line="44" selection-end-column="39" />
+          <folding>
+            <element signature="e#34#60#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Template/Element/new_lobby_form.ctp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="23" lean-forward="false" selection-start-line="1" selection-start-column="23" selection-end-line="1" selection-end-column="23" />
+          <folding>
+            <marker date="1482266915315" expanded="true" signature="2440:2480" ph="..." />
+            <marker date="1482266915315" expanded="true" signature="2772:2812" ph="..." />
+            <marker date="1482266915315" expanded="true" signature="2941:2981" ph="..." />
+            <marker date="1482266915315" expanded="true" signature="3144:3187" ph="..." />
+            <marker date="1482266915315" expanded="true" signature="3314:3357" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Model/Table/RanksTable.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="748">
+          <caret line="44" column="0" lean-forward="true" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
+          <folding>
+            <element signature="e#34#53#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webroot/css/base.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="309">
+          <caret line="6072" column="22" lean-forward="false" selection-start-line="6072" selection-start-column="21" selection-end-line="6072" selection-end-column="22" />
+          <folding>
+            <element signature="e#148236#148559#2" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Template/Layout/default.ctp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="42" column="42" lean-forward="true" selection-start-line="42" selection-start-column="42" selection-end-line="42" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webroot/css/jquery.scrollbar.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="246">
+          <caret line="133" column="74" lean-forward="false" selection-start-line="133" selection-start-column="74" selection-end-line="133" selection-end-column="74" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Template/Lobbies/home.ctp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="673">
+          <caret line="258" column="50" lean-forward="false" selection-start-line="258" selection-start-column="50" selection-end-line="258" selection-end-column="50" />
+          <folding>
+            <element signature="n#style#0;n#ul#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Template/Element/filter_options.ctp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="833">
+          <caret line="49" column="6" lean-forward="false" selection-start-line="49" selection-start-column="6" selection-end-line="49" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Template/Element/chat.ctp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="32" lean-forward="false" selection-start-line="10" selection-start-column="32" selection-end-line="10" selection-end-column="32" />
+          <folding>
+            <marker date="1482271227637" expanded="true" signature="392:495" ph="..." />
+            <marker date="1482271227637" expanded="true" signature="454:495" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webroot/css/cake.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="547">
+          <caret line="390" column="11" lean-forward="true" selection-start-line="390" selection-start-column="11" selection-end-line="390" selection-end-column="11" />
           <folding />
         </state>
       </provider>
