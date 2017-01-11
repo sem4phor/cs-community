@@ -36,7 +36,7 @@ class ChatMessagesController extends AppController
                 $context = new \ZMQContext();
                 $socket = $context->getSocket(\ZMQ::SOCKET_PUSH, 'Pusher');
                 $socket->connect("tcp://localhost:5555");
-                $this->request->data['chat'] = 'new_chat_message';
+                $this->request->data['topic'] = 'new_chat_message';
                 //$this->request->data['last_sender'] = $this->ChatMessages->find()->order(['created' => 'DESC'])->toArray()[1]->sent_by;
                 $socket->send(json_encode($this->request->data));
                 // end

@@ -46,8 +46,6 @@ conn = new ab.Session('ws://localhost:8080',
 
             var joined_user_avatar = document.createElement("img");
             joined_user_avatar.setAttribute("alt", "steam avatar");
-            joined_user_avatar.setAttribute("heigth", "20");
-            joined_user_avatar.setAttribute("width", "20");
             joined_user_avatar.setAttribute("src", data['joined_user'].avatar);
             joined_user_avatar.setAttribute("url", data['joined_user'].profileurl);// profileurl
 
@@ -56,8 +54,6 @@ conn = new ab.Session('ws://localhost:8080',
 
             var joined_user_flag = document.createElement("img");
             joined_user_flag.setAttribute("alt", data['joined_user_loccountrycode']);
-            joined_user_flag.setAttribute("heigth", "20");
-            joined_user_flag.setAttribute("width", "20");
             joined_user_flag.setAttribute("src", 'webroot/img/flags/' + data['joined_user'].loccountrycode + '.png');
 
             avatar_row.appendChild(joined_user_avatar);
@@ -84,11 +80,14 @@ conn = new ab.Session('ws://localhost:8080',
         conn.subscribe('lobby_new', function (topic, data) {
             console.log('New lobby received');
             console.log(data);
-            // check if lobby should be displayed with user comparing lobby data
+            // check if lobby should be displayed with user comparing lobby data with filter
 
-            var lobby_item = document.createElement("div");
+           var lobby_item = document.createElement("div");
             lobby_item.setAttribute("class", "lobby-item row");
             lobby_item.setAttribute("id", data.lobby.lobby_id);
+
+            var firstRow = document.createElement("div");
+            firstRow.setAttribute("class", "row");
 
             var lang_col = document.createElement("div");
             lang_col.setAttribute("class", "column medium-1");
@@ -96,64 +95,87 @@ conn = new ab.Session('ws://localhost:8080',
             lang_img.setAttribute("src", "/cs-community/img/flags/" + data.lobby.language + ".png");
             lang_img.setAttribute("alt", data.lobby.language);
             lang_col.appendChild(lang_img);
-            lobby_item.appendChild(lang_col);
+            firstRow.appendChild(lang_col);
 
+            var users_col = document.createElement("div");
+            users_col.setAttribute("class", "lobby-users-column column medium-3");
             var user_col = document.createElement("div");
-            user_col.setAttribute("class", "column medium-2");
+            user_col.setAttribute("steam_id", data.lobby.owner.steam_id);
+            user_col.setAttribute("class", "lobby-user-column column medium-2");
             var user_avatar_row = document.createElement("div");
             user_avatar_row.setAttribute("class", "row");
             var user_avatar = document.createElement("img");
             user_avatar.setAttribute("src", data.lobby.owner.avatar);
             user_avatar.setAttribute("alt", "steam avatar");
-            user_avatar.setAttribute("heigth", "20");
-            user_avatar.setAttribute("width", "20");
             user_avatar.setAttribute("url", data.lobby.owner.profileurl);
             user_avatar.setAttribute("class", "lobby_owner");
             user_avatar_row.appendChild(user_avatar);
             user_col.appendChild(user_avatar_row);
+
             var user_flag_row = document.createElement("div");
             user_flag_row.setAttribute("class", "row");
             var user_flag = document.createElement("img");
             user_flag.setAttribute("src", "/cs-community/webroot/img/flags/" + data.lobby.owner.loccountrycode + ".png");
             user_flag.setAttribute("alt", data.lobby.owner.loccountrycode);
-            user_flag.setAttribute("heigth", "20");
-            user_flag.setAttribute("width", "20");
+            user_flag.setAttribute("class", "flag");
             user_flag_row.appendChild(user_flag);
             user_col.appendChild(user_flag_row);
-            lobby_item.appendChild(user_col);
+            users_col.appendChild(user_col);
+            firstRow.appendChild(users_col);
 
             var rank_col = document.createElement("div");
             rank_col.setAttribute("class", "column medium-4");
+            var rank_row = document.createElement("div");
+            rank_row.setAttribute("class", "row");
+
+            var rank_from_col = document.createElement("div");
+            rank_from_col.setAttribute("class", "column medium-5");
             var rank_from = document.createElement("img");
             rank_from.setAttribute("src", "/cs-community/img/ranks/" + data.lobby.RankFrom.name + ".png");
             rank_from.setAttribute("alt", data.lobby.rank_from);
+            rank_from.setAttribute("class", "rank-icon");
+            var rank_conn_container = document.createElement("div");
+            rank_conn_container.setAttribute("class", "medium-2 columns");
+            var rank_connector = document.createElement("span");
+            rank_connector.setAttribute("class","stretch");
+            rank_conn_container.appendChild(rank_connector);
+            var rank_to_col = document.createElement("div");
+            rank_to_col.setAttribute("class", "column medium-5");
             var rank_to = document.createElement("img");
             rank_to.setAttribute("src", "/cs-community/img/ranks/" + data.lobby.RankTo.name + ".png");
             rank_to.setAttribute("alt", data.lobby.rank_to);
-            rank_col.appendChild(rank_from);
-            rank_col.appendChild(rank_to);
-            lobby_item.appendChild(rank_col);
+            rank_to.setAttribute("class", "rank-icon");
 
+            rank_from_col.appendChild(rank_from);
+            rank_to_col.appendChild(rank_to);
+            rank_row.appendChild(rank_from_col);
+            rank_row.appendChild(rank_conn_container);
+            rank_row.appendChild(rank_to_col);
+            rank_col.appendChild(rank_row);
+            firstRow.appendChild(rank_col);
 
-            var mic_prime_col = document.createElement("div");
-            mic_prime_col.setAttribute("class", "column medium-1");
-            var mic_row = document.createElement("div");
-            mic_row.setAttribute("class", "row");
-            var mic_icon = document.createElement("img");
-            mic_icon.setAttribute("src", "/cs-community/img/microphone.png");
-            mic_icon.setAttribute("alt", "microphone");
-            mic_icon.setAttribute("heigth", "20");
-            mic_icon.setAttribute("width", "20");
-            if (data.lobby.microphone_req == 1) {
-                mic_icon.after(document.createTextNode("Yes"));
-            } else {
-                mic_icon.after(document.createTextNode("No"));
-            }
-            mic_row.appendChild(mic_icon);
-            mic_prime_col.appendChild(mic_row);
+            var action_col = document.createElement("div");
+            action_col.setAttribute("class", "column medium-2");
+            var join_button = document.createElement("a");
+            join_button.setAttribute("href", "/cs-community/lobbies/join/" + data.lobby.lobby_id);
+            join_button.setAttribute("class", "button small radius");
+            join_button.setAttribute("lobby-url", data.lobby.url);
+            join_button.textContent = "Join";
+            action_col.appendChild(join_button);
+            firstRow.appendChild(action_col);
 
-            var prime_row = document.createElement("div");
-            prime_row.setAttribute("class", "row");
+            var created_col = document.createElement("div");
+            created_col.setAttribute("class", "column medium-2");
+            created_col.innerHTML = "Just now";
+            firstRow.appendChild(created_col);
+
+            lobby_item.appendChild(firstRow);
+
+            var bottom_row = document.createElement("div");
+            bottom_row.setAttribute("class", "row");
+
+            var prime_col = document.createElement("div");
+            prime_col.setAttribute("class", "column medium-1");
             var prime_icon = document.createElement("img");
             prime_icon.setAttribute("src", "/cs-community/img/prime.png");
             prime_icon.setAttribute("alt", "prime");
@@ -164,11 +186,26 @@ conn = new ab.Session('ws://localhost:8080',
             } else {
                 prime_icon.after("No");
             }
-            prime_row.appendChild(prime_icon);
-            mic_prime_col.appendChild(prime_row);
+            prime_col.appendChild(prime_icon);
+            bottom_row.appendChild(prime_col);
 
-            var ts_row = document.createElement("div");
-            ts_row.setAttribute("class", "row");
+            var mic_col = document.createElement("div");
+            mic_col.setAttribute("class", "column medium-1");
+            var mic_icon = document.createElement("img");
+            mic_icon.setAttribute("src", "/cs-community/img/microphone.png");
+            mic_icon.setAttribute("alt", "microphone");
+            mic_icon.setAttribute("heigth", "20");
+            mic_icon.setAttribute("width", "20");
+            if (data.lobby.microphone_req == 1) {
+                mic_icon.after(document.createTextNode("Yes"));
+            } else {
+                mic_icon.after(document.createTextNode("No"));
+            }
+            mic_col.appendChild(mic_icon);
+            bottom_row.appendChild(mic_col);
+
+            var ts_col = document.createElement("div");
+            ts_col.setAttribute("class", "column medium-1");
             var ts_icon = document.createElement("img");
             ts_icon.setAttribute("src", "/cs-community/img/prime.png");
             ts_icon.setAttribute("alt", "prime");
@@ -179,44 +216,19 @@ conn = new ab.Session('ws://localhost:8080',
             } else {
                 ts_icon.after("No");
             }
-            ts_row.appendChild(ts_icon);
-            mic_prime_col.appendChild(ts_row);
+            ts_col.appendChild(ts_icon);
+            bottom_row.appendChild(ts_col);
 
-            lobby_item.appendChild(mic_prime_col);
-
-            var created_col = document.createElement("div");
-            created_col.setAttribute("class", "column medium-1");
-            created_col.innerHTML = "Just now";
-            lobby_item.appendChild(created_col);
-
-            var action_col = document.createElement("div");
-            action_col.setAttribute("class", "column medium-2");
-            var join_button = document.createElement("a");
-            join_button.setAttribute("href", "/cs-community/lobbies/join/" + data.lobby.lobby_id);
-            join_button.setAttribute("class", "button small radius");
-            join_button.textContent = "Join";
-            action_col.appendChild(join_button);
-            lobby_item.appendChild(action_col);
-
-            var extended_settings = document.createElement("div");
-            extended_settings.setAttribute("class", "row");
             var playtime_col = document.createElement("div");
-            playtime_col.setAttribute("class", "column medium-3");
+            playtime_col.setAttribute("class", "column medium-2");
             playtime_col.textContent = 'Min. Playtime: ' + data.lobby.min_playtime;
             var min_age_col = document.createElement("div");
-            min_age_col.setAttribute("class", "column medium-3");
+            min_age_col.setAttribute("class", "column medium-2 left");
             min_age_col.textContent = 'Min. Age: ' + data.lobby.min_age;
-            var min_upvotes_col = document.createElement("div");
-            min_upvotes_col.setAttribute("class", "column medium-3");
-            min_upvotes_col.textContent = 'Min. Upvotes: ' + data.lobby.min_upvotes;
-            var max_downvotes_col = document.createElement("div");
-            max_downvotes_col.setAttribute("class", "column medium-3");
-            max_downvotes_col.textContent = 'Max. Downvotes: ' + data.lobby.max_downvotes;
-            extended_settings.appendChild(playtime_col);
-            extended_settings.appendChild(min_age_col);
-            extended_settings.appendChild(min_upvotes_col);
-            extended_settings.appendChild(max_downvotes_col);
-            lobby_item.appendChild(extended_settings);
+
+            bottom_row.appendChild(playtime_col);
+            bottom_row.appendChild(min_age_col);
+            lobby_item.appendChild(bottom_row);
 
             document.getElementById('lobbies-list').prepend(lobby_item);
         });
@@ -244,6 +256,8 @@ conn = new ab.Session('ws://localhost:8080',
             });
         });
         conn.subscribe('new_chat_message', function (topic, data) {
+            console.log(data);
+            console.log(topic);
             var colors = ["#234567", "#CF142B", "#C5AC6A", "#5E9FB8", "#4CAF50", "#234567", "#CF142B", "#C5AC6A", "#5E9FB8", "#4CAF50"];
             var chat_message_row = document.createElement("div");
             chat_message_row.setAttribute("class", "row");

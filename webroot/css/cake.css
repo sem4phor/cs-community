@@ -280,8 +280,22 @@ pre {
   padding-top: 2px;
 }
 
-div #expand {
-  display: none;
+
+#expand-new-lobby {
+  color: #9099a1;
+  white-space: nowrap;
+  font-size: 13px;
+  line-height: 28px;
+  cursor: pointer;
+  display: block;
+  margin-bottom: 0;
+}
+.smaller {
+  padding-top: 0.875rem;
+  padding-right: 1.25rem;
+  padding-bottom: 0.9375rem;
+  padding-left: 1.25rem;
+  font-size: 0.8125rem;
 }
 
 /**********************************************************
@@ -289,6 +303,11 @@ div #expand {
 CUSTOM JQUERY UI
 
  **********************************************************/
+.ui-icon
+{
+  background-image: url(http://download.jqueryui.com/themeroller/images/ui-icons_9099a1_256x240.png);
+}
+
 button.ui-dialog-titlebar-close {
   background: white !important;
 }
@@ -326,7 +345,17 @@ button.ui-dialog-titlebar-close {
   left: 0;
 }
 .ui-menu {
-  max-height: 200px;
+  max-height: 60vh;
+}
+
+span.stretch {
+  display:inline-block;
+  -webkit-transform:scale(4,1); /* Safari and Chrome */
+  -moz-transform:scale(4,1); /* Firefox */
+  -ms-transform:scale(4,1); /* IE 9 */
+  -o-transform:scale(4,1); /* Opera */
+  transform:scale(4,1); /* W3C */
+  font-weight: bold;
 }
 
 /* disable default dropdown arrow */
@@ -337,14 +366,18 @@ button.ui-dialog-titlebar-close {
 /* selectbuttons; overwrite following props .ui-selectmenu-button.ui-button */
 #rank-from-button, #rank-to-button, #filter-user-rank-button{
   width:78px;
-  background-size: 78px 32px;
-  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #1B2839;
+  border: 1px solid #171A21;
+  height: 32px;
 }
 #language-button, #filter-language-button {
-  width:78px;
-  background-size: 78px 32px;
+  width:62px;
+  background-size: cover;
   background-repeat: no-repeat;
+  height: 32px;
 }
+
 /* make text content invisible */
 .ui-button > span {
   color:rgba(0,0,0,0.0);
@@ -358,11 +391,32 @@ button.ui-dialog-titlebar-close {
 END CUSTOM JQUERY UI
 
  **********************************************************/
+.kick-row {
+  text-align: center;
+}
+
+.lobbies.new .icon-help::after {
+  line-height: 0px;
+  font-size: 12px;
+  height: 12px;
+  width: 12px;
+  border-radius: 15px;
+  text-align: center;
+  vertical-align: middle;
+  display: inline-block;
+  position: relative;
+  background-color: #808080;
+  padding: 7px 11px 7px 3px;
+  content: "?";
+  color: #0D131B;
+  cursor: help;
+}
+
 #expand_new_lobby {
 
 }
 .content {
-  padding: 2rem;
+  padding: 1rem;
   margin-bottom: 0px !important;
   padding-bottom: 0px !important;
 }
@@ -374,14 +428,12 @@ div.chat {
 }
 
 div.chat-border, div.filter-options-border {
-  margin-top: 15px;
-  height: 83vh;
+  padding: 5px;
   border: 5px solid rgba(0, 0, 0, .0);
   -webkit-background-clip: padding-box; /* for Safari */
   background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
 }
 div.filter-options {
-  padding: 10px;
   border-radius: 3px;
   background-color: rgba( 0, 0, 0, 0.4 );
 }
@@ -393,12 +445,11 @@ div.filter-options {
   float:left !important;
 }
 
-div.chat-message-container {
-  height: 66vh;
-  overflow-y: scroll;
-  overflow-x: hidden;
-
+div#chat-message-container {
+  min-height: 60vh;
+  max-height: 60vh;
 }
+
 
 div.chat-message-input {
   padding-left: 0;
@@ -425,6 +476,12 @@ div.lobby-item {
   border-radius: 3px;
   box-shadow: 3px 3px 0px 0px #171A21;
   background-color: rgba( 0, 0, 0, 0.4 );
+
+  color: #9099a1;
+  white-space: nowrap;
+  font-size: 13px;
+  line-height: 28px;
+  display: block;
 }
 
 div.lobbies.new, div.your-lobby {
@@ -432,16 +489,19 @@ div.lobbies.new, div.your-lobby {
   border-radius: 3px;
   box-shadow: 3px 3px 0px 0px #171A21;
   background-color: #0D131B;
+
+  color: #9099a1;
+  white-space: nowrap;
+  font-size: 13px;
+  line-height: 28px;
+  display: block;
 }
 
-div.your-lobby .row {
+div.your-lobby .row, div.lobby-item .row {
   margin-left: 0;
   margin-right: 0;
 }
-div.your-lobby .row-row-row {
-  margin-left: -0.9375rem;
-  margin-right: -0.9375rem;
-}
+
 
 div.no-lobbies {
   margin-bottom: 15px !important;
@@ -450,13 +510,14 @@ div.no-lobbies {
   border-radius: 3px;
   box-shadow: 3px 3px 0px 0px #171A21;
   background-color: rgba( 0, 0, 0, 0.4 );
+  text-align: center;
 }
 
 .alert-box {
   margin-bottom: 0;
 }
 
-#topbar-avatar {
+.topbar-avatar {
   border: 2px solid #3F6E83;
   background: -webkit-linear-gradient(top, #41778f 5%, #3d697b 95%);
   background: linear-gradient(to bottom, #41778f 5%, #3d697b 95%);

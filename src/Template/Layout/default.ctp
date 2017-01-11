@@ -28,8 +28,8 @@ $cakeDescription = 'CS-Community: Find the best teammates!';
 
     <?= $this->Html->css('base.css') ?>
     <?= $this->Html->css('http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css') ?>
-    <?= $this->Html->css('cake.css') ?>
     <?= $this->Html->css('jquery.scrollbar.css') ?>
+    <?= $this->Html->css('cake.css') ?>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
@@ -47,8 +47,10 @@ $cakeDescription = 'CS-Community: Find the best teammates!';
 <nav class="top-bar" data-topbar role="navigation">
     <ul class="title-area">
         <li class="name">
+            <a href="/cs-community">
             <?= $this->Html->image('logograuklein.png', ['alt' => 'logo']); ?>
             <h3>CS-Community</h3>
+            </a>
         </li>
     </ul>
     <section class="top-bar-section">

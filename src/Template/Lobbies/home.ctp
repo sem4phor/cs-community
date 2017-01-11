@@ -1,6 +1,11 @@
 <?php if (!isset($user)): ?>
     <div class="lobbies home medium-7 medium-centered columns content">
         <div id='lobbies-list'>
+            <?php if ($lobbies->isEmpty()): ?>
+                <div class="row no-lobbies">
+                    <p><?= __('There is currently no party available.') ?></p>
+                </div>
+            <?php endif; ?>
             <?php foreach ($lobbies as $lobby): ?>
                 <div class='lobby-item row' id="<?= $lobby->lobby_id ?>">
                     <div class="row">
@@ -8,53 +13,64 @@
                             <?= $this->Html->image('flags/' . $lobby->language . '.png', ["alt" => $lobby->language]); ?>
                         </div>
                         <div class='lobby-users-column column medium-2'>
-                            <?php $lobby_steam_ids_of_lobby = []; ?>
-                            <?php foreach ($lobby->users as $lobby_user): ?>
-                                <div steam_id="<?php echo $lobby_user->steam_id ?>"                                 class="lobby-user-column column medium-2">
-                                    <div class="row">
-                                        <?php array_push($lobby_steam_ids_of_lobby, $lobby_user->steam_id); ?>
-                                        <?php if ($lobby_user->steam_id == $lobby->owner->steam_id): ?>
-                                            <?= $this->Html->image($lobby->owner->avatar, ["alt" => 'steam avatar', "heigth" => '20', "width" => '20', 'url' => $lobby->owner->profileurl, 'class' => 'lobby_owner']); ?>
-                                        <?php else: ?>
-                                            <?= $this->Html->image($lobby_user->avatar, ["alt" => 'steam avatar', "heigth" => '20', "width" => '20', 'url' => $lobby_user->profileurl]); ?>
-                                        <?php endif; ?>
-                                    </div>
-                                    <div class="row">
-                                        <?= $this->Html->image('flags/' . $lobby_user->loccountrycode . '.png', ["alt" => $lobby_user->loccountrycode, "heigth" => '20', "width" => '20']); ?>
-                                    </div>
+                            <div steam_id="<?php echo $lobby->owner->steam_id ?>"
+                                 class="lobby-user-column column medium-2">
+                                <div class="row">
+                                    <?= $this->Html->image($lobby->owner->avatar, ["alt" => 'steam avatar', 'url' => $lobby->owner->profileurl, 'class' => 'lobby_owner']); ?>
                                 </div>
+                                <div class="row">
+                                    <?= $this->Html->image('flags/' . $lobby->owner->loccountrycode . '.png', ["alt" => $lobby->owner->loccountrycode, "class" => "flag"]); ?>
+                                </div>
+                            </div>
+                            <?php foreach ($lobby->users as $lobby_user): ?>
+                                <?php if ($lobby_user->steam_id !== $lobby->owner->steam_id): ?>
+                                    <div steam_id="<?php echo $lobby_user->steam_id ?>"
+                                         class="lobby-user-column column medium-2">
+                                        <div class="row">
+                                            <?= $this->Html->image($lobby_user->avatar, ["alt" => 'steam avatar', 'url' => $lobby_user->profileurl]); ?>
+                                        </div>
+                                        <div class="row">
+                                            <?= $this->Html->image('flags/' . $lobby_user->loccountrycode . '.png', ["alt" => $lobby_user->loccountrycode, "class" => "flag"]); ?>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
                             <?php endforeach; ?>
                         </div>
                         <div class='column medium-4'>
-                            <?= $this->Html->image('ranks/' . $lobby->RankFrom->name . '.png', ["alt" => $lobby->rank_to]); ?>
-                            <?= $this->Html->image('ranks/' . $lobby->RankTo->name . '.png', ["alt" => $lobby->rank_to]); ?>
-                        </div>
-                        <div class='column medium-1'>
                             <div class="row">
-                                <?= $this->Html->image('microphone.png', ["alt" => 'microphone', "heigth" => '20', "width" => '20']); ?>
-                                <?= h($lobby->microphone_req) ? __('Yes') : __('No'); ?>
-                            </div>
-                            <div class="row">
-                                <?= $this->Html->image('prime.png', ["alt" => 'prime', "heigth" => '20', "width" => '20']); ?>
-                                <?= h($lobby->prime_req) ? __('Yes') : __('No'); ?>
-                            </div>
-                            <div class="row">
-                                <?= $this->Html->image('teamspeak.png', ["alt" => 'TS3', "heigth" => '20', "width" => '20']); ?>
-                                <?= h($lobby->teamspeak_req) ? __('Yes') : __('No'); ?>
+                                <div class="medium-5 columns">
+                                    <?= $this->Html->image('ranks/' . $lobby->RankFrom->name . '.png', ["alt" => $lobby->RankFrom, "class" => 'rank-icon']); ?>
+                                </div>
+                                <div class="medium-2 columns"><span class="stretch">-</span></div>
+
+                                <div class="medium-5 columns">
+                                    <?= $this->Html->image('ranks/' . $lobby->RankTo->name . '.png', ["alt" => $lobby->RankTo, "class" => 'rank-icon']); ?>
+                                </div>
                             </div>
                         </div>
-                        <div class='column medium-3'>
+
+                        <div class='column medium-2'>
                             <?= $lobby->created->timeAgoInWords(); ?>
                         </div>
                     </div>
-                    <div class='row'>
-                        <div class='column medium-6'><?= __('Min. Playtime: ') . $lobby->min_playtime; ?></div>
-                        <div class='column medium-6'><?= __('Min. Age: ') . $lobby->min_age; ?></div>
+
+                    <div class="row">
+                        <div class='column medium-1'><?= $this->Html->image('prime.png', ["alt" => 'prime', "heigth" => '20', "width" => '20']); ?>
+                            <?= h($lobby->prime_req) ? __('Yes') : __('No'); ?>
+                        </div>
+                        <div class='column medium-1'> <?= $this->Html->image('microphone.png', ["alt" => 'microphone', "heigth" => '20', "width" => '20']); ?>
+                            <?= h($lobby->microphone_req) ? __('Yes') : __('No'); ?>
+                        </div>
+                        <div class='column medium-1'> <?= $this->Html->image('teamspeak.png', ["alt" => 'TS3', "heigth" => '20', "width" => '20']); ?>
+                            <?= h($lobby->teamspeak_req) ? __('Yes') : __('No'); ?>
+                        </div>
+                        <div class='column medium-2'><?= __('Min. Playtime: ') . h($lobby->min_playtime); ?></div>
+                        <div class='column medium-2 left'><?= __('Min. Age: ') . h($lobby->min_age); ?></div>
                     </div>
                 </div>
             <?php endforeach; ?>
             <ul style="display:none;">
-            <?= $this->Paginator->next(__('next'), ['style' => 'margin:auto;', 'class' => 'next']) ?>
+                <?= $this->Paginator->next(__('next'), ['style' => 'margin:auto;', 'class' => 'next']) ?>
             </ul>
         </div>
     </div>
@@ -67,9 +83,9 @@
             <?= $this->element('new_lobby_form'); ?>
         <?php endif; ?>
         <div id='lobbies-list'>
-            <?php if($lobbies->isEmpty()): ?>
+            <?php if ($lobbies->isEmpty()): ?>
                 <div class="row no-lobbies">
-                    <p><?= __('There is currently no party available') ?></p>
+                    <p><?= __('There is currently no party available.') ?></p>
                 </div>
             <?php endif; ?>
             <?php foreach ($lobbies as $lobby): ?>
@@ -78,61 +94,72 @@
                         <div class='column medium-1'>
                             <?= $this->Html->image('flags/' . $lobby->language . '.png', ["alt" => $lobby->language]); ?>
                         </div>
-                        <div class='lobby-users-column column medium-2'>
-                            <?php $lobby_steam_ids_of_lobby = []; ?>
-                            <?php foreach ($lobby->users as $lobby_user): ?>
-                                <div steam_id="<?php echo $lobby_user->steam_id ?>"                                 class="lobby-user-column column medium-2">
-                                    <div class="row">
-                                        <?php array_push($lobby_steam_ids_of_lobby, $lobby_user->steam_id); ?>
-                                        <?php if ($lobby_user->steam_id == $lobby->owner->steam_id): ?>
-                                            <?= $this->Html->image($lobby->owner->avatar, ["alt" => 'steam avatar', "heigth" => '20', "width" => '20', 'url' => $lobby->owner->profileurl, 'class' => 'lobby_owner']); ?>
-                                        <?php else: ?>
-                                            <?= $this->Html->image($lobby_user->avatar, ["alt" => 'steam avatar', "heigth" => '20', "width" => '20', 'url' => $lobby_user->profileurl]); ?>
-                                        <?php endif; ?>
-                                    </div>
-                                    <div class="row">
-                                        <?= $this->Html->image('flags/' . $lobby_user->loccountrycode . '.png', ["alt" => $lobby_user->loccountrycode, "heigth" => '20', "width" => '20']); ?>
-                                    </div>
+                        <div class='lobby-users-column column medium-3'>
+                            <div steam_id="<?php echo $lobby->owner->steam_id ?>" class="lobby-user-column column medium-2">
+                                <div class="row">
+                                    <?= $this->Html->image($lobby->owner->avatar, ["alt" => 'steam avatar', 'url' => $lobby->owner->profileurl, 'class' => 'lobby_owner']); ?>
                                 </div>
+                                <div class="row">
+                                    <?= $this->Html->image('flags/' . $lobby->owner->loccountrycode . '.png', ["alt" => $lobby->owner->loccountrycode, "class" => "flag"]); ?>
+                                </div>
+                            </div>
+                            <?php $is_in_lobby = false; ?>
+                            <?php foreach ($lobby->users as $lobby_user): ?>
+                                <?php if ($lobby_user->steam_id !== $lobby->owner->steam_id): ?>
+                                    <div steam_id="<?php echo $lobby_user->steam_id ?>" class="lobby-user-column column medium-2">
+                                        <div class="row">
+                                            <?= $this->Html->image($lobby_user->avatar, ["alt" => 'steam avatar', 'url' => $lobby_user->profileurl]); ?>
+                                        </div>
+                                        <div class="row">
+                                            <?= $this->Html->image('flags/' . $lobby_user->loccountrycode . '.png', ["alt" => $lobby_user->loccountrycode, "class" => "flag"]); ?>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                                <?php $lobby_user->steam_id === $user->steam_id ? $is_in_lobby = true : ''; ?>
                             <?php endforeach; ?>
                         </div>
                         <div class='column medium-4'>
-                            <?= $this->Html->image('ranks/' . $lobby->RankFrom->name . '.png', ["alt" => $lobby->rank_to]); ?>
-                            <?= $this->Html->image('ranks/' . $lobby->RankTo->name . '.png', ["alt" => $lobby->rank_to]); ?>
-                        </div>
-                        <div class='column medium-1'>
                             <div class="row">
-                                <?= $this->Html->image('microphone.png', ["alt" => 'microphone', "heigth" => '20', "width" => '20']); ?>
-                                <?= h($lobby->microphone_req) ? __('Yes') : __('No'); ?>
-                            </div>
-                            <div class="row">
-                                <?= $this->Html->image('prime.png', ["alt" => 'prime', "heigth" => '20', "width" => '20']); ?>
-                                <?= h($lobby->prime_req) ? __('Yes') : __('No'); ?>
-                            </div>
-                            <div class="row">
-                                <?= $this->Html->image('teamspeak.png', ["alt" => 'TS3', "heigth" => '20', "width" => '20']); ?>
-                                <?= h($lobby->teamspeak_req) ? __('Yes') : __('No'); ?>
+                                <div class="medium-5 columns">
+                                    <?= $this->Html->image('ranks/' . $lobby->RankFrom->name . '.png', ["alt" => $lobby->RankFrom, "class" => 'rank-icon']); ?>
+                                </div>
+                                <div class="medium-2 columns"><span class="stretch">-</span></div>
+
+                                <div class="medium-5 columns">
+                                    <?= $this->Html->image('ranks/' . $lobby->RankTo->name . '.png', ["alt" => $lobby->RankTo, "class" => 'rank-icon']); ?>
+                                </div>
                             </div>
                         </div>
-                        <div class='column medium-1'>
-                            <?= $lobby->created->timeAgoInWords(); ?>
-                        </div>
+
                         <div class='column medium-2'>
-                            <?php if (($user['steam_id'] == $lobby->owner_id)): ?>
-                                <?= $this->Form->postLink('Delete', ["action" => 'delete', $lobby->lobby_id], ['class' => 'button small radius']); ?>
-                            <?php elseif (in_array($user['steam_id'], $lobby_steam_ids_of_lobby)): ?>
-                                <?= $this->Html->link('Leave', ["action" => 'leave', $lobby->lobby_id], ['class' => 'button small radius']); ?>
+                            <?php if ($lobby->owner->steam_id === $user->steam_id): ?>
+                                <?= $this->Form->postLink('Delete', ["action" => 'delete', $lobby->lobby_id], ['class' => 'radius button small']); ?>
+                            <?php elseif(!$is_in_lobby): ?>
+                                <?= $this->Html->link('Join', ["action" => 'join', $lobby->lobby_id], ['id' => 'join-trigger', 'class' => 'radius button small', 'lobby-url' => $lobby->url]); ?>
                             <?php else: ?>
-                                <?= $this->Html->link('Join', ["action" => 'join', $lobby->lobby_id], ['class' => 'button small radius']); ?>
+                                <?= $this->Html->link('Leave', ["action" => 'leave', $lobby->lobby_id], ['class' => 'radius button small']); ?>
                             <?php endif; ?>
                         </div>
+                        <div class='column medium-2'>
+                            <?= $lobby->created->timeAgoInWords(); ?>
+                        </div>
                     </div>
-                    <div class='row'>
-                        <div class='column medium-6'><?= __('Min. Playtime: ') . $lobby->min_playtime; ?></div>
-                        <div class='column medium-6'><?= __('Min. Age: ') . $lobby->min_age; ?></div>
+                    <div class="row">
+                        <div class='column medium-1'><?= $this->Html->image('prime.png', ["alt" => 'prime', "heigth" => '20', "width" => '20']); ?>
+                            <?= h($lobby->prime_req) ? __('Yes') : __('No'); ?>
+                        </div>
+                        <div class='column medium-1'> <?= $this->Html->image('microphone.png', ["alt" => 'microphone', "heigth" => '20', "width" => '20']); ?>
+                            <?= h($lobby->microphone_req) ? __('Yes') : __('No'); ?>
+                        </div>
+                        <div class='column medium-1'> <?= $this->Html->image('teamspeak.png', ["alt" => 'TS3', "heigth" => '20', "width" => '20']); ?>
+                            <?= h($lobby->teamspeak_req) ? __('Yes') : __('No'); ?>
+                        </div>
+                        <div class='column medium-2'><?= __('Min. Playtime: ') . h($lobby->min_playtime); ?></div>
+                        <div class='column medium-2 left'><?= __('Min. Age: ') . h($lobby->min_age); ?></div>
                     </div>
                 </div>
             <?php endforeach; ?>
+
             <ul style="display:none;">
                 <?= $this->Paginator->next(__('next'), ['style' => 'margin:auto;', 'class' => 'next']) ?>
             </ul>
@@ -164,7 +191,7 @@
                     wrapper = $("<div>", {
                         /*text: item.label,*/
                         style: item.element.attr("data-style"),
-                    "class": "ui-icon " + item.element.attr("data-class")
+                        "class": "ui-icon " + item.element.attr("data-class")
                     });
                 if (item.disabled) {
                     li.addClass("ui-state-disabled");
@@ -194,25 +221,19 @@
 
 
     $(document).ready(function () {
-
-
-        $('#expand').hide();
-        $('#expand_new_lobby').on('click', function () {
-            var arrowUp = $("<span>", {
-                "class": "ui-selectmenu-icon ui-icon ui-icon-caret-1-n"
-        });
-            var arrowDown = $("<span>", {
-                "class": "ui-selectmenu-icon ui-icon ui-icon-caret-1-s"
+        $('#expand-content').hide();
+        $('#expand-new-lobby').on('click', function () {
+            var gear = $("<span>", {
+                "class": "ui-icon ui-icon-gear"
             });
-            if ($('#expand').is(':hidden')) {
-                $('#expand').slideDown();
-                $('#expand_new_lobby').text('less options');
-               arrowUp.appendTo( $('#expand_new_lobby'));
+            if ($('#expand-content').is(':hidden')) {
+                $('#expand-content').slideDown();
+                $('#expand-new-lobby').text('less options');
             } else {
-                $('#expand').slideUp();
-                $('#expand_new_lobby').text('more options');
-                arrowDown.appendTo( $('#expand_new_lobby'));
+                $('#expand-content').slideUp();
+                $('#expand-new-lobby').text('more options');
             }
+            $('#expand-new-lobby').prepend(gear);
         });
 
         // filter selectors
@@ -244,6 +265,12 @@
                 updateSelectBackground('#rank-to', '/cs-community/webroot/img/ranks/', '#rank-to-button');
             }
             updateSelectBackground('#rank-from', '/cs-community/webroot/img/ranks/', '#rank-from-button');
+        });
+
+        $('#join-trigger').on('click', function (e) {
+            e.preventDefault();
+            window.location = $(this).attr('lobby-url');
+            window.location = this.href;
         });
         $('#rank-to-menu').on('click', function () {
             var e1 = $('#rank-from');

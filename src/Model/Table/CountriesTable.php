@@ -103,7 +103,6 @@ public function getLocalesOfContinent($continent_code) {
             'bn-BD',
             'bn-IN',
             'bo-CN',
-            'br-FR',
             'bs-Cyrl-BA',
             'bs-Latn-BA',
             'co-FR',

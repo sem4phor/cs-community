@@ -5,6 +5,14 @@
         </div>
         <div id="chat-message-container" class="row chat-message-container scrollbar-inner">
             <?= __('Welcome ' . $user->personaname . '!') ?>
+            <?php $colors = ["#234567", "#CF142B", "#C5AC6A", "#5E9FB8", "#4CAF50", "#234567", "#CF142B", "#C5AC6A", "#5E9FB8", "#4CAF50"]; ?>
+            <?php foreach ($chatMessages as $message): ?>
+                <div class="row">
+                    <div style='color:<?= $colors[rand(0,9)]; ?>' class="columns medium-12">
+                        <?= h($message->sender->personaname) . ': ' . h($message->message) ?>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
         <div class="submit-message row">
             <div class="chat-message-input columns medium-8">
@@ -20,7 +28,6 @@
 </div>
 
 <script type="text/javascript">
-
 
     function performPostRequest(form) {
         parameters = "";

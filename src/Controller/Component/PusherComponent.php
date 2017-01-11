@@ -29,16 +29,12 @@ class PusherComponent implements WampServerInterface
     public function onSubmit($msg)
     {
         $entryData = json_decode($msg, true);
-        if (array_key_exists($entryData['lobbies'], $this->subscribedTopics)) {
-            $topic = $this->subscribedTopics[$entryData['lobbies']];
+        if (array_key_exists($entryData['topic'], $this->subscribedTopics)) {
+            $topic = $this->subscribedTopics[$entryData['topic']];
             $topic->broadcast($entryData);
-        } else
-            if (array_key_exists($entryData['chat'], $this->subscribedTopics)) {
-                $topic = $this->subscribedTopics[$entryData['chat']];
-                $topic->broadcast($entryData);
-            } else {
-                return;
-            }
+      } else {
+            return;
+        }
     }
 
     public function onUnSubscribe(ConnectionInterface $conn, $topic)
