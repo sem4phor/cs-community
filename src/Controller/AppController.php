@@ -44,10 +44,6 @@ class AppController extends Controller
         $this->loadComponent('Flash');
         $this->loadComponent('SteamOpenId');
         $this->loadComponent('Auth', [
-            'authenticate' =>
-                ['FormValue' => [
-                    'userModel' => 'Users',
-                    'field' => 'steam_id']],
             'loginRedirect' => [
                 'controller' => 'Lobbies',
                 'action' => 'home'
@@ -61,7 +57,15 @@ class AppController extends Controller
         ]);
 
     }
-    
+
+    public function websocketSend($data)
+    {
+        $context = new \ZMQContext();
+        $socket = $context->getSocket(\ZMQ::SOCKET_PUSH, 'Pusher');
+        $socket->connect("tcp://localhost:5555");
+        $socket->send(json_encode($data));
+    }
+
     public function beforeFilter(Event $event)
     {
         $this->Auth->allow(['home']);

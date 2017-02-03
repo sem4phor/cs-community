@@ -48,7 +48,7 @@ class SteamOpenIdComponent extends Component
         $steamID64 = is_numeric($matches[1]) ? $matches[1] : 0;
 
         // Return our final value
-        return preg_match("#is_valid\s*:\s*true#i", $result) == 1 ? $steamID64 : '';
+        return preg_match("#is_valid\s*:\s*true#i", $result) == 1 ? $steamID64 : false;
     }
 
     /**
