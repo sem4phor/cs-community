@@ -95,14 +95,6 @@ class UsersTable extends Table
         $validator
             ->add('playtime', 'valid', ['rule' => 'numeric'])
             ->allowEmpty('playtime');
-        /*$validator
-            ->add('upvotes', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('upvotes');
-
-        $validator
-            ->add('downvotes', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('downvotes');*/
-
         return $validator;
     }
 
@@ -147,14 +139,6 @@ class UsersTable extends Table
         $user->timecreated = $content['response']['players'][0]['timecreated'];
         $user->personaname = $content['response']['players'][0]['personaname'];
 
-        $url2 = file_get_contents("http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=" . Configure::read('APIkey') . "&steamid=" . $steamId . "&format=json");
-        $content2 = json_decode($url2, true);
-        foreach ($content2['response']['games'] as $key => $value) {
-            if ($value['appid'] == 730) {
-                $user->playtime = $value['playtime_forever'] / 60;
-                break;
-            };
-        }
         $user['steam_profilestate'] = $content['response']['players'][0]['profilestate'];
         $user['steam_communityvisibilitystate'] = $content['response']['players'][0]['communityvisibilitystate'];
         if ($user['steam_communityvisibilitystate'] != 3 || $user['steam_profilestate'] != 1) {
