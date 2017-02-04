@@ -99,75 +99,14 @@ class LobbiesController extends AppController
         return $this->redirect(['action' => 'home']);
     }
 
-    public function index() {
-        $this->paginate = [
-            'contain' => ['Users', 'RankTo', 'RankFrom', 'Owner']
-        ];
-        $lobbies = $this->paginate($this->Lobbies);
+    public function index()
+    {
+        $lobbies = $this->Lobbies->find('all', [
+            'order' => ['Lobbies.created' => 'ASC'],
+            'limit' => 30
+        ])->contain(['Users', 'Owner', 'RankFrom', 'RankTo']);
 
         $this->set(compact('lobbies'));
-        $this->set('_serialize', ['lobbies']);
-    }
-
-    public function indexLoggedIn() {
-        $user_region = $this->Lobbies->Users->getRegionCode($this->Auth->user('steam_id'));
-
-        // stuff for new lobby
-        $new_lobby = $this->Lobbies->newEntity();
-        $this->loadModel('Ranks');
-        $ranks = $this->Ranks->find('list');
-        $ages = [12, 14, 16, 18, 20];
-        $languages = $this->Lobbies->Users->Countries->getLocalesOfContinent($user_region);
-        $this->set(compact('ages', 'ranks', 'new_lobby', 'languages'));
-
-        // load chat messages
-        $this->loadModel('ChatMessages');
-        $chatMessages = $this->ChatMessages->find('all', [
-            'order' => ['ChatMessages.created' => 'DESC'],
-            'limit' => 10
-        ])->contain(['Sender']);
-        $this->set(compact('chatMessages'));
-
-        // own lobby
-        $your_lobby_id = $this->Lobbies->Users->get($this->Auth->user('steam_id'))->lobby_id;
-        if ($your_lobby_id != null) {
-            $your_lobby = $this->Lobbies->get($your_lobby_id, ['contain' => ['Users', 'RankFrom', 'RankTo', 'Owner']]);
-            $is_own_lobby = $your_lobby->owner_id == $this->Auth->user('steam_id');
-            $this->set(compact('your_lobby', 'is_own_lobby'));
-        }
-
-        // index
-        $filter = [];
-        if ($this->request->is('post')) {
-            foreach ($this->request->data as $key => $value) {
-                if ($value != '') {
-                    $filter[$key] = $value;
-                }
-            }
-        }
-        if(!empty($filter)) {
-            $lobbies = $this->Lobbies->find()->where([
-                //'min_upvotes <=' => $filter['filter_min_upvotes'],
-                // 'max_downvotes >=' => $filter['filter_max_downvotes'],
-                'min_playtime <=' => $this->Auth->user('playtime'),
-                'prime_req =' => $filter['filter_prime_req'],
-                'teamspeak_req =' => $filter['filter_teamspeak_req'],
-                'microphone_req =' => $filter['filter_microphone_req'],
-                'rank_from <=' => $filter['filter_user_rank'],
-                'rank_to >=' => $filter['filter_user_rank'],
-                'min_age <=' => $filter['filter_min_age'],
-                'region =' => $user_region
-            ])->contain(['Users', 'Owner', 'RankFrom', 'RankTo']);
-        }
-        else {
-            $lobbies = $this->Lobbies->find()->where([
-                'region =' => $user_region,
-                'min_playtime <=' => $this->Auth->user('playtime')
-            ])->contain(['Users', 'Owner', 'RankFrom', 'RankTo']);
-        }
-
-        $lobbies = $this->paginate($lobbies);
-        $this->set(compact('lobbies', 'filter'));
         $this->set('_serialize', ['lobbies']);
     }
 
@@ -183,7 +122,62 @@ class LobbiesController extends AppController
         if ($this->Auth->user() === null) {
             $this->index();
         } else {
-            $this->indexLoggedIn();
+            $user_region = $this->Lobbies->Users->getRegionCode($this->Auth->user('steam_id'));
+
+            // set variables for new lobby
+            $this->loadModel('Ranks');
+            $ranks = $this->Ranks->find('list');
+            $ages = [12, 14, 16, 18, 20];
+            $languages = $this->Lobbies->Users->Countries->getLocalesOfContinent($user_region);
+            $this->set(compact('ages', 'ranks', 'new_lobby', 'languages'));
+
+            // load last 10 chat messages
+            $this->loadModel('ChatMessages');
+            $chatMessages = $this->ChatMessages->find('all', [
+                'order' => ['ChatMessages.created' => 'DESC'],
+                'limit' => 15
+            ])->contain(['Sender']);
+            $this->set(compact('chatMessages'));
+
+            // load the lobby the user is currently part of
+            $your_lobby_id = $this->Lobbies->Users->get($this->Auth->user('steam_id'))->lobby_id;
+            if ($your_lobby_id != null) {
+                $your_lobby = $this->Lobbies->get($your_lobby_id, ['contain' => ['Users', 'RankFrom', 'RankTo', 'Owner']]);
+                $is_own_lobby = $your_lobby->owner_id == $this->Auth->user('steam_id');
+                $this->set(compact('your_lobby', 'is_own_lobby'));
+            }
+
+            // load the list of lobbies based on the filter
+            $filter = [];
+            if ($this->request->is('post')) {
+                foreach ($this->request->data as $key => $value) {
+                    if ($value != '') {
+                        $filter[$key] = $value;
+                    }
+                }
+            }
+            if (!empty($filter)) {
+                $lobbies = $this->Lobbies->find('all', [
+                    'order' => ['Lobbies.created' => 'ASC'],
+                    'limit' => 30
+                ])->where([
+                    'min_playtime <=' => $this->Auth->user('playtime'),
+                    'prime_req =' => $filter['filter_prime_req'],
+                    'teamspeak_req =' => $filter['filter_teamspeak_req'],
+                    'microphone_req =' => $filter['filter_microphone_req'],
+                    'rank_from <=' => $filter['filter_user_rank'],
+                    'rank_to >=' => $filter['filter_user_rank'],
+                    'min_age <=' => $filter['filter_min_age'],
+                    'region =' => $user_region
+                ])->contain(['Users', 'Owner', 'RankFrom', 'RankTo']);
+            } else {
+                $lobbies = $this->Lobbies->find()->where([
+                    'region =' => $user_region,
+                    'min_playtime <=' => $this->Auth->user('playtime')
+                ])->contain(['Users', 'Owner', 'RankFrom', 'RankTo']);
+            }
+            $this->set(compact('lobbies', 'filter'));
+            $this->set('_serialize', ['lobbies']);
         }
     }
 
@@ -209,7 +203,6 @@ class LobbiesController extends AppController
                 $this->request->data['lobby'] = $lobby;
                 $this->request->data['joined_user'] = $user;
                 $this->websocketSend($this->request->data);
-
                 if ($lobby->free_slots == 0) {
                     $this->request->data['topic'] = 'lobby_full';
                     $this->websocketSend($this->request->data);
@@ -246,7 +239,6 @@ class LobbiesController extends AppController
                 $this->request->data['lobby'] = $lobby;
                 $this->request->data['user_left'] = $user;
                 $this->websocketSend($this->request->data);
-
             } else {
                 $this->Flash->error(__('The lobby could not be saved. Please, try again.'));
             }
@@ -254,8 +246,7 @@ class LobbiesController extends AppController
         }
     }
 
-    public
-    function kick($steam_id)
+    public function kick($steam_id)
     {
         $lobby = $this->Lobbies->find()->where(['owner_id =' => $this->Auth->user('steam_id')])->contain(['Users'])->toArray()[0];
         $user = $this->Lobbies->Users->get($steam_id);
@@ -264,7 +255,6 @@ class LobbiesController extends AppController
             $lobby->free_slots = $lobby->free_slots + 1;
             if ($this->Lobbies->save($lobby)) {
                 $this->Flash->success(__('User successfully kicked.'));
-
                 $this->request->data['topic'] = 'lobby_leave';
                 $this->request->data['lobby'] = $lobby;
                 $this->request->data['user_left'] = $user;
@@ -289,11 +279,9 @@ class LobbiesController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $lobby = $this->Lobbies->get($id, ['contain' => 'Users']);
         if ($this->Lobbies->delete($lobby)) {
-
             $this->request->data['topic'] = 'lobby_delete';
             $this->request->data['lobby'] = $lobby;
             $this->websocketSend($this->request->data);
-
             $this->Flash->success(__('The lobby has been deleted.'));
         } else {
             $this->Flash->error(__('The lobby could not be deleted. Please, try again.'));
