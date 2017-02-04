@@ -53,7 +53,6 @@ class RanksTable extends Table
     {
         $validator
             ->allowEmpty('abbr');
-
         return $validator;
     }
 
@@ -67,7 +66,6 @@ class RanksTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['rank_id'], 'Ranks'));
-
         return $rules;
     }
 }

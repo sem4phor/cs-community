@@ -13,7 +13,7 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-$cakeDescription = 'CS-Community: Find the best teammates!';
+$description = __('CS-Community: Find the best teammates!');
 ?>
 <!DOCTYPE html>
 <html>
@@ -21,7 +21,7 @@ $cakeDescription = 'CS-Community: Find the best teammates!';
     <?= $this->Html->charset() ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
-        <?= $cakeDescription ?>:
+        <?= $description ?>:
         <?= $this->fetch('title') ?>
     </title>
     <?= $this->Html->meta('icon') ?>
@@ -37,9 +37,7 @@ $cakeDescription = 'CS-Community: Find the best teammates!';
     <?= $this->Html->script('https://code.jquery.com/jquery-3.1.1.min.js'); ?>
     <?= $this->Html->script('http://code.jquery.com/ui/1.12.1/jquery-ui.min.js'); ?>
 
-
     <?= $this->Html->script('http://autobahn.s3.amazonaws.com/js/autobahn.min.js'); ?>
-    <?= $this->Html->script('/webroot/js/jquery.infinite-scroll.js'); ?>
     <?= $this->Html->script('/webroot/js/update-index.js'); ?>
     <?= $this->Html->script('/webroot/js/jquery.scrollbar.min.js'); ?>
 </head>
@@ -49,7 +47,7 @@ $cakeDescription = 'CS-Community: Find the best teammates!';
         <li class="name">
             <a href="/cs-community">
             <?= $this->Html->image('logograuklein.png', ['alt' => 'logo']); ?>
-            <h3>CS-Community</h3>
+            <h3><?= __('CS-Community') ?></h3>
             </a>
         </li>
     </ul>
@@ -61,28 +59,17 @@ $cakeDescription = 'CS-Community: Find the best teammates!';
                     <ul class="dropdown">
                         <li> <?= $this->Html->link(__('My Profile'), ['controller' => 'users', 'action' => 'view', $user->steam_id]) ?></li>
                         <li><?= $this->Html->link(__('Logout'), ['controller' => 'users', 'action' => 'logout']) ?></li>
-                        <li><a href="mailto:varappvr@gmail.com">Support</a></li>
+                        <li><a href="mailto:varappvr@gmail.com"><?= __('Support') ?></a></li>
                     </ul>
                 </li>
-                <li><?= $this->Html->image($user->avatar, ['alt' => 'steam_avatar', 'url' => $user->profileurl, 'id' => 'topbar-avatar', 'steam_id' => $user->steam_id]); ?></li>
-
+                <li><?= $this->Html->image($user->avatar, ['alt' => 'steam_avatar', 'url' => $user->profileurl, 'id' => 'topbar-avatar', 'steam_id' => $user->steam_id, 'playtime' => $user->playtime, 'user_region' => $user_region]); ?></li>
             <?php else: ?>
                 <li><?= $this->Html->image("http://cdn.steamcommunity.com/public/images/signinthroughsteam/sits_02.png", [
-                        "alt" => "Steam Login",
+                        "alt" => __("Steam Login"),
                         'url' => $loginUrl]); ?>
                 </li>
             <?php endif; ?>
         </ul>
-        <ul>
-            <!--div class="medium-8 columns medium-centered">
-                <div class="row">
-                    <div class="columns medium-3"><a href="#">First Link</a></div>
-                    <div class="columns medium-3"><a href="#">Second Link</a></div>
-                    <div class="columns medium-3"><a href="#">Third Link</a></div>
-                    <div class="columns medium-3"><a href="#">Fourth Link</a></div>
-                </div>
-            </div>
-        </ul-->
     </section>
 </nav>
 <?= $this->Flash->render() ?>

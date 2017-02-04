@@ -42,18 +42,16 @@
                         <?= $this->Html->image('ranks/' . $your_lobby->RankFrom->name . '.png', ["alt" => $your_lobby->RankFrom, "class" => 'rank-icon']); ?>
                     </div>
                     <div class="medium-2 columns"><span class="stretch">-</span></div>
-
                     <div class="medium-5 columns">
                         <?= $this->Html->image('ranks/' . $your_lobby->RankTo->name . '.png', ["alt" => $your_lobby->RankTo, "class" => 'rank-icon']); ?>
                     </div>
                 </div>
             </div>
-
             <div class='column medium-2'>
                 <?php if ($is_own_lobby): ?>
-                    <?= $this->Form->postLink('Delete', ["action" => 'delete', $your_lobby->lobby_id], ['class' => 'radius button small']); ?>
+                    <?= $this->Form->postLink(__('Delete'), ["action" => 'delete', $your_lobby->lobby_id], ['class' => 'radius button']); ?>
                 <?php else: ?>
-                    <?= $this->Html->link('Leave', ["action" => 'leave', $your_lobby->lobby_id], ['class' => 'button']); ?>
+                    <?= $this->Html->link(__('Leave'), ["action" => 'leave', $your_lobby->lobby_id], ['class' => 'radius button']); ?>
                 <?php endif; ?>
             </div>
             <div class='column medium-2'>
@@ -61,19 +59,17 @@
             </div>
         </div>
         <div class="row">
-            <div class='column medium-1'><?= $this->Html->image('prime.png', ["alt" => 'prime', "heigth" => '20', "width" => '20']); ?>
+            <div class='column medium-1'><?= $this->Html->image('prime.png', ["alt" => __('Prime'), "heigth" => '20', "width" => '20']); ?>
                 <?= h($your_lobby->prime_req) ? __('Yes') : __('No'); ?>
             </div>
-            <div class='column medium-1'> <?= $this->Html->image('microphone.png', ["alt" => 'microphone', "heigth" => '20', "width" => '20']); ?>
+            <div class='column medium-1'> <?= $this->Html->image('microphone.png', ["alt" => __('microphone'), "heigth" => '20', "width" => '20']); ?>
                 <?= h($your_lobby->microphone_req) ? __('Yes') : __('No'); ?>
             </div>
-            <div class='column medium-1'> <?= $this->Html->image('teamspeak.png', ["alt" => 'TS3', "heigth" => '20', "width" => '20']); ?>
+            <div class='column medium-1'> <?= $this->Html->image('teamspeak.png', ["alt" => __('TS3'), "heigth" => '20', "width" => '20']); ?>
                 <?= h($your_lobby->teamspeak_req) ? __('Yes') : __('No'); ?>
             </div>
             <div class='column medium-2'><?= __('Min. Playtime: ') . h($your_lobby->min_playtime); ?></div>
             <div class='column medium-2 left'><?= __('Min. Age: ') . h($your_lobby->min_age); ?></div>
-            <!--div class='column medium-3'><!--?= __('Min. Upvotes: ') . h($your_lobby->min_upvotes); ?></div>
-            <div class='column medium-3'><!--?= __('Max. Downvotes: ') . h($your_lobby->max_downvotes); ?></div-->
         </div>
     </div>
 </div>

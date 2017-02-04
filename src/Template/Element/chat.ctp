@@ -4,7 +4,7 @@
             <div class="columns medium-12"><h3><?= __('Chat') ?></h3></div>
         </div>
         <div id="chat-message-container" class="row chat-message-container scrollbar-inner">
-            <?= __('Welcome ' . $user->personaname . '!') ?>
+            <?= __('Welcome') . $user->personaname . ' !' ?>
             <?php $colors = ["#234567", "#CF142B", "#C5AC6A", "#5E9FB8", "#4CAF50", "#234567", "#CF142B", "#C5AC6A", "#5E9FB8", "#4CAF50"]; ?>
             <?php foreach ($chatMessages as $message): ?>
                 <div class="row">
@@ -20,7 +20,7 @@
                 <?= $this->Form->input('message', ['label' => false, 'width' => '10px', 'autocomplete' => 'off', 'onfocus' => 'inputFocus(this)', 'onblur' => 'inputBlur(this)', 'value' => 'Say something', 'style' => 'color:#888']); ?>
             </div>
             <div class="chat-message-input columns medium-4">
-                <?= $this->Form->button('Send', ['type' => 'submit', 'class' => 'tiny radius']); ?>
+                <?= $this->Form->button(__('Send'), ['type' => 'submit', 'class' => 'tiny radius']); ?>
                 <?= $this->Form->end(); ?>
             </div>
         </div>
@@ -28,7 +28,6 @@
 </div>
 
 <script type="text/javascript">
-
     function performPostRequest(form) {
         parameters = "";
         for (var i = 0; i < form.elements.length; i++) {
@@ -51,21 +50,4 @@
         }, 800);
         return false;
     }
-
-    function toggleReadOnly() {
-        $('#teamspeak-ip').prop('readonly', !$('#teamspeak-ip').is('[readonly]'));
-    }
-    function inputFocus(i) {
-        if (i.value == i.defaultValue) {
-            i.value = "";
-            i.style.color = "#000";
-        }
-    }
-    function inputBlur(i) {
-        if (i.value == "") {
-            i.value = i.defaultValue;
-            i.style.color = "#888";
-        }
-    }
-
 </script>

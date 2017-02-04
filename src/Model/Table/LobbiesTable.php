@@ -159,14 +159,6 @@ class LobbiesTable extends Table
         $validator
             ->integer('min_playtime')
             ->allowEmpty('min_playtime');
-
-        /*$validator
-            ->integer('min_upvotes')
-            ->allowEmpty('min_upvotes');
-
-        $validator
-            ->integer('max_downvotes')
-            ->allowEmpty('max_downvotes');*/
         return $validator;
     }
 

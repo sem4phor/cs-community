@@ -16,6 +16,7 @@ namespace App\Controller;
 
 use Cake\Controller\Controller;
 use Cake\Event\Event;use Cake\Routing\Router;
+use React\ZMQ;
 
 
 /**
@@ -89,6 +90,8 @@ class AppController extends Controller
      */
     public function beforeRender(Event $event)
     {
+        $this->loadModel('Users');
+        if($this->Auth->user() !== null)$this->set('user_region', $this->Users->getRegionCode($this->Auth->user('steam_id')));
         if($this->Auth->user() === null) $this->set('loginUrl', $this->SteamOpenId->genUrl(Router::url(['controller' => 'users', 'action' => 'login'], true), false));
         if($this->Auth->user() !== null)$this->set('user', $this->Auth->user());
 

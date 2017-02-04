@@ -2,17 +2,12 @@
 namespace App\Controller\Component;
 
 
-/**
- * Created by PhpStorm.
- * User: Valentin
- * Date: 10.10.2016
- * Time: 15:03
- */
-use Cake\Controller\Component;
 use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\WampServerInterface;
-use Cake\Log\Log;
 
+/**
+ * Based on the Ratchet Push Integration Tutorial on http://socketo.me/docs/push
+ */
 class PusherComponent implements WampServerInterface
 {
 

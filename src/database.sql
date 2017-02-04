@@ -3,7 +3,7 @@
         -- http://www.phpmyadmin.net
         --
         -- Host: 127.0.0.1
-        -- Erstellungszeit: 14. Dez 2016 um 16:09
+        -- Erstellungszeit: 03. Feb 2017 um 15:58
         -- Server-Version: 10.1.16-MariaDB
         -- PHP-Version: 7.0.9
 
@@ -21,12 +21,15 @@
         --
 
         -- --------------------------------------------------------
+        SET FOREIGN_KEY_CHECKS=0;
+DROP TABLE IF EXISTS chat_messages, lobbies, users, continents, countries, roles, ranks;
+        SET FOREIGN_KEY_CHECKS=1;
 
         --
         -- Tabellenstruktur fÃ¼r Tabelle `chat_messages`
         --
 
-        CREATE TABLE `chat_messages` (
+        CREATE TABLE IF NOT EXISTS `chat_messages` (
         `message_id` int(10) UNSIGNED NOT NULL,
         `sent_by` varchar(255) NOT NULL,
         `message` varchar(50) NOT NULL,
@@ -38,13 +41,28 @@
         --
 
         INSERT INTO `chat_messages` (`message_id`, `sent_by`, `message`, `created`) VALUES
-        (1, '76561198179977039', 'Hi', NULL),
-        (2, '76561198179977039', 'Hi there.', NULL),
-        (3, '76561198179977039', 'hi', '2016-12-08 14:20:55'),
-        (4, '76561198179977039', 'hi', '2016-12-08 14:22:09'),
-        (5, '76561198126151407', 'hi', '2016-12-12 10:00:56'),
-        (6, '76561198126151407', 'hi', '2016-12-12 10:03:19'),
-        (7, '76561198126151407', 'hi', '2016-12-12 11:14:25');
+        (49, '76561198126151407', 'test1', '2016-12-20 18:25:44'),
+        (50, '76561198126151407', 'test2', '2016-12-20 18:25:56'),
+        (51, '76561198126151407', 'wuff', '2016-12-20 18:26:30'),
+        (52, '76561198126151407', 'wuff1', '2016-12-20 18:26:37'),
+        (53, '76561198126151407', 'wuff2', '2016-12-20 18:26:39'),
+        (54, '76561198126151407', 'wuff3', '2016-12-20 18:26:40'),
+        (55, '76561198126151407', 'wuff4', '2016-12-20 18:26:41'),
+        (56, '76561198126151407', 'wuff5', '2016-12-20 18:26:42'),
+        (57, '76561198126151407', 'wuff6', '2016-12-20 18:26:43'),
+        (58, '76561198126151407', 'wuff7', '2016-12-20 18:26:44'),
+        (59, '76561198126151407', 'wuff8', '2016-12-20 18:26:46'),
+        (60, '76561198126151407', 'wuff9', '2016-12-20 18:26:47'),
+        (61, '76561198126151407', 'lul1', '2016-12-20 19:08:44'),
+        (62, '76561198126151407', 'lul2', '2016-12-20 19:08:46'),
+        (63, '76561198126151407', 'lul3', '2016-12-20 19:08:47'),
+        (64, '76561198126151407', 'lul4', '2016-12-20 19:08:48'),
+        (65, '76561198126151407', 'lul5', '2016-12-20 19:08:48'),
+        (66, '76561198126151407', 'lul6', '2016-12-20 19:08:50'),
+        (67, '76561198126151407', 'lul7', '2016-12-20 19:08:51'),
+        (68, '76561198126151407', 'lul8', '2016-12-20 19:08:52'),
+        (69, '76561198126151407', 'lul9', '2016-12-20 19:08:53'),
+        (70, '76561198126151407', 'lul10', '2016-12-20 19:08:55');
 
         -- --------------------------------------------------------
 
@@ -52,7 +70,7 @@
         -- Tabellenstruktur fÃ¼r Tabelle `continents`
         --
 
-        CREATE TABLE `continents` (
+        CREATE TABLE IF NOT EXISTS `continents` (
         `code` char(2) NOT NULL COMMENT 'Continent code',
         `name` varchar(255) DEFAULT NULL
         ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -76,7 +94,7 @@
         -- Tabellenstruktur fÃ¼r Tabelle `countries`
         --
 
-        CREATE TABLE `countries` (
+        CREATE TABLE IF NOT EXISTS `countries` (
         `code` char(2) NOT NULL COMMENT 'Two-letter country code (ISO 3166-1 alpha-2)',
         `name` varchar(255) NOT NULL COMMENT 'English country name',
         `full_name` varchar(255) NOT NULL COMMENT 'Full English country name',
@@ -346,7 +364,7 @@
         -- Tabellenstruktur fÃ¼r Tabelle `lobbies`
         --
 
-        CREATE TABLE `lobbies` (
+        CREATE TABLE IF NOT EXISTS `lobbies` (
         `lobby_id` int(10) UNSIGNED NOT NULL,
         `owner_id` varchar(255) NOT NULL,
         `free_slots` int(11) DEFAULT '5',
@@ -362,27 +380,60 @@
         `rank_to` int(10) UNSIGNED DEFAULT NULL,
         `min_playtime` int(11) DEFAULT NULL,
         `region` char(2) DEFAULT NULL,
-        `language` char(6) DEFAULT NULL,
-        `min_upvotes` int(11) DEFAULT NULL,
-        `max_downvotes` int(11) DEFAULT NULL,
-        `users_count` int(11) DEFAULT NULL
+        `language` char(6) DEFAULT NULL
         ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-        --
-        -- Daten fÃ¼r Tabelle `lobbies`
-        --
-
-        INSERT INTO `lobbies` (`lobby_id`, `owner_id`, `free_slots`, `url`, `created`, `modified`, `microphone_req`, `prime_req`, `min_age`, `teamspeak_req`, `teamspeak_ip`, `rank_from`, `rank_to`, `min_playtime`, `region`, `language`, `min_upvotes`, `max_downvotes`, `users_count`) VALUES
-        (2, '76561198179977039', 0, 'steam://joinlobby/3/3/3', '2016-12-08 15:28:21', '2016-12-08 15:41:22', 0, 0, 0, 1, '81.169.247.125:25072', 1, 2, 0, NULL, 'en', NULL, NULL, NULL),
-        (19, '76561198126151407', 4, 'steam://joinlobby/730/109775241993547872/76561198186213972', '2016-12-12 12:58:17', '2016-12-12 12:58:17', 0, 0, 0, 0, '', 1, 3, 0, NULL, 'en', NULL, NULL, NULL);
-
         -- --------------------------------------------------------
+        INSERT INTO `lobbies` (`lobby_id`, `owner_id`, `free_slots`, `url`, `created`, `modified`, `microphone_req`, `prime_req`, `min_age`, `teamspeak_req`, `teamspeak_ip`, `rank_from`, `rank_to`, `min_playtime`, `region`, `language`) VALUES
+        (1,'76561198179977039', 4, 'steam://joinlobby/730/123409775241993547872/76561198186213972', '2016-11-21 11:32:28', NULL, true, true, 12, true, '123.456.789:123', 16,18,0,'EU','en'),
+        (2,'76561198179977039', 4, 'steam://joinlobby/730/109775241993547872/76561198186413972', '2016-11-21 11:32:28', NULL, true, true, 12, true, '123.456.789:123', 16,18,0,'EU','en'),
+        (3,'76561198179977039', 4, 'steam://joinlobby/730/109775241993547872/76561198186613972', '2016-11-21 11:32:28', NULL, true, true, 12, true, '123.456.789:123', 16,18,0,'EU','en'),
+        (4,'76561198179977039', 4, 'steam://joinlobby/730/109775241993547872/76561198186113972', '2016-11-21 11:32:28', NULL, true, true, 12, true, '123.456.789:123', 16,18,0,'EU','en'),
+        (5,'76561198179977039', 4, 'steam://joinlobby/730/109775241993547872/765611981862113972', '2016-11-21 11:32:28', NULL, true, true, 12, true, '123.456.789:123', 16,18,0,'EU','en'),
+        (6,'76561198179977039', 4, 'steam://joinlobby/730/109775241993547872/76561198186212413972', '2016-11-21 11:32:28', NULL, true, true, 12, true, '123.456.789:123', 16,18,0,'EU','en'),
+        (7,'76561198179977039', 4, 'steam://joinlobby/730/109775241993547872/7656119818621343972', '2016-11-21 11:32:28', NULL, true, true, 12, true, '123.456.789:123', 16,18,0,'EU','en'),
+        (8,'76561198179977039', 4, 'steam://joinlobby/730/109775241993547872/765611981836213972', '2016-11-21 11:32:28', NULL, true, true, 12, true, '123.456.789:123', 16,18,0,'EU','en'),
+        (9,'76561198179977039', 4, 'steam://joinlobby/730/109775241993547872/7656119823186213972', '2016-11-21 11:32:28', NULL, true, true, 12, true, '123.456.789:123', 16,18,0,'EU','en'),
+        (10,'76561198179977039', 4, 'steam://joinlobby/730/109775241993547872/7656119818621113972', '2016-11-21 11:32:28', NULL, true, true, 12, true, '123.456.789:123', 16,18,0,'EU','en'),
+        (11,'76561198179977039', 4, 'steam://joinlobby/730/109775241993547872/76561198123486213972', '2016-11-21 11:32:28', NULL, true, true, 12, true, '123.456.789:123', 16,18,0,'EU','en'),
+        (12,'76561198179977039', 4, 'steam://joinlobby/730/10977547872/76561198123486213972', '2016-11-21 11:32:28', NULL, true, true, 12, true, '123.456.789:123', 16,18,0,'EU','en'),
+        (13,'76561198179977039', 4, 'steam://joinlobby/730/1097752419931547872/76561198123486213972', '2016-11-21 11:32:28', NULL, true, true, 12, true, '123.456.789:123', 16,18,0,'EU','en'),
+        (14,'76561198179977039', 4, 'steam://joinlobby/730/10977524199748833547872/76561198123486213972', '2016-11-21 11:32:28', NULL, true, true, 12, true, '123.456.789:123', 16,18,0,'EU','en'),
+        (15,'76561198179977039', 4, 'steam://joinlobby/730/10977524199354777872/76561198123486213972', '2016-11-21 11:32:28', NULL, true, true, 12, true, '123.456.789:123', 16,18,0,'EU','en'),
+        (16,'76561198179977039', 4, 'steam://joinlobby/730/109775241993566747872/34776561198123486213972', '2016-11-21 11:32:28', NULL, true, true, 12, true, '123.456.789:123', 16,18,0,'EU','en'),
+        (17,'76561198179977039', 4, 'steam://joinlobby/730/10977524199354557872/76561198123486213972', '2016-11-21 11:32:28', NULL, true, true, 12, true, '123.456.789:123', 16,18,0,'EU','en'),
+        (18,'76561198179977039', 4, 'steam://joinlobby/730/10977524199354447872/76561198123486213972', '2016-11-21 11:32:28', NULL, true, true, 12, true, '123.456.789:123', 16,18,0,'EU','en'),
+        (19,'76561198179977039', 4, 'steam://joinlobby/730/10977524199354722872/76561198123486213972', '2016-11-21 11:32:28', NULL, true, true, 12, true, '123.456.789:123', 16,18,0,'EU','en'),
+        (20,'76561198179977039', 4, 'steam://joinlobby/730/1097752419935727872/76561198123486213972', '2016-11-21 11:32:28', NULL, true, true, 12, true, '123.456.789:123', 16,18,0,'EU','en'),
+        (21,'76561198179977039', 4, 'steam://joinlobby/730/109775231146419935478634572/76561198123486213972', '2016-11-21 11:32:28', NULL, true, true, 12, true, '123.456.789:123', 16,18,0,'EU','en'),
+        (22,'76561198179977039', 4, 'steam://joinlobby/730/109775261113441993547872/76561198123486213972', '2016-11-21 11:32:28', NULL, true, true, 12, true, '123.456.789:123', 16,18,0,'EU','en'),
+        (23,'76561198179977039', 4, 'steam://joinlobby/730/10977526111113441993547872/76561198123486213972', '2016-11-21 11:32:28', NULL, true, true, 12, true, '123.456.789:123', 16,18,0,'EU','en'),
+        (24,'76561198179977039', 4, 'steam://joinlobby/730/1097752611113441993547872/76561198123486213972', '2016-11-21 11:32:28', NULL, true, true, 12, true, '123.456.789:123', 16,18,0,'EU','en'),
+        (25,'76561198179977039', 4, 'steam://joinlobby/730/109771115263441993547872/76561198123486213972', '2016-11-21 11:32:28', NULL, true, true, 12, true, '123.456.789:123', 16,18,0,'EU','en'),
+        (26,'76561198179977039', 4, 'steam://joinlobby/730/1097175263441993547872/76561198123486213972', '2016-11-21 11:32:28', NULL, true, true, 12, true, '123.456.789:123', 16,18,0,'EU','en'),
+        (27,'76561198179977039', 4, 'steam://joinlobby/730/109775132263441993547872/76561198123486213972', '2016-11-21 11:32:28', NULL, true, true, 12, true, '123.456.789:123', 16,18,0,'EU','en'),
+        (28,'76561198179977039', 4, 'steam://joinlobby/730/1019775263441993547872/7656111598123486213972', '2016-11-21 11:32:28', NULL, true, true, 12, true, '123.456.789:123', 16,18,0,'EU','en'),
+        (29,'76561198179977039', 4, 'steam://joinlobby/730/1097752634419931235547872/76561198123486213972', '2016-11-21 11:32:28', NULL, true, true, 12, true, '123.456.789:123', 16,18,0,'EU','en'),
+        (30,'76561198179977039', 4, 'steam://joinlobby/730/109775263441993513247872/76561198123486213972', '2016-11-21 11:32:28', NULL, true, true, 12, true, '123.456.789:123', 16,18,0,'EU','en'),
+        (31,'76561198179977039', 4, 'steam://joinlobby/730/109775263441993512347872/7656116198123486213972', '2016-11-21 11:32:28', NULL, true, true, 12, true, '123.456.789:123', 16,18,0,'EU','en'),
+        (32,'76561198179977039', 4, 'steam://joinlobby/730/109775263541441993547872/7651661198123486213972', '2016-11-21 11:32:28', NULL, true, true, 12, true, '123.456.789:123', 16,18,0,'EU','en'),
+        (33,'76561198179977039', 4, 'steam://joinlobby/730/10977526344191393547872/76561198123486213972', '2016-11-21 11:32:28', NULL, true, true, 12, true, '123.456.789:123', 16,18,0,'EU','en'),
+        (34,'76561198179977039', 4, 'steam://joinlobby/730/10977526344199354157872/76561198123486213972', '2016-11-21 11:32:28', NULL, true, true, 12, true, '123.456.789:123', 16,18,0,'EU','en'),
+        (35,'76561198179977039', 4, 'steam://joinlobby/730/1097752634463199354781472/76561198123486213972', '2016-11-21 11:32:28', NULL, true, true, 12, true, '123.456.789:123', 16,18,0,'EU','en'),
+        (36,'76561198179977039', 4, 'steam://joinlobby/730/109775263441993547872/76561231198123486213972', '2016-11-21 11:32:28', NULL, true, true, 12, true, '123.456.789:123', 16,18,0,'EU','en'),
+        (37,'76561198179977039', 4, 'steam://joinlobby/730/10977526344199123547872/7656113198123486213972', '2016-11-21 11:32:28', NULL, true, true, 12, true, '123.456.789:123', 16,18,0,'EU','en'),
+        (38,'76561198179977039', 4, 'steam://joinlobby/730/10977526344135993547872/76561198123486213972', '2016-11-21 11:32:28', NULL, true, true, 12, true, '123.456.789:123', 16,18,0,'EU','en'),
+        (39,'76561198179977039', 4, 'steam://joinlobby/730/109775263441346993547872/76561198123111486213972', '2016-11-21 11:32:28', NULL, true, true, 12, true, '123.456.789:123', 16,18,0,'EU','en'),
+        (40,'76561198179977039', 4, 'steam://joinlobby/730/109775263441346993547872/76561198123486213972', '2016-11-21 11:32:28', NULL, true, true, 12, true, '123.456.789:123', 16,18,0,'EU','en');
+
+
+
 
         --
         -- Tabellenstruktur fÃ¼r Tabelle `ranks`
         --
 
-        CREATE TABLE `ranks` (
+        CREATE TABLE IF NOT EXISTS `ranks` (
         `rank_id` int(10) UNSIGNED NOT NULL,
         `abbr` varchar(30) DEFAULT NULL,
         `name` varchar(40) DEFAULT NULL
@@ -403,7 +454,7 @@
         (8, 'GN2', 'Gold Nova II'),
         (9, 'GN3', 'Gold Nova III'),
         (10, 'GNM', 'Gold Nova Master'),
-        (11, 'MG1', 'Master Guradian I'),
+        (11, 'MG1', 'Master Guardian I'),
         (12, 'MG2', 'Master Guardian II'),
         (13, 'MGE', 'Master Guardian Elite'),
         (14, 'DMG', 'Distinguished Master Guardian'),
@@ -418,7 +469,7 @@
         -- Tabellenstruktur fÃ¼r Tabelle `roles`
         --
 
-        CREATE TABLE `roles` (
+        CREATE TABLE IF NOT EXISTS `roles` (
         `role_id` int(10) UNSIGNED NOT NULL,
         `name` varchar(30) DEFAULT NULL,
         `description` varchar(50) DEFAULT NULL
@@ -440,7 +491,7 @@
         -- Tabellenstruktur fÃ¼r Tabelle `users`
         --
 
-        CREATE TABLE `users` (
+        CREATE TABLE IF NOT EXISTS `users` (
         `steam_id` varchar(255) NOT NULL,
         `loccountrycode` char(2) DEFAULT NULL,
         `lobby_id` int(10) UNSIGNED DEFAULT NULL,
@@ -461,12 +512,12 @@
 
         INSERT INTO `users` (`steam_id`, `loccountrycode`, `lobby_id`, `avatar`, `avatarmedium`, `avatarfull`, `personaname`, `profileurl`, `playtime`, `role_id`, `created`, `modified`) VALUES
         ('76561198126151402', 'DE', NULL, 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_medium.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_full.jpg', 'Semaphor5', 'http://steamcommunity.com/id/stablestorage/', 900, 1, '2016-11-21 11:15:42', NULL),
-        ('76561198126151403', 'US', NULL, 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_medium.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_full.jpg', 'Semaphor4', 'http://steamcommunity.com/id/stablestorage/', 1402, 1, '2016-11-21 11:15:42', NULL),
-        ('76561198126151404', 'GB', NULL, 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_medium.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_full.jpg', 'Semaphor3', 'http://steamcommunity.com/id/stablestorage/', 900, 1, '2016-11-21 11:15:42', NULL),
-        ('76561198126151405', 'CH', NULL, 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_medium.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_full.jpg', 'Semaphor2', 'http://steamcommunity.com/id/stablestorage/', 1402, 1, '2016-11-21 11:15:42', NULL),
-        ('76561198126151406', 'IN', NULL, 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_medium.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_full.jpg', 'Semaphor1', 'http://steamcommunity.com/id/stablestorage/', 900, 1, '2016-11-21 11:15:42', NULL),
-        ('76561198126151407', 'DE', 19, 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/98/98b7fce682e4b65e947f8b83fcd358bb9a38063b.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/98/98b7fce682e4b65e947f8b83fcd358bb9a38063b_medium.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/98/98b7fce682e4b65e947f8b83fcd358bb9a38063b_full.jpg', 'Semaphor', 'http://steamcommunity.com/id/stablestorage/', 1476, 2, '2016-11-21 11:32:28', '2016-12-12 13:12:48'),
-        ('76561198179977039', 'DE', 2, 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_medium.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_full.jpg', 'Semaphor2 csgobig.com', 'http://steamcommunity.com/profiles/76561198179977039/', 845, 1, '2016-11-21 11:15:42', '2016-12-08 15:28:22');
+        ('76561198126151403', 'US', NULL, 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_medium.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_full.jpg', 'Statsu', 'http://steamcommunity.com/id/stablestorage/', 1402, 1, '2016-11-21 11:15:42', NULL),
+        ('76561198126151404', 'GB', NULL, 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c7/c72fd66d8bd545232dfe7d103e2c67c94d4940e5.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c7/c72fd66d8bd545232dfe7d103e2c67c94d4940e5_medium.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c7/c72fd66d8bd545232dfe7d103e2c67c94d4940e5_full.jpg', 'Exampler', 'http://steamcommunity.com/id/stablestorage/', 900, 1, '2016-11-21 11:15:42', NULL),
+        ('76561198126151405', 'CH', NULL, 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_medium.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f0/f045e851a26a02eb4069842bec5f491d6779e194_full.jpg', 'MaxM', 'http://steamcommunity.com/id/stablestorage/', 1402, 1, '2016-11-21 11:15:42', NULL),
+        ('76561198126151406', 'IN', NULL, 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/af/afb7a1576fa96abc303fd71d7bd26f8892851a15.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/af/afb7a1576fa96abc303fd71d7bd26f8892851a15_medium.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/af/afb7a1576fa96abc303fd71d7bd26f8892851a15_full.jpg', 'aoba', 'http://steamcommunity.com/id/stablestorage/', 900, 1, '2016-11-21 11:15:42', NULL),
+        ('76561198126151407', 'DE', NULL, 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/5d/5d0cc83daf9d21c3765828b4fc0a49e6709f691b.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/5d/5d0cc83daf9d21c3765828b4fc0a49e6709f691b_medium.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/5d/5d0cc83daf9d21c3765828b4fc0a49e6709f691b_full.jpg', 'Mushu', 'http://steamcommunity.com/id/stablestorage/', 1505, 2, '2016-11-21 11:32:28', '2017-02-03 14:41:45'),
+        ('76561198179977039', 'DE', NULL, 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/39/39a4e79c4da85717f07b0e2a75b338d7176158c3.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/39/39a4e79c4da85717f07b0e2a75b338d7176158c3_medium.jpg', 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/39/39a4e79c4da85717f07b0e2a75b338d7176158c3_full.jpg', 'Semaphor', 'http://steamcommunity.com/profiles/76561198179977039/', 845, 1, '2016-11-21 11:15:42', '2017-02-02 10:48:28');
 
         --
         -- Indizes der exportierten Tabellen
@@ -532,12 +583,12 @@
         -- AUTO_INCREMENT fÃ¼r Tabelle `chat_messages`
         --
         ALTER TABLE `chat_messages`
-        MODIFY `message_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+        MODIFY `message_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=275;
         --
         -- AUTO_INCREMENT fÃ¼r Tabelle `lobbies`
         --
         ALTER TABLE `lobbies`
-        MODIFY `lobby_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+        MODIFY `lobby_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
         --
         -- AUTO_INCREMENT fÃ¼r Tabelle `ranks`
         --

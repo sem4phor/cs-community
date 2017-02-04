@@ -1,13 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Valentin
- * Date: 10.10.2016
- * Time: 15:17
+ * Based on the Ratchet Push Integration Tutorial on http://socketo.me/docs/push
  */
 require dirname(__DIR__) . '/vendor/autoload.php';
-use Ratchet\ConnectionInterface;
-use Ratchet\Wamp\WampServerInterface;
 use React\ZMQ\Context;
 use App\Controller\Component\PusherComponent;
 
