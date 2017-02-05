@@ -58,7 +58,7 @@ class ChatMessagesTable extends Table
             ->requirePresence('message', 'create')
             ->add('message', 'maxLength', [
                 'rule' => ['maxLength', 200],
-                'message' => 'Message too long.'
+                'message' => __('Message too long.')
             ])
             ->notEmpty('message');
 
@@ -75,7 +75,6 @@ class ChatMessagesTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn('message_id', 'ChatMessages'));
-        //$rules->add($rules->existsIn('sent_by', 'Users'));
         return $rules;
     }
 }

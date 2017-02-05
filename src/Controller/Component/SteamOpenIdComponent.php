@@ -4,11 +4,15 @@ namespace App\Controller\Component;
 
 use Cake\Controller\Component;
 
+/**
+ * Source of validate and genURL method: https://gist.github.com/Leimi/6904467
+ */
 class SteamOpenIdComponent extends Component
 {
     const STEAM_LOGIN = 'https://steamcommunity.com/openid/login';
 
     /**
+     *
      * Validate the incoming data
      *
      * @return string Returns the SteamID64 if successful or empty string on failure
@@ -48,7 +52,7 @@ class SteamOpenIdComponent extends Component
         $steamID64 = is_numeric($matches[1]) ? $matches[1] : 0;
 
         // Return our final value
-        return preg_match("#is_valid\s*:\s*true#i", $result) == 1 ? $steamID64 : '';
+        return preg_match("#is_valid\s*:\s*true#i", $result) == 1 ? $steamID64 : false;
     }
 
     /**

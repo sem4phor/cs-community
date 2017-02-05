@@ -15,7 +15,7 @@ class ChatMessagesController extends AppController
 
     public function beforeFilter(Event $event)
     {
-        $this->Auth->allow('new');
+        $this->Auth->allow('send');
         parent::beforeFilter($event);
     }
 
@@ -24,7 +24,7 @@ class ChatMessagesController extends AppController
      *
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
      */
-    public function new()
+    public function send()
     {
         $chatMessage = $this->ChatMessages->newEntity();
         $this->request->data['sent_by'] = $this->Auth->user('steam_id');
@@ -36,8 +36,7 @@ class ChatMessagesController extends AppController
                 $context = new \ZMQContext();
                 $socket = $context->getSocket(\ZMQ::SOCKET_PUSH, 'Pusher');
                 $socket->connect("tcp://localhost:5555");
-                $this->request->data['chat'] = 'new_chat_message';
-                //$this->request->data['last_sender'] = $this->ChatMessages->find()->order(['created' => 'DESC'])->toArray()[1]->sent_by;
+                $this->request->data['topic'] = 'new_chat_message';
                 $socket->send(json_encode($this->request->data));
                 // end
                 return;

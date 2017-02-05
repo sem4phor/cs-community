@@ -1,248 +1,214 @@
-<?php if (!isset($user)): ?>
+<?php if (isset($user)): ?>
+<?= $this->element('chat'); ?>
+<div class="lobbies lobbies-index medium-7 columns content">
+    <?php if (isset($your_lobby)): ?>
+        <?= $this->element('your_lobby'); ?>
+    <?php else: ?>
+        <?= $this->element('new_lobby_form'); ?>
+    <?php endif ?>
+    <?php else: ?>
     <div class="lobbies lobbies-index medium-7 medium-centered columns content">
-
-        <div class='row' style="margin-top:20px;"><h3><?= __('Lobbies') ?></h3></div>
-
-        <div id='lobbies-list'>
-            <?php foreach ($lobbies as $lobby): ?>
-                <div class='lobby-item row' id="<?= $lobby->lobby_id ?>">
-                    <div class="row">
-                        <div class='column medium-1'>
-                            <?= $this->Html->image('flags/' . $lobby->language . '.png', ["alt" => $lobby->language]); ?>
-                        </div>
-                        <div class='lobby-users-column column medium-2'>
-                            <?php $lobby_steam_ids_of_lobby = []; ?>
-                            <?php foreach ($lobby->users as $lobby_user): ?>
-                                <div steam_id="<?php echo $lobby_user->steam_id ?>"                                 class="lobby-user-column column medium-2">
-                                    <div class="row">
-                                        <?php array_push($lobby_steam_ids_of_lobby, $lobby_user->steam_id); ?>
-                                        <?php if ($lobby_user->steam_id == $lobby->owner->steam_id): ?>
-                                            <?= $this->Html->image($lobby->owner->avatar, ["alt" => 'steam avatar', "heigth" => '20', "width" => '20', 'url' => $lobby->owner->profileurl, 'class' => 'lobby_owner']); ?>
-                                        <?php else: ?>
-                                            <?= $this->Html->image($lobby_user->avatar, ["alt" => 'steam avatar', "heigth" => '20', "width" => '20', 'url' => $lobby_user->profileurl]); ?>
-                                        <?php endif; ?>
-                                    </div>
-                                    <div class="row">
-                                        <?= $this->Html->image('flags/' . $lobby_user->loccountrycode . '.png', ["alt" => $lobby_user->loccountrycode, "heigth" => '20', "width" => '20']); ?>
-                                    </div>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                        <div class='column medium-4'>
-                            <?= $this->Html->image('ranks/' . $lobby->RankFrom->name . '.png', ["alt" => $lobby->rank_to]); ?>
-                            <?= $this->Html->image('ranks/' . $lobby->RankTo->name . '.png', ["alt" => $lobby->rank_to]); ?>
-                        </div>
-                        <div class='column medium-1'>
-                            <div class="row">
-                                <?= $this->Html->image('microphone.png', ["alt" => 'microphone', "heigth" => '20', "width" => '20']); ?>
-                                <?= h($lobby->microphone_req) ? __('Yes') : __('No'); ?>
-                            </div>
-                            <div class="row">
-                                <?= $this->Html->image('prime.png', ["alt" => 'prime', "heigth" => '20', "width" => '20']); ?>
-                                <?= h($lobby->prime_req) ? __('Yes') : __('No'); ?>
-                            </div>
-                            <div class="row">
-                                <?= $this->Html->image('teamspeak.png', ["alt" => 'TS3', "heigth" => '20', "width" => '20']); ?>
-                                <?= h($lobby->teamspeak_req) ? __('Yes') : __('No'); ?>
-                            </div>
-                        </div>
-                        <div class='column medium-3'>
-                            <?= $lobby->created->timeAgoInWords(); ?>
-                        </div>
-                    </div>
-                    <div class='row'>
-                        <div class='column medium-6'><?= __('Min. Playtime: ') . $lobby->min_playtime; ?></div>
-                        <div class='column medium-6'><?= __('Min. Age: ') . $lobby->min_age; ?></div>
-                    </div>
-                </div>
-            <?php endforeach; ?>
-            <ul style="display:none;">
-            <?= $this->Paginator->next(__('next'), ['style' => 'margin:auto;', 'class' => 'next']) ?>
-            </ul>
-        </div>
-    </div>
-<?php else: ?>
-    <?= $this->element('chat'); ?>
-    <div class="lobbies lobbies-index medium-7 columns content">
-        <?php if (isset($your_lobby)): ?>
-            <?= $this->element('your_lobby'); ?>
-        <?php else: ?>
-            <?= $this->element('new_lobby_form'); ?>
         <?php endif; ?>
-        <div class='row' style="margin-top:20px;"><h3><?= __('Lobbies') ?></h3></div>
         <div id='lobbies-list'>
+            <?php if ($lobbies->isEmpty()): ?>
+                <div class="row no-lobbies">
+                    <p><?= __("There is currently no lobby available. Why don't you create one?") ?></p>
+                </div>
+            <?php endif; ?>
+
             <?php foreach ($lobbies as $lobby): ?>
                 <div class='lobby-item row' id="<?= $lobby->lobby_id ?>">
                     <div class="row">
                         <div class='column medium-1'>
                             <?= $this->Html->image('flags/' . $lobby->language . '.png', ["alt" => $lobby->language]); ?>
                         </div>
-                        <div class='lobby-users-column column medium-2'>
-                            <?php $lobby_steam_ids_of_lobby = []; ?>
-                            <?php foreach ($lobby->users as $lobby_user): ?>
-                                <div steam_id="<?php echo $lobby_user->steam_id ?>"                                 class="lobby-user-column column medium-2">
-                                    <div class="row">
-                                        <?php array_push($lobby_steam_ids_of_lobby, $lobby_user->steam_id); ?>
-                                        <?php if ($lobby_user->steam_id == $lobby->owner->steam_id): ?>
-                                            <?= $this->Html->image($lobby->owner->avatar, ["alt" => 'steam avatar', "heigth" => '20', "width" => '20', 'url' => $lobby->owner->profileurl, 'class' => 'lobby_owner']); ?>
-                                        <?php else: ?>
-                                            <?= $this->Html->image($lobby_user->avatar, ["alt" => 'steam avatar', "heigth" => '20', "width" => '20', 'url' => $lobby_user->profileurl]); ?>
-                                        <?php endif; ?>
-                                    </div>
-                                    <div class="row">
-                                        <?= $this->Html->image('flags/' . $lobby_user->loccountrycode . '.png', ["alt" => $lobby_user->loccountrycode, "heigth" => '20', "width" => '20']); ?>
-                                    </div>
+                        <div class='lobby-users-column column medium-3'>
+                            <div steam_id="<?php echo $lobby->owner->steam_id ?>"
+                                 class="lobby-user-column column medium-2">
+                                <div class="row">
+                                    <?= $this->Html->image($lobby->owner->avatar, ["alt" => __('Steam Avatar'), 'url' => $lobby->owner->profileurl, 'class' => 'lobby_owner']); ?>
                                 </div>
+                                <div class="row">
+                                    <?= $this->Html->image('flags/' . $lobby->owner->loccountrycode . '.png', ["alt" => $lobby->owner->loccountrycode, "class" => "flag"]); ?>
+                                </div>
+                            </div>
+                            <?php $is_in_lobby = false; ?>
+                            <?php foreach ($lobby->users as $lobby_user): ?>
+                                <?php if ($lobby_user->steam_id !== $lobby->owner->steam_id): ?>
+                                    <div steam_id="<?php echo $lobby_user->steam_id ?>"
+                                         class="lobby-user-column column medium-2">
+                                        <div class="row">
+                                            <?= $this->Html->image($lobby_user->avatar, ["alt" => __('Steam Avatar'), 'url' => $lobby_user->profileurl]); ?>
+                                        </div>
+                                        <div class="row">
+                                            <?= $this->Html->image('flags/' . $lobby_user->loccountrycode . '.png', ["alt" => $lobby_user->loccountrycode, "class" => "flag"]); ?>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                                <?php if (isset($user)): ?>
+                                    <?php $lobby_user->steam_id === $user->steam_id ? $is_in_lobby = true : ''; ?>
+                                <?php endif; ?>
                             <?php endforeach; ?>
                         </div>
                         <div class='column medium-4'>
-                            <?= $this->Html->image('ranks/' . $lobby->RankFrom->name . '.png', ["alt" => $lobby->rank_to]); ?>
-                            <?= $this->Html->image('ranks/' . $lobby->RankTo->name . '.png', ["alt" => $lobby->rank_to]); ?>
-                        </div>
-                        <div class='column medium-1'>
                             <div class="row">
-                                <?= $this->Html->image('microphone.png', ["alt" => 'microphone', "heigth" => '20', "width" => '20']); ?>
-                                <?= h($lobby->microphone_req) ? __('Yes') : __('No'); ?>
-                            </div>
-                            <div class="row">
-                                <?= $this->Html->image('prime.png', ["alt" => 'prime', "heigth" => '20', "width" => '20']); ?>
-                                <?= h($lobby->prime_req) ? __('Yes') : __('No'); ?>
-                            </div>
-                            <div class="row">
-                                <?= $this->Html->image('teamspeak.png', ["alt" => 'TS3', "heigth" => '20', "width" => '20']); ?>
-                                <?= h($lobby->teamspeak_req) ? __('Yes') : __('No'); ?>
+                                <div class="medium-5 columns">
+                                    <?= $this->Html->image('ranks/' . $lobby->RankFrom->name . '.png', ["alt" => $lobby->RankFrom, "class" => 'rank-icon']); ?>
+                                </div>
+                                <div class="medium-2 columns"><span class="stretch">-</span></div>
+
+                                <div class="medium-5 columns">
+                                    <?= $this->Html->image('ranks/' . $lobby->RankTo->name . '.png', ["alt" => $lobby->RankTo, "class" => 'rank-icon']); ?>
+                                </div>
                             </div>
                         </div>
-                        <div class='column medium-1'>
+                        <?php if (isset($user)): ?>
+                            <div class='column medium-2'>
+                                <?php if ($lobby->owner->steam_id === $user->steam_id): ?>
+                                    <?= $this->Form->postLink(__('Delete'), ["action" => 'delete', $lobby->lobby_id], ['class' => 'radius button small']); ?>
+                                <?php elseif (!$is_in_lobby): ?>
+                                    <?= $this->Html->link(__('Join'), ["action" => 'join', $lobby->lobby_id], ['id' => 'join-trigger', 'class' => 'radius button small', 'lobby-url' => $lobby->url]); ?>
+                                <?php else: ?>
+                                    <?= $this->Html->link(__('Leave'), ["action" => 'leave', $lobby->lobby_id], ['class' => 'radius button small']); ?>
+                                <?php endif; ?>
+                            </div>
+                        <?php endif; ?>
+                        <div class='column medium-2'>
                             <?= $lobby->created->timeAgoInWords(); ?>
                         </div>
-                        <div class='column medium-2'>
-                            <?php if (($user['steam_id'] == $lobby->owner_id)): ?>
-                                <?= $this->Form->postLink('Delete', ["action" => 'delete', $lobby->lobby_id], ['class' => 'button small radius']); ?>
-                            <?php elseif (in_array($user['steam_id'], $lobby_steam_ids_of_lobby)): ?>
-                                <?= $this->Html->link('Leave', ["action" => 'leave', $lobby->lobby_id], ['class' => 'button small radius']); ?>
-                            <?php else: ?>
-                                <?= $this->Html->link('Join', ["action" => 'join', $lobby->lobby_id], ['class' => 'button small radius']); ?>
-                            <?php endif; ?>
-                        </div>
                     </div>
-                    <div class='row'>
-                        <div class='column medium-6'><?= __('Min. Playtime: ') . $lobby->min_playtime; ?></div>
-                        <div class='column medium-6'><?= __('Min. Age: ') . $lobby->min_age; ?></div>
+                    <div class="row">
+                        <div class='column medium-1'><?= $this->Html->image('prime.png', ["alt" => __('Prime'), "heigth" => '20', "width" => '20']); ?>
+                            <?= h($lobby->prime_req) ? __('Yes') : __('No'); ?>
+                        </div>
+                        <div class='column medium-1'> <?= $this->Html->image('microphone.png', ["alt" => __('Microphone'), "heigth" => '20', "width" => '20']); ?>
+                            <?= h($lobby->microphone_req) ? __('Yes') : __('No'); ?>
+                        </div>
+                        <div class='column medium-1'> <?= $this->Html->image('teamspeak.png', ["alt" => __('TS3'), "heigth" => '20', "width" => '20']); ?>
+                            <?= h($lobby->teamspeak_req) ? __('Yes') : __('No'); ?>
+                        </div>
+                        <div class='column medium-2'><?= __('Min. Playtime: ') . h($lobby->min_playtime); ?></div>
+                        <div class='column medium-2 left'><?= __('Min. Age: ') . h($lobby->min_age); ?></div>
                     </div>
                 </div>
             <?php endforeach; ?>
-            <ul style="display:none;">
-                <?= $this->Paginator->next(__('next'), ['style' => 'margin:auto;', 'class' => 'next']) ?>
-            </ul>
         </div>
     </div>
-    <?= $this->element('filter_options'); ?>
-<?php endif; ?>
+    <?php if (isset($user)): ?>
+        <?= $this->element('filter_options'); ?>
+    <?php endif; ?>
 
-<script>
-    $(function () {
-        var $container = $('#lobbies-list');
-        $container.infinitescroll({
-                navSelector: '.next',    // selector for the paged navigation
-                nextSelector: '.next a',  // selector for the NEXT link (to page 2)
-                itemSelector: '.lobby-item',     // selector for all items you'll retrieve
-                debug: true,
-                dataType: 'html',
-                loading: {
-                    finishedMsg: 'No more lobbies to load!'
-                }
+    <script>
+        function inputFocus(i) {
+            if (i.value == i.defaultValue) {
+                i.value = "";
+                i.style.color = "#000";
             }
-        );
-    });
-
-    $(function () {
-        $.widget("custom.iconselectmenu", $.ui.selectmenu, {
-            _renderItem: function (ul, item) {
-                var li = $("<li>"),
-                    wrapper = $("<div>", {text: item.label});
-                if (item.disabled) {
-                    li.addClass("ui-state-disabled");
-                }
-                $("<span>", {
-                    style: item.element.attr("data-style"),
-                    "class": "ui-icon " + item.element.attr("data-class")
-                })
-                    .appendTo(wrapper);
-
-                return li.append(wrapper).appendTo(ul);
-            }
-        });
-    });
-
-    function updateSelectBackground(select_id, img_path, button_id) {
-        var sel_item = $(select_id + ' option:selected').text();
-        $(button_id).css('background-image', 'url(\'' + img_path + sel_item + '.png\')');
-    }
-
-    function initImageSelector(select_id, img_path) {
-        $(select_id)
-            .iconselectmenu()
-            .iconselectmenu("menuWidget")
-            .addClass("ui-menu-icons avatar");
-        var options = $(select_id).children();
-
-        for (var x = 0; x < options.length; x++) {
-            options[x].setAttribute('data-class', 'avatar');
-            options[x].setAttribute('data-style', "background-image: url(\'" + img_path + options[x].innerHTML + ".png');");
         }
-    }
-
-    $(document).ready(function () {
-        $('#expand').hide();
-        $('#expand_new_lobby').on('click', function () {
-            if ($('#expand').is(':hidden')) {
-                $('#expand').slideDown();
-                $('#expand_new_lobby').text('less options');
-            } else {
-                $('#expand').slideUp();
-                $('#expand_new_lobby').text('more options');
+        function inputBlur(i) {
+            if (i.value == "") {
+                i.value = i.defaultValue;
+                i.style.color = "#888";
             }
+        }
+        $(function () {
+            $.widget("custom.iconselectmenu", $.ui.selectmenu, {
+                _renderItem: function (ul, item) {
+                    var li = $("<li>"),
+                        wrapper = $("<div>", {
+                            /*text: item.label,*/
+                            style: item.element.attr("data-style"),
+                            "class": "ui-icon " + item.element.attr("data-class")
+                        });
+                    if (item.disabled) {
+                        li.addClass("ui-state-disabled");
+                    }
+                    return li.append(wrapper).appendTo(ul);
+                }
+            });
         });
 
-        // filter selectors
-        initImageSelector('#filter-language', '/cs-community/webroot/img/flags/', '#filter-language-button');
-        initImageSelector('#filter-user-rank', '/cs-community/webroot/img/ranks/', '#filter-user-rank-button');
-        updateSelectBackground('#filter-language', '/cs-community/webroot/img/flags/', '#filter-language-button');
-        updateSelectBackground('#filter-user-rank', '/cs-community/webroot/img/ranks/', '#filter-user-rank-button');
-        $('#filter-language-menu').on('click', function () {
+        function updateSelectBackground(select_id, img_path, button_id) {
+            var sel_item = $(select_id + ' option:selected').text();
+            $(button_id).css('background-image', 'url(\'' + img_path + sel_item + '.png\')');
+        }
+
+        function initImageSelector(select_id, img_path) {
+            $(select_id)
+                .iconselectmenu()
+                .iconselectmenu("menuWidget")
+                .addClass("ui-menu-icons avatar");
+            var options = $(select_id).children();
+
+            for (var x = 0; x < options.length; x++) {
+                options[x].setAttribute('data-class', 'avatar');
+                options[x].setAttribute('data-style', "background-image: url(\'" + img_path + options[x].innerHTML + ".png');");
+            }
+        }
+
+        $(document).ready(function () {
+            $('#expand-content').hide();
+            $('#expand-new-lobby').on('click', function () {
+                var gear = $("<span>", {
+                    "class": "ui-icon ui-icon-gear"
+                });
+                if ($('#expand-content').is(':hidden')) {
+                    $('#expand-content').slideDown();
+                    $('#expand-new-lobby').text('less options');
+                } else {
+                    $('#expand-content').slideUp();
+                    $('#expand-new-lobby').text('more options');
+                }
+                $('#expand-new-lobby').prepend(gear);
+            });
+
+            initImageSelector('#filter-language', '/cs-community/webroot/img/flags/', '#filter-language-button');
+            initImageSelector('#filter-user-rank', '/cs-community/webroot/img/ranks/', '#filter-user-rank-button');
             updateSelectBackground('#filter-language', '/cs-community/webroot/img/flags/', '#filter-language-button');
-        });
-        $('#filter-user-rank-menu').on('click', function () {
             updateSelectBackground('#filter-user-rank', '/cs-community/webroot/img/ranks/', '#filter-user-rank-button');
-        });
-        // new lobby selectors
-        initImageSelector('#language', '/cs-community/webroot/img/flags/', '#language-button');
-        initImageSelector('#rank-from', '/cs-community/webroot/img/ranks/', '#rank-from-button');
-        initImageSelector('#rank-to', '/cs-community/webroot/img/ranks/', '#rank-to-button');
-        updateSelectBackground('#language', '/cs-community/webroot/img/flags/', '#language-button');
-        updateSelectBackground('#rank-from', '/cs-community/webroot/img/ranks/', '#rank-from-button');
-        updateSelectBackground('#rank-to', '/cs-community/webroot/img/ranks/', '#rank-to-button');
-        $('#language-menu').on('click', function () {
+            $('#filter-language-menu').on('click', function () {
+                updateSelectBackground('#filter-language', '/cs-community/webroot/img/flags/', '#filter-language-button');
+            });
+            $('#filter-user-rank-menu').on('click', function () {
+                updateSelectBackground('#filter-user-rank', '/cs-community/webroot/img/ranks/', '#filter-user-rank-button');
+            });
+            initImageSelector('#language', '/cs-community/webroot/img/flags/', '#language-button');
+            initImageSelector('#rank-from', '/cs-community/webroot/img/ranks/', '#rank-from-button');
+            initImageSelector('#rank-to', '/cs-community/webroot/img/ranks/', '#rank-to-button');
             updateSelectBackground('#language', '/cs-community/webroot/img/flags/', '#language-button');
-        });
-        $('#rank-from-menu').on('click', function () {
-            var e1 = $('#rank-to');
-            var e2 = $('#rank-from');
-            if (parseInt(e1.val()) < parseInt(e2.val())) {
-                e1.val(e2.val());
-                updateSelectBackground('#rank-to', '/cs-community/webroot/img/ranks/', '#rank-to-button');
-            }
             updateSelectBackground('#rank-from', '/cs-community/webroot/img/ranks/', '#rank-from-button');
-        });
-        $('#rank-to-menu').on('click', function () {
-            var e1 = $('#rank-from');
-            var e2 = $('#rank-to');
-            if (parseInt(e1.val()) > parseInt(e2.val())) {
-                e1.val(e2.val());
-                updateSelectBackground('#rank-from', '/cs-community/webroot/img/ranks/', '#rank-from-button');
-            }
             updateSelectBackground('#rank-to', '/cs-community/webroot/img/ranks/', '#rank-to-button');
+            $('#language-menu').on('click', function () {
+                updateSelectBackground('#language', '/cs-community/webroot/img/flags/', '#language-button');
+            });
+            $('#rank-from-menu').on('click', function () {
+                var e1 = $('#rank-to');
+                var e2 = $('#rank-from');
+                if (parseInt(e1.val()) < parseInt(e2.val())) {
+                    e1.val(e2.val());
+                    updateSelectBackground('#rank-to', '/cs-community/webroot/img/ranks/', '#rank-to-button');
+                }
+                updateSelectBackground('#rank-from', '/cs-community/webroot/img/ranks/', '#rank-from-button');
+            });
+            $('#rank-to-menu').on('click', function () {
+                var e1 = $('#rank-from');
+                var e2 = $('#rank-to');
+                if (parseInt(e1.val()) > parseInt(e2.val())) {
+                    e1.val(e2.val());
+                    updateSelectBackground('#rank-from', '/cs-community/webroot/img/ranks/', '#rank-from-button');
+                }
+                updateSelectBackground('#rank-to', '/cs-community/webroot/img/ranks/', '#rank-to-button');
+            });
+
+            // trigger for starting the game if not started already and join the lobby ingame
+            $('#join-trigger').on('click', function (e) {
+                e.preventDefault();
+                window.location = $(this).attr('lobby-url');
+                window.location = this.href;
+            });
+
+            // scrollbar for select-menus
+            $('.ui-menu').addClass('scrollbar-inner');
+            $('.scrollbar-inner').scrollbar();
         });
-    });
-</script>
+    </script>

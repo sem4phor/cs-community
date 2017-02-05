@@ -40,29 +40,21 @@ class UsersController extends AppController
     public function login()
     {
         $steamId = $this->SteamOpenId->validate();
-        $this->request->data['Users']['steam_id'] = $steamId;
 
         $user = $this->Users->get($steamId);
-        if ($user == null) {
+        if ($user == null && $steamId !== '') {
             $this->Users->register($steamId);
         }
         $this->Users->updateSteamData($steamId);
+
         $user = $this->Users->get($steamId);
         if ($user['role_id'] == 4) {
             $this->Flash->error(__('You are currently banned from this site!'));
             return $this->redirect($this->Auth->logout());
         }
-        Log::write('debug', $this->request->data);
-        if ($this->Auth->identify()) {
-            if ($user) {
-                $this->Auth->setUser($user);
-                $this->Flash->success(__('Authentification Success!'));
-            }
-            return $this->redirect(['controller' => 'Lobbies', 'action' => 'home']);
-        } else {
-            $this->Flash->error(__('Authentification Failed!'));
-            return $this->redirect(['controller' => 'Lobbies', 'action' => 'home']);
-        }
+        $this->Auth->setUser($user);
+        return $this->redirect(['controller' => 'Lobbies', 'action' => 'home']);
+
     }
 
     public

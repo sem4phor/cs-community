@@ -2,17 +2,12 @@
 namespace App\Controller\Component;
 
 
-/**
- * Created by PhpStorm.
- * User: Valentin
- * Date: 10.10.2016
- * Time: 15:03
- */
-use Cake\Controller\Component;
 use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\WampServerInterface;
-use Cake\Log\Log;
 
+/**
+ * Based on the Ratchet Push Integration Tutorial on http://socketo.me/docs/push
+ */
 class PusherComponent implements WampServerInterface
 {
 
@@ -29,16 +24,12 @@ class PusherComponent implements WampServerInterface
     public function onSubmit($msg)
     {
         $entryData = json_decode($msg, true);
-        if (array_key_exists($entryData['lobbies'], $this->subscribedTopics)) {
-            $topic = $this->subscribedTopics[$entryData['lobbies']];
+        if (array_key_exists($entryData['topic'], $this->subscribedTopics)) {
+            $topic = $this->subscribedTopics[$entryData['topic']];
             $topic->broadcast($entryData);
-        } else
-            if (array_key_exists($entryData['chat'], $this->subscribedTopics)) {
-                $topic = $this->subscribedTopics[$entryData['chat']];
-                $topic->broadcast($entryData);
-            } else {
-                return;
-            }
+      } else {
+            return;
+        }
     }
 
     public function onUnSubscribe(ConnectionInterface $conn, $topic)

@@ -16,6 +16,7 @@ namespace App\Controller;
 
 use Cake\Controller\Controller;
 use Cake\Event\Event;use Cake\Routing\Router;
+use React\ZMQContext;
 
 
 /**
@@ -44,10 +45,6 @@ class AppController extends Controller
         $this->loadComponent('Flash');
         $this->loadComponent('SteamOpenId');
         $this->loadComponent('Auth', [
-            'authenticate' =>
-                ['FormValue' => [
-                    'userModel' => 'Users',
-                    'field' => 'steam_id']],
             'loginRedirect' => [
                 'controller' => 'Lobbies',
                 'action' => 'home'
@@ -59,9 +56,16 @@ class AppController extends Controller
             'authorize' => 'controller',
             'authError' => 'You are not allowed to do this.'
         ]);
-
     }
-    
+
+    public function websocketSend($data)
+    {
+        $context = new \ZMQContext();
+        $socket = $context->getSocket(\ZMQ::SOCKET_PUSH, 'Pusher');
+        $socket->connect("tcp://localhost:5555");
+        $socket->send(json_encode($data));
+    }
+
     public function beforeFilter(Event $event)
     {
         $this->Auth->allow(['home']);
@@ -85,6 +89,8 @@ class AppController extends Controller
      */
     public function beforeRender(Event $event)
     {
+        $this->loadModel('Users');
+        if($this->Auth->user() !== null)$this->set('user_region', $this->Users->getRegionCode($this->Auth->user('steam_id')));
         if($this->Auth->user() === null) $this->set('loginUrl', $this->SteamOpenId->genUrl(Router::url(['controller' => 'users', 'action' => 'login'], true), false));
         if($this->Auth->user() !== null)$this->set('user', $this->Auth->user());
 

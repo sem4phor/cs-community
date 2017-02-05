@@ -109,6 +109,14 @@ class LobbiesTable extends Table
             ->notEmpty('url');
 
         $validator
+            ->allowEmpty('teamspeak_ip')
+            ->add('teamspeak_ip', [
+                'validFormat' => ['rule' => ['custom', '/([0-9]+(?:\.[0-9]+){3}(:[0-9]+)*|([a-zA-Z0-9]+\.)+[a-zA-Z0-9]+(:[0-9]+)*)/i'],
+                    'message' => __('Please enter a valid teamspeak ip or hostname')
+                ]
+            ]);
+
+        $validator
             ->integer('rank_to')
             ->requirePresence('rank_to', 'create')
             ->add('rank_to', 'rankToHasToBeBiggerOrEqualToRankFrom', [
@@ -151,14 +159,6 @@ class LobbiesTable extends Table
         $validator
             ->integer('min_playtime')
             ->allowEmpty('min_playtime');
-
-        /*$validator
-            ->integer('min_upvotes')
-            ->allowEmpty('min_upvotes');
-
-        $validator
-            ->integer('max_downvotes')
-            ->allowEmpty('max_downvotes');*/
         return $validator;
     }
 
