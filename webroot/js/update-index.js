@@ -147,6 +147,7 @@ conn = new ab.Session('ws://localhost:8080',
                 var rank_connector = document.createElement("span");
                 rank_connector.setAttribute("class", "stretch");
                 rank_conn_container.appendChild(rank_connector);
+                rank_connector.innerHTML = "-";
                 var rank_to_col = document.createElement("div");
                 rank_to_col.setAttribute("class", "column medium-5");
                 var rank_to = document.createElement("img");

@@ -16,7 +16,7 @@ namespace App\Controller;
 
 use Cake\Controller\Controller;
 use Cake\Event\Event;use Cake\Routing\Router;
-use React\ZMQ;
+use React\ZMQContext;
 
 
 /**
@@ -56,7 +56,6 @@ class AppController extends Controller
             'authorize' => 'controller',
             'authError' => 'You are not allowed to do this.'
         ]);
-
     }
 
     public function websocketSend($data)

@@ -3,16 +3,8 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Event\Event;
-use Cake\Cache\Cache;
-use Cake\Log\Log;
-use React\ZMQ;
-use Cake\I18n\Time;
 
-/**
- * Lobbies Controller
- *
- * @property \App\Model\Table\LobbiesTable $Lobbies
- */
+
 class LobbiesController extends AppController
 {
 
@@ -29,7 +21,7 @@ class LobbiesController extends AppController
             return false;
         }
         // All registered users can add lobbies
-        if ($this->request->action === 'new' || $this->request->action === 'index') {
+        if ($this->request->action === 'create' || $this->request->action === 'index') {
             return true;
         }
         // kick only users in own lobby and not self
@@ -80,13 +72,15 @@ class LobbiesController extends AppController
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
      *
      */
-    public function new()
+    public function create()
     {
         $lobby = $this->Lobbies->newEntity();
         $lobby = $this->Lobbies->patchEntity($lobby, $this->request->data);
         $lobby->owner_id = $this->Auth->user('steam_id');
         $lobby->free_slots = 5;
-        $lobby->teamspeak_req ? "" : $lobby->teamspeak_ip = null;
+        if (!$lobby->teamspeak_req) {
+            $lobby->teamspeak_ip = null;
+        }
         $lobby->region = $this->Lobbies->Users->getRegionCode($this->Auth->user('steam_id'));
         if ($this->Lobbies->save($lobby)) {
             $this->join($lobby->lobby_id);
@@ -96,7 +90,7 @@ class LobbiesController extends AppController
         } else {
             $this->Flash->error(__('The lobby could not be saved. Please, try again.'));
         }
-        return $this->redirect(['action' => 'home']);
+        $this->redirect(['action' => 'home']);
     }
 
     public function index()
@@ -131,7 +125,7 @@ class LobbiesController extends AppController
             $languages = $this->Lobbies->Users->Countries->getLocalesOfContinent($user_region);
             $this->set(compact('ages', 'ranks', 'new_lobby', 'languages'));
 
-            // load last 10 chat messages
+            // load last 15 chat messages
             $this->loadModel('ChatMessages');
             $chatMessages = $this->ChatMessages->find('all', [
                 'order' => ['ChatMessages.created' => 'DESC'],
@@ -163,6 +157,7 @@ class LobbiesController extends AppController
                 ])->where([
                     'min_playtime <=' => $this->Auth->user('playtime'),
                     'prime_req =' => $filter['filter_prime_req'],
+                    'language =' => $filter['filter_language'],
                     'teamspeak_req =' => $filter['filter_teamspeak_req'],
                     'microphone_req =' => $filter['filter_microphone_req'],
                     'rank_from <=' => $filter['filter_user_rank'],
@@ -181,7 +176,8 @@ class LobbiesController extends AppController
         }
     }
 
-    public function join($lobby_id)
+    public
+    function join($lobby_id)
     {
         $user = $this->Lobbies->Users->get($this->Auth->user('steam_id'));
         $lobby = $this->Lobbies->get($lobby_id, [
@@ -219,12 +215,13 @@ class LobbiesController extends AppController
                 return $this->redirect($this->referer());
             } else {
                 $this->Flash->error(__('The lobby could not be joined. Please, try again.'));
-                return $this->redirect($this->referer());
             }
         }
+        return $this->redirect($this->referer());
     }
 
-    public function leave($lobby_id)
+    public
+    function leave($lobby_id)
     {
         $lobby = $this->Lobbies->get($lobby_id, [
             'contain' => ['Users']
@@ -242,11 +239,12 @@ class LobbiesController extends AppController
             } else {
                 $this->Flash->error(__('The lobby could not be saved. Please, try again.'));
             }
-            return $this->redirect($this->referer());
         }
+        return $this->redirect($this->referer());
     }
 
-    public function kick($steam_id)
+    public
+    function kick($steam_id)
     {
         $lobby = $this->Lobbies->find()->where(['owner_id =' => $this->Auth->user('steam_id')])->contain(['Users'])->toArray()[0];
         $user = $this->Lobbies->Users->get($steam_id);
@@ -266,13 +264,6 @@ class LobbiesController extends AppController
         return $this->redirect($this->referer());
     }
 
-    /**
-     * Delete method
-     *
-     * @param string|null $id Lobby id.
-     * @return \Cake\Network\Response|null Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
     public
     function delete($id = null)
     {
@@ -288,4 +279,5 @@ class LobbiesController extends AppController
         }
         return $this->redirect(['action' => 'home']);
     }
+
 }

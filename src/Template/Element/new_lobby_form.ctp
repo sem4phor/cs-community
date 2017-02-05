@@ -1,7 +1,7 @@
 <div class="lobbies new row">
     <div class='row'>
         <div class="medium-11 columns">
-            <?= $this->Form->create(null, ['url' => ['action' => 'new']]) ?>
+            <?= $this->Form->create(null, ['url' => ['action' => 'create']]) ?>
             <h2 id="new-lobby-title"><?= __('Add your own Lobby') ?></h2>
         </div>
         <div class="medium-1 columns">

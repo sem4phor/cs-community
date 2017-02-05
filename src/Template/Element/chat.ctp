@@ -16,7 +16,7 @@
         </div>
         <div class="submit-message row">
             <div class="chat-message-input columns medium-8">
-                <?= $this->Form->create('ChatMessage', ['type' => 'post', 'onsubmit' => 'return performPostRequest(this)', 'url' => ['controller' => 'ChatMessages', 'action' => 'new']]); ?>
+                <?= $this->Form->create('ChatMessage', ['type' => 'post', 'onsubmit' => 'return performPostRequest(this)', 'url' => ['controller' => 'ChatMessages', 'action' => 'send']]); ?>
                 <?= $this->Form->input('message', ['label' => false, 'width' => '10px', 'autocomplete' => 'off', 'onfocus' => 'inputFocus(this)', 'onblur' => 'inputBlur(this)', 'value' => 'Say something', 'style' => 'color:#888']); ?>
             </div>
             <div class="chat-message-input columns medium-4">

@@ -15,7 +15,7 @@ class ChatMessagesController extends AppController
 
     public function beforeFilter(Event $event)
     {
-        $this->Auth->allow('new');
+        $this->Auth->allow('send');
         parent::beforeFilter($event);
     }
 
@@ -24,7 +24,7 @@ class ChatMessagesController extends AppController
      *
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
      */
-    public function new()
+    public function send()
     {
         $chatMessage = $this->ChatMessages->newEntity();
         $this->request->data['sent_by'] = $this->Auth->user('steam_id');
