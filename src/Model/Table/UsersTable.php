@@ -14,8 +14,6 @@
  */
 namespace App\Model\Table;
 
-use App\Model\Entity\User;
-use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -24,16 +22,16 @@ use Cake\Core\Configure;
 /**
  * Users Model
  *
- * @property \Cake\ORM\Association\BelongsTo $Users
- * @property \Cake\ORM\Association\BelongsTo $Steams
- * @property \Cake\ORM\Association\BelongsTo $Roles
- * @property \Cake\ORM\Association\BelongsToMany $Lobbies
+ * @author Valentin Rapp
+ *
  */
 class UsersTable extends Table
 {
 
     /**
      * Initialize method
+     *
+     * Configures the associations and other model properties.
      *
      * @param array $config The configuration for the Table.
      * @return void
@@ -70,11 +68,28 @@ class UsersTable extends Table
 
     }
 
+    /**
+     * isPartOfLobby method
+     *
+     * Checks if a user with the provided id is part of the lobby with the provided id.
+     *
+     * @param int $lobby_id Lobby ID
+     * @param int $steam_id Steam ID
+     * @return bool
+     */
     public function isPartOfLobby($lobby_id, $steam_id)
     {
         return $this->exists(['steam_id' => $steam_id, 'lobby_id' => $lobby_id]);
     }
 
+    /**
+     * getRegionCode method
+     *
+     * get the continent ode of the provided user
+     *
+     * @param int $user_id ID of the user to get the code of.
+     * @return string $continent_code
+     */
     public function getRegionCode($user_id)
     {
         return $this->find()->where(['steam_id =' => $user_id])->contain(['Countries.Continents'])->toArray()[0]->country->continent->code;
@@ -126,7 +141,14 @@ class UsersTable extends Table
         return $rules;
     }
 
-// if user not i ndb register him
+    /**
+     * register method
+     *
+     * Creates a new user with a provided steam ID as his Identifier.
+     *
+     * @param int steam_id
+     * @return void
+     */
     public function register($steam_id = null)
     {
         $newUser = $this->newEntity();
@@ -134,11 +156,18 @@ class UsersTable extends Table
         $this->save($newUser);
     }
 
-// adds steamdata to user
-// loccountrycode is set to false if not set
-// returns 0 if prof. private; retrun 1 if no country set else return true
-    public
-    function updateSteamData($steamId)
+    /**
+     * updateSteamData
+     *
+     * Fetches data from the steamprofile with the provided steam_id and saves it to the database.
+     * Returns true if save was successfull and false if not
+     * Returns 0 if the user has a private profile.
+     * Returns 1 if the user has no country set in his profile.
+     *
+     * @param $steamId
+     * @return bool|int
+     */
+    public function updateSteamData($steamId)
     {
         $user = $this->get($steamId);
         $url = file_get_contents("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=" . Configure::read('APIkey') . "&steamids=" . $steamId);

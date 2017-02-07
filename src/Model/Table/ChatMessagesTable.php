@@ -14,8 +14,6 @@
  */
 namespace App\Model\Table;
 
-use App\Model\Entity\ChatMessage;
-use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -23,13 +21,16 @@ use Cake\Validation\Validator;
 /**
  * ChatMessages Model
  *
- * @property \Cake\ORM\Association\BelongsTo $Messages
+ * @author Valentin Rapp
+ *
  */
 class ChatMessagesTable extends Table
 {
 
     /**
      * Initialize method
+     *
+     * Configures the associations and other model properties. Sender is the user who sent the chatMessage
      *
      * @param array $config The configuration for the Table.
      * @return void
@@ -57,6 +58,8 @@ class ChatMessagesTable extends Table
 
     /**
      * Default validation rules.
+     *
+     * Validates that sent_by and message fields are present on creation and that a message can only be 200 characters long.
      *
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator

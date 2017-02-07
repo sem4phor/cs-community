@@ -23,19 +23,16 @@ use Cake\Log\Log;
 /**
  * Countries Model
  *
- * @method \App\Model\Entity\Country get($primaryKey, $options = [])
- * @method \App\Model\Entity\Country newEntity($data = null, array $options = [])
- * @method \App\Model\Entity\Country[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Country|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Country patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Country[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\Country findOrCreate($search, callable $callback = null)
+ * @author Valentin Rapp
+ *
  */
 class CountriesTable extends Table
 {
 
     /**
      * Initialize method
+     *
+     * Configures the associations and other model properties.
      *
      * @param array $config The configuration for the Table.
      * @return void
@@ -53,39 +50,55 @@ class CountriesTable extends Table
         $this->primaryKey('code');
     }
 
-public function getCountryCodesOfContinent($continent_code)
-{
-    $countries_of_continent = $this->find()->select(['code'])->where(['continent_code =' => $continent_code]);
-    $country_codes_of_continent = [];
-    foreach ($countries_of_continent as $country) {
-        array_push($country_codes_of_continent, $country->code);
+    /**
+     * getCountryCodesOfContinent
+     *
+     * Returns an array of country codes which are part of a given continent.
+     *
+     * @param string $continent_code The ID of a continent
+     * @return array $country_codes_of_continent
+     */
+    public function getCountryCodesOfContinent($continent_code)
+    {
+        $countries_of_continent = $this->find()->select(['code'])->where(['continent_code =' => $continent_code]);
+        $country_codes_of_continent = [];
+        foreach ($countries_of_continent as $country) {
+            array_push($country_codes_of_continent, $country->code);
+        }
+        return $country_codes_of_continent;
     }
-    return $country_codes_of_continent;
-}
-
-// returns locales of a continent, but every language only once.
-public function getLocalesOfContinent($continent_code) {
-    $country_codes_of_continent = $this->getCountryCodesOfContinent($continent_code);
-    $locales = [];
-    foreach ($country_codes_of_continent as $key => $code) {
-        $locale = explode( '_', $this->country_code_to_locale($code))[0];
-        if ( !in_array($locale, $locales) ) $locales[$locale] = $locale;
-    }
-    return $locales;
-}
 
     /**
-    /* Returns a locale from a country code that is provided.
-    /*
-    /* @param $country_code  ISO 3166-2-alpha 2 country code
-    /* @param $language_code ISO 639-1-alpha 2 language code
-    /* @returns  a locale, formatted like en_US, or null if not found
-    /**/
+     * getLocalesOfContinent
+     *
+     * Returns an array of locales of all countries which are part of a given continent. Each locale will be returnbed only once.
+     *
+     * @param string $continent_code The ID of a continent
+     * @return array $locales
+     */
+    public function getLocalesOfContinent($continent_code)
+    {
+        $country_codes_of_continent = $this->getCountryCodesOfContinent($continent_code);
+        $locales = [];
+        foreach ($country_codes_of_continent as $key => $code) {
+            $locale = explode('_', $this->country_code_to_locale($code))[0];
+            if (!in_array($locale, $locales)) $locales[$locale] = $locale;
+        }
+        return $locales;
+    }
+
+    /**
+     * country_code_to_locale
+     *
+     * Returns a locale from a country code that is provided.
+     *
+     * @author author of http://stackoverflow.com/questions/3191664/list-of-all-locales-and-their-short-codes
+     * @param $country_code  ISO 3166-2-alpha 2 country code
+     * @param $language_code ISO 639-1-alpha 2 language code
+     * @returns  a locale, formatted like en_US, or null if not found
+     */
     public function country_code_to_locale($country_code, $language_code = '')
     {
-        // Locale list taken from:
-        // http://stackoverflow.com/questions/3191664/
-        // list-of-all-locales-and-their-short-codes
         $locales = array('af-ZA',
             'ca-AD',
             'am-ET',
@@ -304,22 +317,19 @@ public function getLocalesOfContinent($continent_code) {
             'zh-SG',
             'zh-TW',
             'zu-ZA',);
-
-        foreach ($locales as $locale)
-        {
+        foreach ($locales as $locale) {
             $locale_region = locale_get_region($locale);
             $locale_language = locale_get_primary_language($locale);
             $locale_array = array('language' => $locale_language,
                 'region' => $locale_region);
 
             if (strtoupper($country_code) == $locale_region &&
-                $language_code == '')
-            {
+                $language_code == ''
+            ) {
                 return locale_compose($locale_array);
-            }
-            elseif (strtoupper($country_code) == $locale_region &&
-                strtolower($language_code) == $locale_language)
-            {
+            } elseif (strtoupper($country_code) == $locale_region &&
+                strtolower($language_code) == $locale_language
+            ) {
                 return locale_compose($locale_array);
             }
         }

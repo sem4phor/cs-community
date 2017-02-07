@@ -14,7 +14,6 @@
  */
 namespace App\Model\Table;
 
-use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -22,24 +21,16 @@ use Cake\Validation\Validator;
 /**
  * Lobbies Model
  *
- * @property \Cake\ORM\Association\BelongsTo $Lobbies
- * @property \Cake\ORM\Association\BelongsToMany $Users
+ * @author Valentin Rapp
  *
- * @method \App\Model\Entity\Lobby get($primaryKey, $options = [])
- * @method \App\Model\Entity\Lobby newEntity($data = null, array $options = [])
- * @method \App\Model\Entity\Lobby[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Lobby|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Lobby patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Lobby[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\Lobby findOrCreate($search, callable $callback = null)
- *
- * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class LobbiesTable extends Table
 {
 
     /**
      * Initialize method
+     *
+     * Configures the associations and other model properties.
      *
      * @param array $config The configuration for the Table.
      * @return void
@@ -59,34 +50,61 @@ class LobbiesTable extends Table
             'joinType' => 'INNER'
         ]);
         $this->hasMany('Users', [
-            'foreignKey' => 'lobby_id' // other table
+            'foreignKey' => 'lobby_id'
         ]);
         $this->belongsTo('Owner', [
             'className' => 'Users',
-            'foreignKey' => 'owner_id'// own table
+            'foreignKey' => 'owner_id'
         ]);
         $this->belongsTo('RankFrom', [
             'className' => 'Ranks',
             'propertyName' => 'RankFrom',
-            'foreignKey' => 'rank_from'// own table
+            'foreignKey' => 'rank_from'
         ]);
         $this->belongsTo('RankTo', [
-        'className' => 'Ranks',
+            'className' => 'Ranks',
             'propertyName' => 'RankTo',
-        'foreignKey' => 'rank_to'// own table
-    ]);
+            'foreignKey' => 'rank_to'
+        ]);
     }
 
+    /**
+     * isOwnedBy method
+     *
+     * Returns true if the lobby with the provided id is owned by the user with the provided id.
+     *
+     * @param int $lobby_id The ID of a lobby.
+     * @param int $steam_id The ID of a user.
+     * @return boolean true|false
+     */
     public function isOwnedBy($lobby_id, $steam_id)
     {
         return $this->exists(['lobby_id' => $lobby_id, 'owner_id' => $steam_id]);
     }
 
+    /**
+     * rankFromHasToBeSmallerOrEqualToRankTo method
+     *
+     * This is a validation method. It ensures that the entered rankFrom is lower than the rankTo.
+     *
+     * @param int $value The entered value for the rankFrom field
+     * @param array $context The submitted lobby as an array
+     * @return boolean true|false
+     */
     public function rankFromHasToBeSmallerOrEqualToRankTo($value, array $context)
     {
         return $value <= $context['data']['rank_to'];
     }
 
+    /**
+     * rankToHasToBeBiggerOrEqualToRankFrom method
+     *
+     * This is a validation method. It ensures that the entered rankTo is bigger or equal the rankFrom.
+     *
+     * @param int $value The entered value for the rankTo field
+     * @param array $context The submitted lobby as an array
+     * @return boolean true|false
+     */
     public function rankToHasToBeBiggerOrEqualToRankFrom($value, array $context)
     {
         return $value >= $context['data']['rank_from'];
@@ -109,14 +127,14 @@ class LobbiesTable extends Table
             ->integer('free_slots')
             ->requirePresence('free_slots', 'create')
             ->add('free_slots', [
-                    'equalTo' => ['rule' => ['equalTo' => 5]]
-                ]);
+                'equalTo' => ['rule' => ['equalTo' => 5]]
+            ]);
 
         $validator
             ->requirePresence('url', 'create')
             ->add('url', [
                 'validFormat' => ['rule' => ['custom', '/(steam:\/\/joinlobby\/[0-9]*\/[0-9]*\/[0-9]*)/i'],
-                'message' => __('Please enter a valid lobby url')
+                    'message' => __('Please enter a valid lobby url')
                 ]
             ])
             ->notEmpty('url');
