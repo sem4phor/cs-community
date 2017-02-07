@@ -1,8 +1,11 @@
+<!-- element for the chat section -->
+
 <div class="chat-border medium-3 columns ">
     <div class="chat">
         <div class="row">
             <div class="columns medium-12"><h3><?= __('Chat') ?></h3></div>
         </div>
+        <!-- section for displaying messages -->
         <div id="chat-message-container" class="row chat-message-container scrollbar-inner">
             <?= __('Welcome') . $user->personaname . ' !' ?>
             <?php $colors = ["#234567", "#CF142B", "#C5AC6A", "#5E9FB8", "#4CAF50", "#234567", "#CF142B", "#C5AC6A", "#5E9FB8", "#4CAF50"]; ?>
@@ -14,6 +17,7 @@
                 </div>
             <?php endforeach; ?>
         </div>
+        <!-- section for submitting messages -->
         <div class="submit-message row">
             <div class="chat-message-input columns medium-8">
                 <?= $this->Form->create('ChatMessage', ['type' => 'post', 'onsubmit' => 'return performPostRequest(this)', 'url' => ['controller' => 'ChatMessages', 'action' => 'send']]); ?>
@@ -28,6 +32,7 @@
 </div>
 
 <script type="text/javascript">
+    // Method to perform a post request without reloading the page. Instead the data will be posted via ajax
     function performPostRequest(form) {
         parameters = "";
         for (var i = 0; i < form.elements.length; i++) {
@@ -44,7 +49,7 @@
         });
         // delete value of input field after submitting
         $('#message').val('');
-        // auto scroll down
+        // auto scroll down the chat container
         $('#chat-message-container').stop().animate({
             scrollTop: $('#chat-message-container')[0].scrollHeight
         }, 800);

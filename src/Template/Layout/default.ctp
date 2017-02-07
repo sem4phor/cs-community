@@ -15,6 +15,9 @@
 
 $description = __('CS-Community: Find the best teammates!');
 ?>
+
+<!-- The default layout used for this application. Loads Javascript and css files and renders e.g. the top bar -->
+
 <!DOCTYPE html>
 <html>
 <head>

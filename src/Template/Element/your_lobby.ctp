@@ -1,3 +1,5 @@
+<!-- section for displaying the joined lobby. The owner is able to kick other users from this section. -->
+
 <div class="row your-lobby">
     <div class='row' id="<?= $your_lobby->lobby_id ?>">
         <div class="row">
@@ -25,12 +27,12 @@
                             <div class="row">
                                 <?= $this->Html->image('flags/' . $lobby_user->loccountrycode . '.png', ["alt" => $lobby_user->loccountrycode, "class" => "flag"]); ?>
                             </div>
-                            <?php if($is_own_lobby): ?>
-                            <div class="kick-row row">
-                                <a href="lobbies/kick/<?= $lobby_user->steam_id ?>">
-                                    <span class="ui-icon-close ui-icon"></span>
-                                </a>
-                            </div>
+                            <?php if ($is_own_lobby): ?>
+                                <div class="kick-row row">
+                                    <a href="lobbies/kick/<?= $lobby_user->steam_id ?>">
+                                        <span class="ui-icon-close ui-icon"></span>
+                                    </a>
+                                </div>
                             <?php endif; ?>
                         </div>
                     <?php endif; ?>

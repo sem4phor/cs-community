@@ -200,13 +200,17 @@ class LobbiesController extends AppController
 
             // load the list of lobbies based on the filter
             $filter = [];
+            $filter_active = false;
             if ($this->request->is('post')) {
                 foreach ($this->request->data as $key => $value) {
                     if ($value != '') {
                         $filter[$key] = $value;
                     }
                 }
+                $filter_active = true;
             }
+            $this->set(compact('filter_active'));
+
             if (!empty($filter)) {
                 $lobbies = $this->Lobbies->find('all', [
                     'order' => ['Lobbies.created' => 'ASC'],

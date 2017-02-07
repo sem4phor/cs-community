@@ -1,3 +1,5 @@
+<!-- shows detailed information about a user. This view allows moderators and admins to ban/unban users -->
+
 <div class="users medium-centered medium-8 columns content">
     <div class="row">
         <div class="columns medium-3">

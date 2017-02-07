@@ -78,7 +78,9 @@ conn = new ab.Session('ws://localhost:8080',
             }
         });
         conn.subscribe('lobby_new', function (topic, data) {
-            if(data.lobby.rank_from <= $('#filter-user-rank').val()
+            if($('#lobbies-list').attr('filter-active') == '' ||
+                ($('#lobbies-list').attr('filter-active') == 1
+                && data.lobby.rank_from <= $('#filter-user-rank').val()
                 && data.lobby.rank_to >= $('#filter-user-rank').val()
                 && data.lobby.language == $('#filter-language').val()
                 && data.lobby.prime_req == document.getElementById('filter-prime-req').checked
@@ -86,7 +88,7 @@ conn = new ab.Session('ws://localhost:8080',
                 && data.lobby.microphone_req == document.getElementById('filter-microphone-req').checked
                 && data.lobby.min_age <= $('#filter-min-age').val()
                 && data.lobby.min_playtime <= $('#topbar-avatar').attr('playtime')
-                && data.lobby.region == $('#topbar-avatar').attr('user_region')
+                && data.lobby.region == $('#topbar-avatar').attr('user_region'))
             ) {
                 $('.no-lobbies').remove();
 

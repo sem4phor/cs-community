@@ -1,3 +1,4 @@
+<!-- section for creating new lobbies -->
 <div class="lobbies new row">
     <div class='row'>
         <div class="medium-11 columns">
@@ -51,25 +52,24 @@
             <span class="ui-icon ui-icon-gear"></span>more options
         </div>
     </div>
-
+    <!-- more options -->
     <div id='expand-content' class='row'>
-
         <div class="medium-10 columns medium-centered">
-        <div class="medium-4 columns">
-            <div class='row'>
-                <div class="medium-8 columns"> <?= $this->Form->input('teamspeak_req', ['label' => __('Teamspeak'), 'style' => 'margin-bottom:0;', 'checked' => false, 'onchange' => 'toggleReadOnly()']); ?>
+            <div class="medium-4 columns">
+                <div class='row'>
+                    <div class="medium-8 columns"> <?= $this->Form->input('teamspeak_req', ['label' => __('Teamspeak'), 'style' => 'margin-bottom:0;', 'checked' => false, 'onchange' => 'toggleReadOnly()']); ?>
+                    </div>
+                    <div class="medium-4 columns"> <?= $this->Html->image('teamspeak.png', ["alt" => __('TS3'), "heigth" => '20', "width" => '20']); ?>
+                    </div>
                 </div>
-                <div class="medium-4 columns"> <?= $this->Html->image('teamspeak.png', ["alt" => __('TS3'), "heigth" => '20', "width" => '20']); ?>
-                </div>
+                <?= $this->Form->input('teamspeak_ip', ['label' => false, 'readOnly' => true, 'value' => 'TS3 IP', 'style' => 'color:#888', 'onfocus' => 'inputFocus(this)', 'onblur' => 'inputBlur(this)', 'pattern' => '([0-9]+(?:\.[0-9]+){3}(:[0-9]+)*|([a-zA-Z0-9]+\.)+[a-zA-Z0-9]+(:[0-9]+)*)', 'title' => 'Enter a valid Teamspeak3 ip or hostname']); ?>
             </div>
-            <?= $this->Form->input('teamspeak_ip', ['label' => false, 'readOnly' => true, 'value' => 'TS3 IP', 'style' => 'color:#888', 'onfocus' => 'inputFocus(this)', 'onblur' => 'inputBlur(this)', 'pattern' => '([0-9]+(?:\.[0-9]+){3}(:[0-9]+)*|([a-zA-Z0-9]+\.)+[a-zA-Z0-9]+(:[0-9]+)*)', 'title' => 'Enter a valid Teamspeak3 ip or hostname']); ?>
-        </div>
-        <div class="medium-4 columns">
-            <?= $this->Form->input('min_playtime', ['label' => __('Min. Playtime'), 'default' => '0']); ?>
-        </div>
-        <div class="medium-4 columns left">
-            <?= $this->Form->input('min_age', ['label' => __('Min. Age'), 'type' => 'select', 'options' => $ages, 'default' => '12']); ?>
-        </div>
+            <div class="medium-4 columns">
+                <?= $this->Form->input('min_playtime', ['label' => __('Min. Playtime'), 'default' => '0']); ?>
+            </div>
+            <div class="medium-4 columns left">
+                <?= $this->Form->input('min_age', ['label' => __('Min. Age'), 'type' => 'select', 'options' => $ages, 'default' => '12']); ?>
+            </div>
 
         </div>
     </div>
@@ -77,6 +77,7 @@
 </div>
 
 <script>
+    // input for a teamspeak ip should only be available when TS is checked
     function toggleReadOnly() {
         $('#teamspeak-ip').prop('readonly', !$('#teamspeak-ip').is('[readonly]'));
     }

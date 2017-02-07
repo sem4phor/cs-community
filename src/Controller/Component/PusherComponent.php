@@ -18,7 +18,7 @@ use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\WampServerInterface;
 
 /**
- * Implementation of the WampServerINterface. Handles Websocket Connections and provides the Pub/Sub Pattern for spreading messages.
+ * Implementation of the WampServerInterface. Handles Websocket Connections and provides the Pub/Sub Pattern for spreading messages.
  *
  * @author Valentin Rapp (Based on the Ratchet Push Integration Tutorial on http://socketo.me/docs/push)
  */
