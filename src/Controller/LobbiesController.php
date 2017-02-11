@@ -128,6 +128,10 @@ class LobbiesController extends AppController
             $lobby->teamspeak_ip = null;
         }
         $lobby->region = $this->Lobbies->Users->getRegionCode($this->Auth->user('steam_id'));
+        if($lobby->min_playtime > $this->Auth->user('playtime')) {
+            $this->Flash->error(__('You dont have enough playtime to create this lobby.'));
+            return $this->redirect(['action' => 'home']);
+        }
         if ($this->Lobbies->save($lobby)) {
             $this->join($lobby->lobby_id);
             $this->request->data['topic'] = 'lobby_new';
@@ -344,6 +348,7 @@ class LobbiesController extends AppController
                 $this->Flash->success(__('User successfully kicked.'));
                 $this->request->data['topic'] = 'lobby_leave';
                 $this->request->data['lobby'] = $lobby;
+                $this->request->data['kicked'] = true;
                 $this->request->data['user_left'] = $user;
                 $this->websocketSend($this->request->data);
             }

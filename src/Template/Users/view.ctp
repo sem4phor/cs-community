@@ -21,6 +21,10 @@
                     <td><?= h($view_user->role->name) ?></td>
                 </tr>
                 <tr>
+                    <th scope="row"><?= __('Playtime') ?></th>
+                    <td><?= h($view_user->playtime). __(' hours') ?></td>
+                </tr>
+                <tr>
                     <th scope="row"><?= __('Created') ?></th>
                     <td><?= h($view_user->created->timeAgoInWords()) ?></td>
                 </tr>

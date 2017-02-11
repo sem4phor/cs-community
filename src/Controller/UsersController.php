@@ -78,11 +78,21 @@ class UsersController extends AppController
     public function login()
     {
         $steamId = $this->SteamOpenId->validate();
-        $user = $this->Users->get($steamId);
-        if ($user == null && $steamId !== '') {
+        if ($this->Users->find()->where(['steam_id' => $steamId])->isEmpty()) {
             $this->Users->register($steamId);
         }
-        $this->Users->updateSteamData($steamId);
+        $user = $this->Users->find()->where(['steam_id' => $steamId])->first();
+        $updated = intval($this->Users->updateSteamData($steamId));
+        if ($updated == 2) {
+            $this->Flash->error(__('Please make your profile public to login!'));
+            return $this->redirect($this->Auth->logout());
+        } else if ($updated == 3) {
+            $this->Flash->error(__('Please set up your country on your steamprofile to log in!'));
+            return $this->redirect($this->Auth->logout());
+        } else if ($updated == false) {
+            $this->Flash->error(__('Error while updating steamdata. Please contact support!'));
+            return $this->redirect($this->Auth->logout());
+        };
         $user = $this->Users->get($steamId);
         if ($user['role_id'] == 4) {
             $this->Flash->error(__('You are currently banned from this site!'));
@@ -161,7 +171,7 @@ class UsersController extends AppController
         $user = $this->Users->get($id);
         $user->role_id = 3;// banned
         if ($this->Users->save($user)) {
-            $this->Flash->success(__('The user has been banned.'));
+            $this->Flash->success(__('Success!'));
         } else {
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
