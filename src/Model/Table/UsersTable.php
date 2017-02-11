@@ -14,10 +14,10 @@
  */
 namespace App\Model\Table;
 
-use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use Cake\Core\Configure;
+use Cake\log\Log;
 
 /**
  * Users Model
@@ -103,43 +103,28 @@ class UsersTable extends Table
      * @return \Cake\Validation\Validator
      */
     public function validationDefault(Validator $validator)
-    {
-        $validator
-            ->notEmpty('steam_id')
-            ->add('steam_id', 'numeric', [
-                'rule' => ['numeric'],
-                'message' => 'No valid steam_id.'
-            ]);
-        $validator
-            ->notEmpty('playtime')
-            ->add('playtime', 'numeric', [
-                'rule' => ['numeric'],
-                'message' => 'No valid playtime.'
-            ]);
-        $validator
-            ->notEmpty('role_id');
-        $validator
-            ->notEmpty('loccountrycode');
-        $validator
-            ->add('playtime', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('playtime');
-        return $validator;
-    }
-
-    /**
-     * Returns a rules checker object that will be used for validating
-     * application integrity.
-     *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
-     * @return \Cake\ORM\RulesChecker
-     */
-    public function buildRules(RulesChecker $rules)
-    {
-        $rules->add($rules->existsIn(['steam_id'], 'Users'));
-        $rules->add($rules->existsIn(['role_id'], 'Roles'));
-        $rules->add($rules->existsIn(['lobby_id'], 'Lobby'));
-        return $rules;
-    }
+     {
+         $validator
+             ->notEmpty('steam_id')
+             ->add('steam_id', 'numeric', [
+                 'rule' => ['numeric'],
+                 'message' => 'No valid steam_id.'
+             ]);
+         $validator
+             ->notEmpty('playtime')
+             ->add('playtime', 'numeric', [
+                 'rule' => ['numeric'],
+                 'message' => 'No valid playtime.'
+             ]);
+         $validator
+             ->notEmpty('role_id');
+         $validator
+             ->notEmpty('loccountrycode');
+         $validator
+             ->add('playtime', 'valid', ['rule' => 'numeric'])
+             ->allowEmpty('playtime');
+         return $validator;
+     }
 
     /**
      * register method
@@ -161,8 +146,8 @@ class UsersTable extends Table
      *
      * Fetches data from the steamprofile with the provided steam_id and saves it to the database.
      * Returns true if save was successfull and false if not
-     * Returns 0 if the user has a private profile.
-     * Returns 1 if the user has no country set in his profile.
+     * Returns 2 if the user has a private profile.
+     * Returns 3 if the user has no country set in his profile.
      *
      * @param $steamId
      * @return bool|int
@@ -180,15 +165,23 @@ class UsersTable extends Table
         $user->personastate = $content['response']['players'][0]['personastate'];
         $user->timecreated = $content['response']['players'][0]['timecreated'];
         $user->personaname = $content['response']['players'][0]['personaname'];
-
+        $url2 = file_get_contents("http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=" . Configure::read('APIkey') . "&steamid=" . $steamId . "&format=json");
+        $content2 = json_decode($url2, true);
+        foreach ($content2['response']['games'] as $key => $value) {
+            if ($value['appid'] == 730) {
+                $user->playtime = $value['playtime_forever'] / 60;
+                break;
+            };
+        }
         $user['steam_profilestate'] = $content['response']['players'][0]['profilestate'];
         $user['steam_communityvisibilitystate'] = $content['response']['players'][0]['communityvisibilitystate'];
-        if ($user['steam_communityvisibilitystate'] != 3 || $user['steam_profilestate'] != 1) {
-            return 0;
+        if ($user['steam_communityvisibilitystate'] == 1) {
+            return 2;
         }
-        $user['loccountrycode'] = $content['response']['players'][0]['loccountrycode'];
-        if ($user['loccountrycode'] == false) {
-            return 1;
+        if (array_key_exists('loccountrycode', $content['response']['players'][0]) == 0) {
+            return 3;
+        } else {
+            $user['loccountrycode'] = $content['response']['players'][0]['loccountrycode'];
         }
         if ($this->save($user)) {
             return true;
