@@ -1,3 +1,4 @@
+<!-- section for filtering lobbies -->
 <div class="filter-options-border medium-2 columns">
     <div class="filter-options">
         <div class="row">
@@ -41,7 +42,7 @@
         </div>
         <div class="row">
             <div class="columns medium-12">
-                <?= $this->Form->button(__('Apply'), ['type' => 'Submit', 'class' => 'tiny radius right']); ?>
+                <?= $this->Form->button(__('Apply'), ['type' => 'Submit', 'class' => 'tiny radius right', 'id' => 'filter-button-apply']); ?>
             </div>
             <?= $this->Form->end(); ?>
         </div>

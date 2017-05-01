@@ -2,10 +2,6 @@ var conn;
 conn = new ab.Session('ws://localhost:8080',
     function () {
         conn.subscribe('lobby_full', function (topic, data) {
-            // make invisible for all
-            console.log('New full lobby');
-            console.log(data);
-            // wenn eigene lobby, nur allert dasss lobby voll ist kein hjoin button
             var current_user_id = document.getElementById('topbar-avatar').getAttribute('steam_id');
             if (current_user_id == data.lobby.owner_id) {
                 var message = $("<div class=\"dialog\" title='Your party is complete!'><p>Head into the game to start!</p></div>");
@@ -14,11 +10,11 @@ conn = new ab.Session('ws://localhost:8080',
             }
             data.lobby.users.forEach(function (lobby_user) {
                 if (lobby_user.steam_id == current_user_id) {
-                    if (data.lobby.teamspeak_req == false) {
-                        var message = $("<div class=\"dialog\" title='Your party is complete!'><a class='radius button small' href=" + data.lobby.url + ">Join Lobby</a></div>");
-                    } else {
+                    if (data.lobby.teamspeak_req) {
                         var ts3link = 'ts3server://' + data.lobby.teamspeak_ip;
                         var message = $("<div class=\"dialog\" title='Your party is complete!'><a class='radius button small' href=" + data.lobby.url + ">Join Lobby</a><a class='radius button small' href=" + ts3link + ">Join Teamspeak</a></div>");
+                    } else {
+                        var message = $("<div class=\"dialog\" title='Your party is complete!'><a class='radius button small' href=" + data.lobby.url + ">Join Lobby</a></div>");
                     }
                     message.dialog();
                 } else {
@@ -65,20 +61,23 @@ conn = new ab.Session('ws://localhost:8080',
             $('#lobbies-list #' + data['lobby'].lobby_id + ' .lobby-users-column').append(lobby_user_column);
 
             if (your_lobby) {
-                var kick_button = document.createElement("img");
-                kick_button.setAttribute("alt", 'kick');
-                kick_button.setAttribute("heigth", "20");
-                kick_button.setAttribute("width", "20");
-                kick_button.setAttribute("src", 'webroot/img/kick.png');
-                kick_button.setAttribute("href", '/lobbies/kick/' + data['joined_user'].steam_id);
-                var your_obby_user_column = lobby_user_column.cloneNode(true);
-                your_obby_user_column.appendChild(kick_button);
-                if ($('.your-lobby .lobby-item .row .lobby-users-column').length == 0) console.log('Element not found!');
-                $('.your-lobby .lobby-item .row .lobby-users-column').append(your_obby_user_column);
+                var kick_row = document.createElement("div");
+                kick_row.setAttribute("class", "row kick-row");
+                var kick_link = document.createElement("a");
+                kick_link.setAttribute("href", '/cs-community/lobbies/kick/' + data['joined_user'].steam_id);
+                var kick_button = document.createElement("span");
+                kick_button.setAttribute("class", 'ui-icon-close ui-icon');
+                kick_link.appendChild(kick_button);
+                var your_lobby_user_column = lobby_user_column.cloneNode(true);
+                kick_row.appendChild(kick_link);
+                your_lobby_user_column.appendChild(kick_row);
+                $('.your-lobby .row .row .lobby-users-column').append(your_lobby_user_column);
             }
         });
         conn.subscribe('lobby_new', function (topic, data) {
-            if(data.lobby.rank_from <= $('#filter-user-rank').val()
+            if ($('#lobbies-list').attr('filter-active') == '' ||
+                ($('#lobbies-list').attr('filter-active') == 1
+                && data.lobby.rank_from <= $('#filter-user-rank').val()
                 && data.lobby.rank_to >= $('#filter-user-rank').val()
                 && data.lobby.language == $('#filter-language').val()
                 && data.lobby.prime_req == document.getElementById('filter-prime-req').checked
@@ -86,7 +85,7 @@ conn = new ab.Session('ws://localhost:8080',
                 && data.lobby.microphone_req == document.getElementById('filter-microphone-req').checked
                 && data.lobby.min_age <= $('#filter-min-age').val()
                 && data.lobby.min_playtime <= $('#topbar-avatar').attr('playtime')
-                && data.lobby.region == $('#topbar-avatar').attr('user_region')
+                && data.lobby.region == $('#topbar-avatar').attr('user_region'))
             ) {
                 $('.no-lobbies').remove();
 
@@ -245,11 +244,17 @@ conn = new ab.Session('ws://localhost:8080',
         });
         conn.subscribe('lobby_leave', function (topic, data) {
                 var user_div = $("div[steam_id='" + data['user_left'].steam_id + "']");
-                if (user_div.length !== 0) {
-                    $("div[steam_id='" + data['user_left'].steam_id + "']").remove();
-                } else {
-                    console.log('Element not found!');
+                var current_user_id = document.getElementById('topbar-avatar').getAttribute('steam_id');
+                if (data['user_left'].steam_id == current_user_id && data['kicked']) {
+                    location.reload();
+                    var message = $("<div class=\"dialog\" title='Hint'><p>You got kicked!</p></div>");
+                    message.dialog();
                 }
+                    if (user_div.length !== 0) {
+                        $("div[steam_id='" + data['user_left'].steam_id + "']").remove();
+                    } else {
+                        console.log('Element not found!');
+                    }
             }
         );
         conn.subscribe('lobby_delete', function (topic, data) {

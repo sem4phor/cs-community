@@ -1,3 +1,5 @@
+<!-- The home view. Here are all elements tied together. If the user is not logged in he wont see the chat and the lobby filter. -->
+
 <?php if (isset($user)): ?>
 <?= $this->element('chat'); ?>
 <div class="lobbies lobbies-index medium-7 columns content">
@@ -9,7 +11,12 @@
     <?php else: ?>
     <div class="lobbies lobbies-index medium-7 medium-centered columns content">
         <?php endif; ?>
-        <div id='lobbies-list'>
+        <?php if (isset($user)): ?>
+        <div id='lobbies-list' filter-active="<?= $filter_active ?>">
+            <?php else: ?>
+            <div id='lobbies-list'>
+            <?php endif ?>
+
             <?php if ($lobbies->isEmpty()): ?>
                 <div class="row no-lobbies">
                     <p><?= __("There is currently no lobby available. Why don't you create one?") ?></p>
@@ -99,18 +106,21 @@
     <?php endif; ?>
 
     <script>
+        // if a user sets his cursor to a provided input field textcolor will be black
         function inputFocus(i) {
             if (i.value == i.defaultValue) {
                 i.value = "";
                 i.style.color = "#000";
             }
         }
+        // sets the textcolor of a provided input field to grey  if it isnt focused on.
         function inputBlur(i) {
             if (i.value == "") {
                 i.value = i.defaultValue;
                 i.style.color = "#888";
             }
         }
+        // method for creating custom selectmenus with pictures as options.
         $(function () {
             $.widget("custom.iconselectmenu", $.ui.selectmenu, {
                 _renderItem: function (ul, item) {
@@ -127,19 +137,18 @@
                 }
             });
         });
-
+        // updates the background of a select input field, to the backgrouind of the option which was selected
         function updateSelectBackground(select_id, img_path, button_id) {
             var sel_item = $(select_id + ' option:selected').text();
             $(button_id).css('background-image', 'url(\'' + img_path + sel_item + '.png\')');
         }
-
+        // method to initialize the custom iconselectmenus
         function initImageSelector(select_id, img_path) {
             $(select_id)
                 .iconselectmenu()
                 .iconselectmenu("menuWidget")
                 .addClass("ui-menu-icons avatar");
             var options = $(select_id).children();
-
             for (var x = 0; x < options.length; x++) {
                 options[x].setAttribute('data-class', 'avatar');
                 options[x].setAttribute('data-style', "background-image: url(\'" + img_path + options[x].innerHTML + ".png');");
@@ -147,6 +156,7 @@
         }
 
         $(document).ready(function () {
+            // handle the more options of the new lobby section
             $('#expand-content').hide();
             $('#expand-new-lobby').on('click', function () {
                 var gear = $("<span>", {
@@ -161,7 +171,7 @@
                 }
                 $('#expand-new-lobby').prepend(gear);
             });
-
+            // initialize icon selectors
             initImageSelector('#filter-language', '/cs-community/webroot/img/flags/', '#filter-language-button');
             initImageSelector('#filter-user-rank', '/cs-community/webroot/img/ranks/', '#filter-user-rank-button');
             updateSelectBackground('#filter-language', '/cs-community/webroot/img/flags/', '#filter-language-button');
@@ -175,6 +185,7 @@
             initImageSelector('#language', '/cs-community/webroot/img/flags/', '#language-button');
             initImageSelector('#rank-from', '/cs-community/webroot/img/ranks/', '#rank-from-button');
             initImageSelector('#rank-to', '/cs-community/webroot/img/ranks/', '#rank-to-button');
+           // update the backgrounds and values of the select inputs
             updateSelectBackground('#language', '/cs-community/webroot/img/flags/', '#language-button');
             updateSelectBackground('#rank-from', '/cs-community/webroot/img/ranks/', '#rank-from-button');
             updateSelectBackground('#rank-to', '/cs-community/webroot/img/ranks/', '#rank-to-button');
@@ -199,15 +210,13 @@
                 }
                 updateSelectBackground('#rank-to', '/cs-community/webroot/img/ranks/', '#rank-to-button');
             });
-
             // trigger for starting the game if not started already and join the lobby ingame
             $('#join-trigger').on('click', function (e) {
                 e.preventDefault();
                 window.location = $(this).attr('lobby-url');
                 window.location = this.href;
             });
-
-            // scrollbar for select-menus
+            // add a scrollbar for the iconselect-menus
             $('.ui-menu').addClass('scrollbar-inner');
             $('.scrollbar-inner').scrollbar();
         });

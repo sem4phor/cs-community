@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Class App\Controller\UsersController</title>
+
+	<link rel="stylesheet" href="resources/style.css?e99947befd7bf673c6b43ff75e9e0f170c88a60e">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+				<li class="active">
+					<a href="namespace-App.html">
+						App<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-App.Console.html">
+						Console					</a>
+
+						</li>
+				<li class="active">
+					<a href="namespace-App.Controller.html">
+						Controller<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-App.Controller.Component.html">
+						Component					</a>
+
+						</li>
+							</ul></li>
+				<li>
+					<a href="namespace-App.Model.html">
+						Model<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-App.Model.Entity.html">
+						Entity					</a>
+
+						</li>
+				<li>
+					<a href="namespace-App.Model.Table.html">
+						Table					</a>
+
+						</li>
+							</ul></li>
+				<li>
+					<a href="namespace-App.Shell.html">
+						Shell					</a>
+
+						</li>
+				<li>
+					<a href="namespace-App.View.html">
+						View					</a>
+
+						</li>
+							</ul></li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-App.Controller.AppController.html">AppController</a></li>
+				<li><a href="class-App.Controller.ChatMessagesController.html">ChatMessagesController</a></li>
+				<li><a href="class-App.Controller.LobbiesController.html">LobbiesController</a></li>
+				<li class="active"><a href="class-App.Controller.UsersController.html">UsersController</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text" placeholder="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-App.Controller.html" title="Summary of App\Controller"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class UsersController</h1>
+
+
+	<div class="description">
+	<p>Users Controller</p>
+
+<p>Provides methods to handle user objects</p>
+	</div>
+
+	<dl class="tree">
+		<dd style="padding-left:0px">
+Cake\Controller\Controller
+			
+			
+		</dd>
+		<dd style="padding-left:30px">
+			<img src="resources/inherit.png" alt="Extended by">
+			<a href="class-App.Controller.AppController.html"><span>App\Controller\AppController</span></a>
+			
+			
+			
+		</dd>
+		<dd style="padding-left:60px">
+			<img src="resources/inherit.png" alt="Extended by">
+<b><span>App\Controller\UsersController</span></b>			
+			
+			
+		</dd>
+	</dl>
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		<b>Namespace:</b> <a href="namespace-App.html">App</a>\<a href="namespace-App.Controller.html">Controller</a><br>
+		
+
+			<b>Located at</b> <a href="source-class-App.Controller.UsersController.html#19-191" title="Go to source code">Controller/UsersController.php</a>
+		<br>
+	</div>
+
+
+
+	<table class="summary methods" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="beforeFilter" id="_beforeFilter">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_beforeFilter">#</a>
+		<code><a href="source-class-App.Controller.UsersController.html#29-42" title="Go to source code">beforeFilter</a>( <span>Cake\Event\Event <var>$event</var></span> )</code>
+
+		<div class="description short">
+			<p>beforeFilter</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>beforeFilter</p>
+
+<p>Grants access to the logout register and view-method for logged in users.</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$event</var></dt>
+					<dd>An Event instance</dd>
+				</dl></div>
+
+
+
+
+				<h4>Overrides</h4>
+				<div class="list"><code><a href="class-App.Controller.AppController.html#_beforeFilter">App\Controller\AppController::beforeFilter()</a></code></div>
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="isAuthorized" id="_isAuthorized">
+
+		<td class="attributes"><code>
+			 public 
+
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_isAuthorized">#</a>
+		<code><a href="source-class-App.Controller.UsersController.html#44-68" title="Go to source code">isAuthorized</a>( <span>array|null <var>$user</var></span> )</code>
+
+		<div class="description short">
+			<p>isAuthorized</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>isAuthorized</p>
+
+<p>Check if the provided user is authorized for the request.
+If the user is banned (role_id = 4) he is not authorized for anything.
+Moderators are allowed to ban and unban users, if they arent mods or admin.</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$user</var></dt>
+					<dd>The user to check the authorization of. If empty the user in the session will be used.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					boolean<br>True if $user is authorized, otherwise false
+				</div>
+
+
+
+				<h4>Overrides</h4>
+				<div class="list"><code><a href="class-App.Controller.AppController.html#_isAuthorized">App\Controller\AppController::isAuthorized()</a></code></div>
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="login" id="_login">
+
+		<td class="attributes"><code>
+			 public 
+
+			Cake\Network\Response|
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_login">#</a>
+		<code><a href="source-class-App.Controller.UsersController.html#70-94" title="Go to source code">login</a>( )</code>
+
+		<div class="description short">
+			<p>login</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>login</p>
+
+<p>Authorizes the user, updates his steam data and logs him in.</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					Cake\Network\Response|<br>Redirects on successful login.
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="logout" id="_logout">
+
+		<td class="attributes"><code>
+			 public 
+
+			Cake\Network\Response|
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_logout">#</a>
+		<code><a href="source-class-App.Controller.UsersController.html#96-107" title="Go to source code">logout</a>( )</code>
+
+		<div class="description short">
+			<p>logout</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>logout</p>
+
+<p>Logs the user out</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					Cake\Network\Response|<br>Redirects on successful logout.
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="view" id="_view">
+
+		<td class="attributes"><code>
+			 public 
+
+			Cake\Network\Response|null
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_view">#</a>
+		<code><a href="source-class-App.Controller.UsersController.html#109-127" title="Go to source code">view</a>( <span>string|null <var>$id</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			<p>View</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>View</p>
+
+<p>shows detailed information about a user</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$id</var></dt>
+					<dd>User id.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					Cake\Network\Response|null
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					Cake\Datasource\Exception\RecordNotFoundException<br>When record not found.
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="ban" id="_ban">
+
+		<td class="attributes"><code>
+			 public 
+
+			Cake\Network\Response|
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_ban">#</a>
+		<code><a href="source-class-App.Controller.UsersController.html#129-148" title="Go to source code">ban</a>( <span>string|null <var>$id</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			<p>Ban</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Ban</p>
+
+<p>Bans a user from accessing the application</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$id</var></dt>
+					<dd>User id.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					Cake\Network\Response|<br>Redirects on successful edit, renders view otherwise.
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					Cake\Network\Exception\NotFoundException<br>When record not found.
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="makeMod" id="_makeMod">
+
+		<td class="attributes"><code>
+			 public 
+
+			Cake\Network\Response|
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_makeMod">#</a>
+		<code><a href="source-class-App.Controller.UsersController.html#150-169" title="Go to source code">makeMod</a>( <span>string|null <var>$id</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			<p>makeMod</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>makeMod</p>
+
+<p>gives a user the role moderator</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$id</var></dt>
+					<dd>User id.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					Cake\Network\Response|<br>Redirects on successful edit, renders view otherwise.
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					Cake\Network\Exception\NotFoundException<br>When record not found.
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="unban" id="_unban">
+
+		<td class="attributes"><code>
+			 public 
+
+			Cake\Network\Response|
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_unban">#</a>
+		<code><a href="source-class-App.Controller.UsersController.html#171-189" title="Go to source code">unban</a>( <span>string|null <var>$id</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			<p>Unban</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Unban</p>
+
+<p>Unbans a user to grant him access to the application</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$id</var></dt>
+					<dd>User id.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					Cake\Network\Response|<br>Redirects on successful edit, renders view otherwise.
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+	<table class="summary inherited">
+	<caption>Methods inherited from <a href="class-App.Controller.AppController.html#methods">App\Controller\AppController</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-App.Controller.AppController.html#_beforeRender">beforeRender()</a>, 
+			<a href="class-App.Controller.AppController.html#_initialize">initialize()</a>, 
+			<a href="class-App.Controller.AppController.html#_websocketSend">websocketSend()</a>
+		</code></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<table class="summary properties" id="magicProperties">
+	<caption>Magic properties summary</caption>
+	<tr data-order="Users" id="m$Users">
+		<td class="attributes"><code>
+			public  
+			<code><a href="class-App.Model.Table.UsersTable.html">App\Model\Table\UsersTable</a></code>
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-App.Controller.UsersController.html#24" title="Go to source code"><var>$Users</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+	</tr>
+	</table>
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js"></script>
+<script src="elementlist.js"></script>
+</body>
+</html>

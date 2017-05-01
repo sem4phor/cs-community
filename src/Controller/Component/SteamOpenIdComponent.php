@@ -1,41 +1,58 @@
 <?php
-
+/**
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link      http://cakephp.org CakePHP(tm) Project
+ * @since     0.2.9
+ * @license   http://www.opensource.org/licenses/mit-license.php MIT License
+ */
 namespace App\Controller\Component;
 
 use Cake\Controller\Component;
 
 /**
- * Source of validate and genURL method: https://gist.github.com/Leimi/6904467
+ * SteamOpenId Component
+ *
+ * Authorizes a user with help of the openid protocol and Steam as the openid provider.
+ *
+ * @author Valentin Rapp (Source of validate and genURL method: https://gist.github.com/Leimi/6904467)
  */
 class SteamOpenIdComponent extends Component
 {
+    // the identifier of the openid provider
     const STEAM_LOGIN = 'https://steamcommunity.com/openid/login';
 
     /**
+     * validate
      *
-     * Validate the incoming data
+     * Validates an openid response of the openid provider and resends an authentication request
      *
-     * @return string Returns the SteamID64 if successful or empty string on failure
+     * @return string Returns the SteamID if successful or empty string on failure
      */
     public static function validate()
     {
-        // Start off with some basic params
+        // Get the response params and build them properly
         $params = array(
             'openid.assoc_handle' => $_GET['openid_assoc_handle'],
             'openid.signed' => $_GET['openid_signed'],
             'openid.sig' => $_GET['openid_sig'],
             'openid.ns' => 'http://specs.openid.net/auth/2.0',
         );
-        // Get all the params that were sent back and resend them for validation
         $signed = explode(',', $_GET['openid_signed']);
         foreach ($signed as $item) {
             $val = $_GET['openid_' . str_replace('.', '_', $item)];
             $params['openid.' . $item] = get_magic_quotes_gpc() ? stripslashes($val) : $val;
         }
-        // Finally, add the all important mode.
+        // Add the mode for checking authntication.
         $params['openid.mode'] = 'check_authentication';
-        // Stored to send a Content-Length header
         $data = http_build_query($params);
+        // send data for validation
         $context = stream_context_create(array(
             'http' => array(
                 'method' => 'POST',
@@ -46,21 +63,20 @@ class SteamOpenIdComponent extends Component
                 'content' => $data,
             ),
         ));
+        // get the result form the stream context
         $result = file_get_contents(self::STEAM_LOGIN, false, $context);
         // Validate wheather it's true and if we have a good ID
         preg_match("#^http://steamcommunity.com/openid/id/([0-9]{17,25})#", $_GET['openid_claimed_id'], $matches);
         $steamID64 = is_numeric($matches[1]) ? $matches[1] : 0;
-
-        // Return our final value
         return preg_match("#is_valid\s*:\s*true#i", $result) == 1 ? $steamID64 : false;
     }
 
     /**
      * Get the URL to sign into steam
      *
-     * @param mixed returnTo URI to tell steam where to return, MUST BE THE FULL URI WITH THE PROTOCOL
+     * @param mixed returnTo URI to tell steam where to return
      * @param bool useAmp Use &amp; in the URL, true; or just &, false.
-     * @return string The string to go in the URL
+     * @return string The openid URL
      */
     public static function genUrl($returnTo = false, $useAmp = true)
     {

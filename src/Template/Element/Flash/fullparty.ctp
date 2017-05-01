@@ -1,3 +1,4 @@
+<!-- element for displaying a dialog if a lobby gets full -->
 <div class="dialog" title="<?= h($message) ?>">
     <?= $this->Html->link(
         __('Join Lobby'),

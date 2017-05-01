@@ -1,22 +1,65 @@
 <?php
+/**
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link      http://cakephp.org CakePHP(tm) Project
+ * @since     0.2.9
+ * @license   http://www.opensource.org/licenses/mit-license.php MIT License
+ */
 namespace App\Controller;
 
-use App\Controller\AppController;
 use Cake\Event\Event;
 
-
+/**
+ * LobbiesController Controller
+ *
+ * Provides methods to handle lobby objects
+ *
+ * @author Valentin Rapp
+ * @property \App\Model\Table\LobbiesTable $Lobbies
+ */
 class LobbiesController extends AppController
 {
 
+    /**
+     * beforeFilter
+     *
+     * Grants access to the home-method for everyone
+     *
+     * @param \Cake\Event\Event $event An Event instance
+     * @access public
+     * @return void
+     */
     public function beforeFilter(Event $event)
     {
         $this->Auth->allow(['home']);
         parent::beforeFilter($event);
     }
 
+    /**
+     * isAuthorized
+     *
+     * Check if the provided user is authorized for the request:
+     * Banned users arent authorized for any action.
+     * All registered users can create one lobby.
+     * Only lobby-owners can kick users from their lobby.
+     * You can only delete your own lobby.
+     * You cant leave your own lobby.
+     * You can join a lobby if you arent already part of a lobby and have the required playtime.
+     *
+     *
+     * @param array|null $user The user to check the authorization of. If empty the user in the session will be used.
+     * @access public
+     * @return boolean True if $user is authorized, otherwise false
+     */
     public function isAuthorized($user)
     {
-        // banned user cant access anything but home
         if (isset($user['role_id']) && $user['role_id'] === 4) {
             return false;
         }
@@ -67,9 +110,12 @@ class LobbiesController extends AppController
     }
 
     /**
-     * Add method
+     * create
      *
-     * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
+     * Method to create new lobbies. A new lobby is sent to the WebsocketServer.
+     *
+     * @access public
+     * @return \Cake\Network\Response|void Redirects on successful create.
      *
      */
     public function create()
@@ -82,6 +128,10 @@ class LobbiesController extends AppController
             $lobby->teamspeak_ip = null;
         }
         $lobby->region = $this->Lobbies->Users->getRegionCode($this->Auth->user('steam_id'));
+        if($lobby->min_playtime > $this->Auth->user('playtime')) {
+            $this->Flash->error(__('You dont have enough playtime to create this lobby.'));
+            return $this->redirect(['action' => 'home']);
+        }
         if ($this->Lobbies->save($lobby)) {
             $this->join($lobby->lobby_id);
             $this->request->data['topic'] = 'lobby_new';
@@ -93,6 +143,15 @@ class LobbiesController extends AppController
         $this->redirect(['action' => 'home']);
     }
 
+    /**
+     * index
+     *
+     * Method to paginate all lobbies
+     *
+     * @access public
+     * @return void
+     *
+     */
     public function index()
     {
         $lobbies = $this->Lobbies->find('all', [
@@ -105,11 +164,13 @@ class LobbiesController extends AppController
     }
 
     /**
-     * Index method
+     * home
      *
-     * @return \Cake\Network\Response|null
+     * calls index when the user is not logged in. Otherwise it shows the chat, a form to create a lobby/see the joined lobby, a form to filter the lobbies and the lobbies matching the filter.
      *
-     * Shows all the lobbies matching with the users characteristics ()
+     * @access public
+     * @return void
+     *
      */
     public function home()
     {
@@ -125,7 +186,7 @@ class LobbiesController extends AppController
             $languages = $this->Lobbies->Users->Countries->getLocalesOfContinent($user_region);
             $this->set(compact('ages', 'ranks', 'new_lobby', 'languages'));
 
-            // load last 15 chat messages
+            // load newest 15 chat messages
             $this->loadModel('ChatMessages');
             $chatMessages = $this->ChatMessages->find('all', [
                 'order' => ['ChatMessages.created' => 'DESC'],
@@ -143,13 +204,17 @@ class LobbiesController extends AppController
 
             // load the list of lobbies based on the filter
             $filter = [];
+            $filter_active = false;
             if ($this->request->is('post')) {
                 foreach ($this->request->data as $key => $value) {
                     if ($value != '') {
                         $filter[$key] = $value;
                     }
                 }
+                $filter_active = true;
             }
+            $this->set(compact('filter_active'));
+
             if (!empty($filter)) {
                 $lobbies = $this->Lobbies->find('all', [
                     'order' => ['Lobbies.created' => 'ASC'],
@@ -176,17 +241,28 @@ class LobbiesController extends AppController
         }
     }
 
-    public
-    function join($lobby_id)
+    /**
+     * join
+     *
+     * Lets a user join a lobby if he has enough playtimehours and the lobby is not full. The action is sent to the WebsocketServer
+     *
+     * @access public
+     * @param int $lobby_id The id of the lobby which the users wants to join
+     * @return \Cake\Network\Response|void Redirects on successful join.
+     *
+     */
+    public function join($lobby_id)
     {
         $user = $this->Lobbies->Users->get($this->Auth->user('steam_id'));
         $lobby = $this->Lobbies->get($lobby_id, [
             'contain' => ['Users']
         ]);
+        // flash a notice when the lobby is already full
         if ($lobby->free_slots == 0) {
             $this->Flash->error(__('The lobby is full.'));
             return $this->redirect($this->referer());
         }
+        // flash a notice when the user doesnt have enough playtime
         if ($user->playtime < $lobby->min_playtime) {
             $this->Flash->error('You don\'t have enough playtime to join this lobby.');
             return $this->redirect($this->referer());
@@ -212,7 +288,6 @@ class LobbiesController extends AppController
                     return $this->redirect($this->referer());
                 }
                 $this->Flash->success(__('Joined lobby.'));
-                return $this->redirect($this->referer());
             } else {
                 $this->Flash->error(__('The lobby could not be joined. Please, try again.'));
             }
@@ -220,8 +295,17 @@ class LobbiesController extends AppController
         return $this->redirect($this->referer());
     }
 
-    public
-    function leave($lobby_id)
+    /**
+     * leave
+     *
+     * Lets a user leave a lobby. The action is sent to the WebsocketServer
+     *
+     * @access public
+     * @param int $lobby_id The id of the lobby which the users wants to leave
+     * @return \Cake\Network\Response|void Redirects on successful leave.
+     *
+     */
+    public function leave($lobby_id)
     {
         $lobby = $this->Lobbies->get($lobby_id, [
             'contain' => ['Users']
@@ -243,8 +327,17 @@ class LobbiesController extends AppController
         return $this->redirect($this->referer());
     }
 
-    public
-    function kick($steam_id)
+    /**
+     * kick
+     *
+     * Lets a user kick a user from his lobby. The action is sent to the WebsocketServer
+     *
+     * @access public
+     * @param int $steam_id The id of the user which the lobby-owner wants to kick
+     * @return \Cake\Network\Response|void Redirects on successful kick.
+     *
+     */
+    public function kick($steam_id)
     {
         $lobby = $this->Lobbies->find()->where(['owner_id =' => $this->Auth->user('steam_id')])->contain(['Users'])->toArray()[0];
         $user = $this->Lobbies->Users->get($steam_id);
@@ -255,6 +348,7 @@ class LobbiesController extends AppController
                 $this->Flash->success(__('User successfully kicked.'));
                 $this->request->data['topic'] = 'lobby_leave';
                 $this->request->data['lobby'] = $lobby;
+                $this->request->data['kicked'] = true;
                 $this->request->data['user_left'] = $user;
                 $this->websocketSend($this->request->data);
             }
@@ -264,8 +358,17 @@ class LobbiesController extends AppController
         return $this->redirect($this->referer());
     }
 
-    public
-    function delete($id = null)
+    /**
+     * delete
+     *
+     * Lets a user delete his lobby. The action is sent to the WebsocketServer
+     *
+     * @access public
+     * @param int $id The id of the lobby which a user wants to delete.
+     * @return \Cake\Network\Response|void Redirects on successful deletion.
+     *
+     */
+    public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
         $lobby = $this->Lobbies->get($id, ['contain' => 'Users']);

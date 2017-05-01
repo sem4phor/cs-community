@@ -1,3 +1,5 @@
+<!-- shows detailed information about a user. This view allows moderators and admins to ban/unban users -->
+
 <div class="users medium-centered medium-8 columns content">
     <div class="row">
         <div class="columns medium-3">
@@ -17,6 +19,10 @@
                 <tr>
                     <th scope="row"><?= __('Role') ?></th>
                     <td><?= h($view_user->role->name) ?></td>
+                </tr>
+                <tr>
+                    <th scope="row"><?= __('Playtime') ?></th>
+                    <td><?= h($view_user->playtime). __(' hours') ?></td>
                 </tr>
                 <tr>
                     <th scope="row"><?= __('Created') ?></th>
