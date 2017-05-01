@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e36198ec-8618-40bb-9eb7-04b0e11786a9" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Controller/LobbiesController.php" afterPath="$PROJECT_DIR$/src/Controller/LobbiesController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Controller/UsersController.php" afterPath="$PROJECT_DIR$/src/Controller/UsersController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Model/Table/UsersTable.php" afterPath="$PROJECT_DIR$/src/Model/Table/UsersTable.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Template/Users/view.ctp" afterPath="$PROJECT_DIR$/src/Template/Users/view.ctp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/js/update-index.js" afterPath="$PROJECT_DIR$/webroot/js/update-index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
     </list>
     <ignored path="CakePHP-Blog-Tutorial-master.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -38,18 +35,18 @@
       <file leaf-file-name="home.ctp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Template/Lobbies/home.ctp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
+            <state relative-caret-position="238">
               <caret line="14" column="49" lean-forward="false" selection-start-line="14" selection-start-column="49" selection-end-line="14" selection-end-column="49" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LobbiesController.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="LobbiesController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Controller/LobbiesController.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="221">
-              <caret line="13" column="3" lean-forward="true" selection-start-line="13" selection-start-column="3" selection-end-line="13" selection-end-column="3" />
+              <caret line="13" column="3" lean-forward="false" selection-start-line="13" selection-start-column="3" selection-end-line="13" selection-end-column="3" />
               <folding>
                 <element signature="e#6#574#0#PHP" expanded="true" />
               </folding>
@@ -57,15 +54,15 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="chat.ctp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Template/Element/chat.ctp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="30" column="14" lean-forward="true" selection-start-line="30" selection-start-column="14" selection-end-line="30" selection-end-column="14" />
-              <folding>
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <marker date="1486501223157" expanded="true" signature="738:770" ph="..." />
-              </folding>
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="289">
+                <caret line="17" column="12" lean-forward="true" selection-start-line="17" selection-start-column="12" selection-end-line="17" selection-end-column="12" />
+                <folding />
+              </first_editor>
+              <second_editor />
             </state>
           </provider>
         </entry>
@@ -83,8 +80,8 @@
       <file leaf-file-name="UsersController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Controller/UsersController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="292">
-              <caret line="54" column="39" lean-forward="true" selection-start-line="54" selection-start-column="39" selection-end-line="54" selection-end-column="39" />
+            <state relative-caret-position="714">
+              <caret line="54" column="39" lean-forward="false" selection-start-line="54" selection-start-column="39" selection-end-line="54" selection-end-column="39" />
               <folding />
             </state>
           </provider>
@@ -93,7 +90,7 @@
       <file leaf-file-name="UsersTable.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Model/Table/UsersTable.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
+            <state relative-caret-position="170">
               <caret line="25" column="2" lean-forward="true" selection-start-line="25" selection-start-column="2" selection-end-line="25" selection-end-column="2" />
               <folding>
                 <element signature="e#6#574#0#PHP" expanded="true" />
@@ -136,7 +133,7 @@
       <file leaf-file-name="new_lobby_form.ctp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Template/Element/new_lobby_form.ctp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
+            <state relative-caret-position="867">
               <caret line="51" column="54" lean-forward="true" selection-start-line="51" selection-start-column="12" selection-end-line="51" selection-end-column="54" />
               <folding>
                 <marker date="1486480021398" expanded="true" signature="650:686" ph="..." />
@@ -198,7 +195,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/Template/Element/FilterOptions.ctp" />
         <option value="$USER_HOME$/AppData/Local/Temp/Temp1_foundation-5.5.3.zip/css/normalize.css" />
         <option value="$PROJECT_DIR$/webroot/js/update-chat.js" />
         <option value="$PROJECT_DIR$/config/app.php" />
@@ -249,6 +245,7 @@
         <option value="$PROJECT_DIR$/src/Controller/LobbiesController.php" />
         <option value="$PROJECT_DIR$/webroot/js/update-index.js" />
         <option value="$PROJECT_DIR$/src/Controller/UsersController.php" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -303,6 +300,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -545,8 +544,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -738,17 +735,18 @@
       <workItem from="1485514669868" duration="23657000" />
       <workItem from="1486129798312" duration="61905000" />
       <workItem from="1486500357311" duration="7867000" />
+      <workItem from="1493373370908" duration="916000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="876952000" />
+    <option name="totallyTimeSpent" value="877868000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16897655" sideWeight="0.4943662" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1705757" sideWeight="0.4943662" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22101842" sideWeight="0.5021322" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -816,7 +814,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Template/Users/login.ctp" />
     <entry file="file://$PROJECT_DIR$/src/Template/Element/Flash/error.ctp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
@@ -1003,8 +1000,8 @@
         <state relative-caret-position="243">
           <caret line="42" column="31" lean-forward="true" selection-start-line="42" selection-start-column="31" selection-end-line="42" selection-end-column="31" />
           <folding>
-            <element signature="e#6#574#0#PHP" expanded="true" />
-            <element signature="e#603#629#0#PHP" expanded="true" />
+            <element signature="e#6#574#0#PHP" expanded="false" />
+            <element signature="e#603#629#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1063,9 +1060,8 @@
     <entry file="file://$PROJECT_DIR$/src/Template/Element/chat.ctp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="510">
-          <caret line="30" column="14" lean-forward="true" selection-start-line="30" selection-start-column="14" selection-end-line="30" selection-end-column="14" />
+          <caret line="30" column="14" lean-forward="false" selection-start-line="30" selection-start-column="14" selection-end-line="30" selection-end-column="14" />
           <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#!!top" expanded="true" />
             <marker date="1486501223157" expanded="true" signature="738:770" ph="..." />
           </folding>
         </state>
@@ -1073,7 +1069,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Template/Element/new_lobby_form.ctp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
+        <state relative-caret-position="867">
           <caret line="51" column="54" lean-forward="true" selection-start-line="51" selection-start-column="12" selection-end-line="51" selection-end-column="54" />
           <folding>
             <marker date="1486480021398" expanded="true" signature="650:686" ph="..." />
@@ -1083,7 +1079,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Template/Lobbies/home.ctp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
+        <state relative-caret-position="238">
           <caret line="14" column="49" lean-forward="false" selection-start-line="14" selection-start-column="49" selection-end-line="14" selection-end-column="49" />
           <folding />
         </state>
@@ -1107,7 +1103,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Model/Table/UsersTable.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
+        <state relative-caret-position="170">
           <caret line="25" column="2" lean-forward="true" selection-start-line="25" selection-start-column="2" selection-end-line="25" selection-end-column="2" />
           <folding>
             <element signature="e#6#574#0#PHP" expanded="true" />
@@ -1134,8 +1130,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Controller/UsersController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="292">
-          <caret line="54" column="39" lean-forward="true" selection-start-line="54" selection-start-column="39" selection-end-line="54" selection-end-column="39" />
+        <state relative-caret-position="714">
+          <caret line="54" column="39" lean-forward="false" selection-start-line="54" selection-start-column="39" selection-end-line="54" selection-end-column="39" />
           <folding />
         </state>
       </provider>
@@ -1143,10 +1139,21 @@
     <entry file="file://$PROJECT_DIR$/src/Controller/LobbiesController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
-          <caret line="13" column="3" lean-forward="true" selection-start-line="13" selection-start-column="3" selection-end-line="13" selection-end-column="3" />
+          <caret line="13" column="3" lean-forward="false" selection-start-line="13" selection-start-column="3" selection-end-line="13" selection-end-column="3" />
           <folding>
             <element signature="e#6#574#0#PHP" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="289">
+            <caret line="17" column="12" lean-forward="true" selection-start-line="17" selection-start-column="12" selection-end-line="17" selection-end-column="12" />
+            <folding />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
